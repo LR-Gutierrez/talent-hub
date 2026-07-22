@@ -45,10 +45,10 @@
     "js-cookie": "^3.0.5",
     "lodash": "^4.18.1",
     "marked": "^16.2.0",
-    "react": "19.2.3",
+    "react": "^19.2.8",
     "react-apexcharts": "^1.7.0",
     "react-csv": "^2.2.2",
-    "react-dom": "19.2.3",
+    "react-dom": "^19.2.8",
     "react-highlight-words": "^0.21.0",
     "react-hook-form": "^7.53.0",
     "react-i18next": "^15.0.1",
@@ -111,12 +111,12 @@
   },
   "overrides": {
     "gantt-task-react": {
-      "react": "19.2.3",
-      "react-dom": "19.2.3"
+      "react": "19.2.8",
+      "react-dom": "19.2.8"
     },
     "react-simple-maps": {
-      "react": "19.2.3",
-      "react-dom": "19.2.3"
+      "react": "19.2.8",
+      "react-dom": "19.2.8"
     },
     "react-syntax-highlighter": {
       "prismjs": "1.30.0"
