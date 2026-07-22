@@ -1,8 +1,6 @@
-# Ecme - The Ultimate React, Vite & TypeScript Web Template
+# TalentHub
 
-Ecme  is a modern and responsive admin dashboard template built with React and TypeScript. Designed to provide a highly customizable and easy-to-use platform for building admin interfaces, it includes a variety of reusable components, pre-designed pages, and dynamic features. 
-
-This template is perfect for developing dashboards, web applications, CRM systems, e-commerce backends, and more. Whether you're building a small-scale admin panel or a large-scale enterprise application, Ecme is designed to be flexible and scalable.
+TalentHub is a talent management platform. Modern, responsive admin dashboard built with React and TypeScript.
 
 Key Features:
 - **Responsive Layout**: Optimized for all screen sizes and devices.
@@ -15,10 +13,18 @@ Key Features:
 - **API Ready**: Simple integration with any RESTful API.
 
 ---
-### Demo
-Check out the [Live Demo](https://ecme-react.themenate.net/) to explore the template in action.
 
+## Environment Variables
 
-### Guide
-Please visit our [Online documentation](https://ecme-react.themenate.net/guide/documentation/introduction) for detailed guides, setup instructions, and customization options.
+Copy `.env.example` to `.env` and fill in your values:
 
+```bash
+cp .env.example .env
+```
+
+| Variable | Description | Default |
+|---|---|---|
+| `VITE_APP_NAME` | Application display name | TalentHub |
+| `VITE_COMPANY_NAME` | Company name | Company |
+| `VITE_APP_EMAIL_DOMAIN` | Email domain for example users | company.com |
+| `VITE_FIREBASE_*` | Firebase configuration | — |
