@@ -15,6 +15,7 @@ import {
 } from '@/services/CommonService'
 import isLastChild from '@/utils/isLastChild'
 import useResponsive from '@/utils/hooks/useResponsive'
+import useTranslation from '@/utils/hooks/useTranslation'
 import { useNavigate } from 'react-router'
 
 import type { DropdownRef } from '@/components/ui/Dropdown'
@@ -43,6 +44,8 @@ const _Notification = ({ className }: { className?: string }) => {
     const [loading, setLoading] = useState(false)
 
     const { larger } = useResponsive()
+
+    const { t } = useTranslation()
 
     const navigate = useNavigate()
 
@@ -119,13 +122,13 @@ const _Notification = ({ className }: { className?: string }) => {
         >
             <Dropdown.Item variant="header">
                 <div className="dark:border-gray-700 px-2 flex items-center justify-between mb-1">
-                    <h6>Notifications</h6>
+                    <h6>{t('notification.title', 'Notifications')}</h6>
                     <Button
                         variant="plain"
                         shape="circle"
                         size="sm"
                         icon={<HiOutlineMailOpen className="text-xl" />}
-                        title="Mark all as read"
+                        title={t('notification.markAllRead', 'Mark all as read')}
                         onClick={onMarkAllAsRead}
                     />
                 </div>
@@ -193,8 +196,8 @@ const _Notification = ({ className }: { className?: string }) => {
                                 src="/img/others/no-notification.png"
                                 alt="no-notification"
                             />
-                            <h6 className="font-semibold">No notifications!</h6>
-                            <p className="mt-1">Please Try again later</p>
+                            <h6 className="font-semibold">{t('notification.noNotifications', 'No notifications!')}</h6>
+                            <p className="mt-1">{t('notification.tryAgainLater', 'Please Try again later')}</p>
                         </div>
                     </div>
                 )}
@@ -206,7 +209,7 @@ const _Notification = ({ className }: { className?: string }) => {
                         variant="solid"
                         onClick={handleViewAllActivity}
                     >
-                        View All Activity
+                        {t('notification.viewAllActivity', 'View All Activity')}
                     </Button>
                 </div>
             </Dropdown.Item>

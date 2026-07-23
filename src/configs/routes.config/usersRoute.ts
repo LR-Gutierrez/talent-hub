@@ -15,8 +15,8 @@ const usersRoute: Routes = [
         authority: ['admin', 'recruiter', 'candidate'],
         meta: {
             header: {
-                title: 'Create user',
-                description: 'Add a new user to the platform.',
+                title: 'pageHeader.createUser',
+                description: 'pageHeader.createUserDesc',
                 contained: true,
             },
             footer: false,
@@ -29,8 +29,8 @@ const usersRoute: Routes = [
         authority: ['admin', 'recruiter', 'candidate'],
         meta: {
             header: {
-                title: 'Edit user',
-                description: 'Manage user details and preferences.',
+                title: 'pageHeader.editUser',
+                description: 'pageHeader.editUserDesc',
                 contained: true,
             },
             footer: false,

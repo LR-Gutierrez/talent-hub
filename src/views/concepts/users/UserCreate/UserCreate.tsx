@@ -9,10 +9,12 @@ import { apiCreateUser } from '@/services/UsersService'
 import { TbArrowNarrowLeft, TbTrash } from 'react-icons/tb'
 import { useNavigate } from 'react-router'
 import { Can } from '@casl/react'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { UserFormSchema } from '../UserForm/types'
 
 const UserCreate = () => {
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     const [discardConfirmationOpen, setDiscardConfirmationOpen] = useState(false)
     const [isSubmiting, setIsSubmiting] = useState(false)
@@ -21,12 +23,12 @@ const UserCreate = () => {
         setIsSubmiting(true)
         try {
             await apiCreateUser(values)
-            toast.push(<Notification type="success">User created!</Notification>, {
+            toast.push(<Notification type="success">{t('userCreate.userCreated', 'User created!')}</Notification>, {
                 placement: 'top-center',
             })
             navigate('/users')
         } catch {
-            toast.push(<Notification type="danger">Failed to create user</Notification>, {
+            toast.push(<Notification type="danger">{t('userCreate.failedToCreate', 'Failed to create user')}</Notification>, {
                 placement: 'top-center',
             })
         }
@@ -58,7 +60,7 @@ const UserCreate = () => {
                             icon={<TbArrowNarrowLeft />}
                             onClick={() => navigate('/users')}
                         >
-                            Back
+                            {t('common.back', 'Back')}
                         </Button>
                         <div className="flex items-center">
                             <Button
@@ -70,10 +72,10 @@ const UserCreate = () => {
                                 icon={<TbTrash />}
                                 onClick={handleDiscard}
                             >
-                                Discard
+                                {t('common.discard', 'Discard')}
                             </Button>
                             <Button variant="solid" type="submit" loading={isSubmiting}>
-                                Create
+                                {t('common.create', 'Create')}
                             </Button>
                         </div>
                     </div>
@@ -82,13 +84,13 @@ const UserCreate = () => {
             <ConfirmDialog
                 isOpen={discardConfirmationOpen}
                 type="danger"
-                title="Discard changes"
+                title={t('userCreate.discardChanges', 'Discard changes')}
                 onClose={handleCancel}
                 onRequestClose={handleCancel}
                 onCancel={handleCancel}
                 onConfirm={handleConfirmDiscard}
             >
-                <p>Are you sure you want discard this? This action can&apos;t be undo.</p>
+                <p>{t('userCreate.discardConfirm', "Are you sure you want discard this? This action can't be undo.")}</p>
             </ConfirmDialog>
         </>
     )

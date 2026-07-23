@@ -1,5 +1,9 @@
+import useTranslation from '@/utils/hooks/useTranslation'
+
 const Home = () => {
-    return <div>Home</div>
+    const { t } = useTranslation()
+
+    return <div>{t('common.home', 'Home')}</div>
 }
 
 export default Home

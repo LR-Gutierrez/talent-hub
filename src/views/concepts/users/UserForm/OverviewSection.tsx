@@ -5,6 +5,7 @@ import Select from '@/components/ui/Select'
 import Switcher from '@/components/ui/Switcher'
 import { FormItem } from '@/components/ui/Form'
 import { Controller } from 'react-hook-form'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { FormSectionBaseProps } from './types'
 
 type OverviewSectionProps = FormSectionBaseProps & { newUser: boolean }
@@ -16,12 +17,14 @@ const roleOptions = [
 ]
 
 const OverviewSection = ({ control, errors, newUser }: OverviewSectionProps) => {
+    const { t } = useTranslation()
+
     return (
         <Card>
-            <h4 className="mb-6">Overview</h4>
+            <h4 className="mb-6">{t('userForm.overview', 'Overview')}</h4>
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
-                    label="Display Name"
+                    label={t('userForm.displayName', 'Display Name')}
                     invalid={Boolean(errors.displayName)}
                     errorMessage={errors.displayName?.message}
                 >
@@ -32,14 +35,14 @@ const OverviewSection = ({ control, errors, newUser }: OverviewSectionProps) => 
                             <Input
                                 type="text"
                                 autoComplete="off"
-                                placeholder="Display Name"
+                                placeholder={t('userForm.displayName', 'Display Name')}
                                 {...field}
                             />
                         )}
                     />
                 </FormItem>
                 <FormItem
-                    label="Email"
+                    label={t('userForm.email', 'Email')}
                     invalid={Boolean(errors.email)}
                     errorMessage={errors.email?.message}
                 >
@@ -50,7 +53,7 @@ const OverviewSection = ({ control, errors, newUser }: OverviewSectionProps) => 
                             <Input
                                 type="email"
                                 autoComplete="off"
-                                placeholder="Email"
+                                placeholder={t('userForm.email', 'Email')}
                                 {...field}
                             />
                         )}
@@ -59,7 +62,7 @@ const OverviewSection = ({ control, errors, newUser }: OverviewSectionProps) => 
             </div>
             {newUser && (
                 <FormItem
-                    label="Password"
+                    label={t('userForm.password', 'Password')}
                     invalid={Boolean(errors.password)}
                     errorMessage={errors.password?.message}
                 >
@@ -69,7 +72,7 @@ const OverviewSection = ({ control, errors, newUser }: OverviewSectionProps) => 
                         render={({ field }) => (
                             <PasswordInput
                                 autoComplete="off"
-                                placeholder="Password"
+                                placeholder={t('userForm.password', 'Password')}
                                 {...field}
                             />
                         )}
@@ -78,7 +81,7 @@ const OverviewSection = ({ control, errors, newUser }: OverviewSectionProps) => 
             )}
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
-                    label="Role"
+                    label={t('userForm.role', 'Role')}
                     invalid={Boolean(errors.role)}
                     errorMessage={errors.role?.message}
                 >
@@ -88,14 +91,14 @@ const OverviewSection = ({ control, errors, newUser }: OverviewSectionProps) => 
                         render={({ field }) => (
                             <Select
                                 options={roleOptions}
-                                placeholder="Select role"
+                                placeholder={t('userForm.selectRole', 'Select role')}
                                 value={roleOptions.find((o) => o.value === field.value)}
                                 onChange={(option) => field.onChange(option?.value)}
                             />
                         )}
                     />
                 </FormItem>
-                <FormItem label="Active">
+                <FormItem label={t('userForm.active', 'Active')}>
                     <Controller
                         name="isActive"
                         control={control}

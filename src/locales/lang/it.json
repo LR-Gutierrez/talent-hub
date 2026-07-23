@@ -1,0 +1,177 @@
+{
+    "nav": {
+        "home": "Home",
+        "users": "Utenti",
+        "singleMenuItem": "Voce di menu singola",
+        "collapseMenu": {
+            "collapseMenu": "Voce di menu comprimibile",
+            "item1": "Voce comprimibile 1",
+            "item2": "Voce comprimibile 2"
+        },
+        "groupMenu": {
+            "groupMenu": "Menu di gruppo",
+            "single": "Voce singola di gruppo",
+            "collapse": {
+                "collapse": "Menu comprimibile di gruppo",
+                "item1": "Voce comprimibile di gruppo 1",
+                "item2": "Voce comprimibile di gruppo 2"
+            }
+        }
+    },
+    "footer": {
+        "allRightsReserved": "Tutti i diritti riservati.",
+        "terms": "Termini e Condizioni",
+        "privacy": "Informativa sulla Privacy"
+    },
+    "common": {
+        "signOut": "Esci",
+        "anonymous": "Anonimo",
+        "noEmail": "Nessuna email disponibile",
+        "addNew": "Aggiungi nuovo",
+        "quickSearch": "Ricerca rapida...",
+        "back": "Indietro",
+        "edit": "Modifica",
+        "view": "Visualizza",
+        "save": "Salva",
+        "delete": "Elimina",
+        "discard": "Annulla",
+        "create": "Crea",
+        "home": "Home",
+        "users": "Utenti"
+    },
+    "themeConfig": {
+        "darkMode": "Modalità Scura",
+        "darkModeDesc": "Passa il tema alla modalità scura",
+        "direction": "Direzione",
+        "directionDesc": "Seleziona una direzione",
+        "theme": "Tema",
+        "themeConfig": "Configurazione Tema",
+        "layout": "Layout",
+        "copyConfig": "Copia configurazione",
+        "copySuccess": "Copia riuscita",
+        "replaceConfig": "Per favore sostituisci themeConfig in 'src/configs/theme.config.ts'"
+    },
+    "layoutSwitcher": {
+        "collapsible": "Comprimibile",
+        "stacked": "Impilato",
+        "topBar": "Barra superiore",
+        "frameless": "Senza cornice",
+        "overlay": "Sovrapposto",
+        "blank": "Vuoto"
+    },
+    "mobileNav": {
+        "navigation": "Navigazione"
+    },
+    "search": {
+        "recommended": "Consigliato",
+        "placeholder": "Cerca...",
+        "noResults": "Nessun risultato per "
+    },
+    "notification": {
+        "title": "Notifiche",
+        "noNotifications": "Nessuna notifica!",
+        "markAllRead": "Segna tutto come letto",
+        "tryAgainLater": "Per favore riprova più tardi",
+        "viewAllActivity": "Vedi tutta l'attività"
+    },
+    "userList": {
+        "name": "Nome",
+        "email": "Email",
+        "role": "Ruolo",
+        "status": "Stato",
+        "created": "Creato"
+    },
+    "userForm": {
+        "overview": "Panoramica",
+        "displayName": "Nome visualizzato",
+        "emailRequired": "Email richiesta",
+        "invalidEmail": "Email non valida",
+        "email": "Email",
+        "password": "Password",
+        "role": "Ruolo",
+        "selectRole": "Seleziona ruolo",
+        "active": "Attivo",
+        "admin": "Amministratore",
+        "recruiter": "Reclutatore",
+        "candidate": "Candidato"
+    },
+    "userCreate": {
+        "userCreated": "Utente creato!",
+        "failedToCreate": "Errore nella creazione dell'utente",
+        "discardChanges": "Annulla modifiche",
+        "discardConfirm": "Sei sicuro di voler annullare? Questa azione non può essere annullata."
+    },
+    "userEdit": {
+        "changesSaved": "Modifiche salvate!",
+        "failedToUpdate": "Errore nell'aggiornamento dell'utente",
+        "noUserFound": "Nessun utente trovato!"
+    },
+    "pageHeader": {
+        "createUser": "Crea utente",
+        "createUserDesc": "Aggiungi un nuovo utente alla piattaforma.",
+        "editUser": "Modifica utente",
+        "editUserDesc": "Gestisci dettagli e preferenze dell'utente."
+    },
+    "auth": {
+        "checkYourEmail": "Controlla la tua email",
+        "emailSentDesc": "Abbiamo inviato un recupero password alla tua email",
+        "forgotPasswordTitle": "Password Dimenticata",
+        "enterEmailCode": "Inserisci la tua email per ricevere un codice di verifica",
+        "continue": "Continua",
+        "backTo": "Torna a ",
+        "submit": "Invia",
+        "submitting": "Invio in corso...",
+        "someError": "Si è verificato un errore!",
+        "setNewPassword": "Imposta nuova password",
+        "newPasswordDesc": "La nuova password deve essere diversa dalla precedente",
+        "resetDone": "Reimpostazione completata",
+        "resetDesc": "La tua password è stata reimpostata con successo",
+        "passwordPlaceholder": "••••••••••••",
+        "welcomeBack": "Bentornato!",
+        "enterCredentials": "Inserisci le tue credenziali per accedere!",
+        "forgotPassword": "Password dimenticata",
+        "signIn": "Accedi",
+        "signingIn": "Accesso in corso...",
+        "email": "Email",
+        "password": "Password",
+        "emailRequired": "Per favore inserisci la tua email",
+        "passwordRequired": "Per favore inserisci la tua password",
+        "signUp": "Registrati",
+        "getStarted": "E inizia con la tua prova gratuita",
+        "alreadyHaveAccount": "Hai già un account? ",
+        "signInLink": "Accedi",
+        "userName": "Nome utente",
+        "userNamePlaceholder": "Nome Utente",
+        "confirmPassword": "Conferma Password",
+        "creatingAccount": "Creazione account...",
+        "invalidEmail": "Inserisci un'email valida",
+        "enterName": "Inserisci il tuo nome",
+        "passwordRequiredMsg": "Password richiesta",
+        "confirmPasswordRequired": "Conferma password richiesta",
+        "passwordNotMatch": "Le password non coincidono",
+        "failedReset": "Impossibile reimpostare la password"
+    },
+    "table": {
+        "pageSize": "{{count}} / pagina",
+        "noData": "Nessun dato trovato!"
+    },
+    "userDetails": {
+        "details": "Dettagli",
+        "email": "Email",
+        "role": "Ruolo",
+        "status": "Stato",
+        "created": "Creato",
+        "lastUpdated": "Ultimo Aggiornamento",
+        "changePassword": "Cambia Password",
+        "newPassword": "Nuova Password",
+        "enterNewPassword": "Inserisci nuova password",
+        "removeUser": "Rimuovi utente",
+        "removeUserConfirm": "Sei sicuro di voler rimuovere questo utente? Questa azione non può essere annullata.",
+        "userDeleted": "Utente eliminato!",
+        "failedToDelete": "Errore nell'eliminazione dell'utente",
+        "passwordChanged": "Password cambiata con successo!",
+        "failedToChangePassword": "Errore nel cambio password",
+        "active": "Attivo",
+        "inactive": "Inattivo"
+    }
+}

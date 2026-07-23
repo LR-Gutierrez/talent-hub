@@ -7,7 +7,12 @@ import { useLocaleStore } from '@/store/localeStore'
 import { HiCheck } from 'react-icons/hi'
 import type { CommonProps } from '@/@types/common'
 
-const languageList = [{ label: 'English', value: 'en', flag: 'US' }]
+const languageList = [
+    { label: 'English', value: 'en', flag: 'US' },
+    { label: 'Español', value: 'es', flag: 'ES' },
+    { label: 'Italiano', value: 'it', flag: 'IT' },
+    { label: 'Français', value: 'fr', flag: 'FR' },
+]
 
 const _LanguageSelector = ({ className }: CommonProps) => {
     const { currentLang: locale, setLang } = useLocaleStore((state) => state)

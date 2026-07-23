@@ -2,9 +2,11 @@ import Button from '@/components/ui/Button'
 import { TbUserPlus } from 'react-icons/tb'
 import { useNavigate } from 'react-router'
 import { Can } from '@casl/react'
+import useTranslation from '@/utils/hooks/useTranslation'
 
 const UserListActionTools = () => {
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     return (
         <div className="flex flex-col md:flex-row gap-3">
@@ -14,7 +16,7 @@ const UserListActionTools = () => {
                     icon={<TbUserPlus className="text-xl" />}
                     onClick={() => navigate('/users/create')}
                 >
-                    Add new
+                    {t('common.addNew', 'Add new')}
                 </Button>
             </Can>
         </div>

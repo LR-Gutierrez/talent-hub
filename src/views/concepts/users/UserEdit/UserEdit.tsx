@@ -11,12 +11,14 @@ import { TbTrash, TbArrowNarrowLeft } from 'react-icons/tb'
 import { useParams, useNavigate } from 'react-router'
 import { Can } from '@casl/react'
 import useSWR from 'swr'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { UserFormSchema } from '../UserForm/types'
 import type { User } from '../UserList/types'
 
 const UserEdit = () => {
     const { id } = useParams()
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     const { data, isLoading } = useSWR(
         [`/api/users/${id}`, { id: id as string }],
@@ -33,12 +35,12 @@ const UserEdit = () => {
             const payload = { ...values }
             if (!payload.password) delete payload.password
             await apiUpdateUser(id as string, payload)
-            toast.push(<Notification type="success">Changes Saved!</Notification>, {
+            toast.push(<Notification type="success">{t('userEdit.changesSaved', 'Changes Saved!')}</Notification>, {
                 placement: 'top-center',
             })
             navigate('/users')
         } catch {
-            toast.push(<Notification type="danger">Failed to update user</Notification>, {
+            toast.push(<Notification type="danger">{t('userEdit.failedToUpdate', 'Failed to update user')}</Notification>, {
                 placement: 'top-center',
             })
         }
@@ -62,12 +64,12 @@ const UserEdit = () => {
     const handleConfirmDelete = async () => {
         try {
             await apiDeleteUser(id as string)
-            toast.push(<Notification type="success">User deleted!</Notification>, {
+            toast.push(<Notification type="success">{t('userDetails.userDeleted', 'User deleted!')}</Notification>, {
                 placement: 'top-center',
             })
             navigate('/users')
         } catch {
-            toast.push(<Notification type="danger">Failed to delete user</Notification>, {
+            toast.push(<Notification type="danger">{t('userDetails.failedToDelete', 'Failed to delete user')}</Notification>, {
                 placement: 'top-center',
             })
         }
@@ -91,7 +93,7 @@ const UserEdit = () => {
             {!isLoading && !data && (
                 <div className="h-full flex flex-col items-center justify-center">
                     <NoUserFound height={280} width={280} />
-                    <h3 className="mt-8">No user found!</h3>
+                    <h3 className="mt-8">{t('userEdit.noUserFound', 'No user found!')}</h3>
                 </div>
             )}
             {!isLoading && data && (
@@ -109,7 +111,7 @@ const UserEdit = () => {
                                     icon={<TbArrowNarrowLeft />}
                                     onClick={handleBack}
                                 >
-                                    Back
+                                    {t('common.back', 'Back')}
                                 </Button>
                                 <div className="flex items-center">
                                     <Can I="delete" a="User">
@@ -122,11 +124,11 @@ const UserEdit = () => {
                                             icon={<TbTrash />}
                                             onClick={handleDelete}
                                         >
-                                            Delete
+                                            {t('common.delete', 'Delete')}
                                         </Button>
                                     </Can>
                                     <Button variant="solid" type="submit" loading={isSubmiting}>
-                                        Save
+                                        {t('common.save', 'Save')}
                                     </Button>
                                 </div>
                             </div>
@@ -135,13 +137,13 @@ const UserEdit = () => {
                     <ConfirmDialog
                         isOpen={deleteConfirmationOpen}
                         type="danger"
-                        title="Remove user"
+                        title={t('userDetails.removeUser', 'Remove user')}
                         onClose={handleCancel}
                         onRequestClose={handleCancel}
                         onCancel={handleCancel}
                         onConfirm={handleConfirmDelete}
                     >
-                        <p>Are you sure you want to remove this user? This action can&apos;t be undo.</p>
+                        <p>{t('userDetails.removeUserConfirm', "Are you sure you want to remove this user? This action can't be undo.")}</p>
                     </ConfirmDialog>
                 </>
             )}

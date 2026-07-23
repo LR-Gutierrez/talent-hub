@@ -13,6 +13,7 @@ import Checkbox from '@/components/ui/Checkbox'
 import TableRowSkeleton from './loaders/TableRowSkeleton'
 import Loading from './Loading'
 import FileNotFound from '@/assets/svg/FileNotFound'
+import useTranslation from '@/utils/hooks/useTranslation'
 import {
     useReactTable,
     getCoreRowModel,
@@ -138,15 +139,18 @@ function DataTable<T>(props: DataTableProps<T>) {
 
     const { pageSize, pageIndex, total } = pagingData
 
+    const { t, i18n } = useTranslation()
+
     const [sorting, setSorting] = useState<ColumnSort[] | null>(null)
 
     const pageSizeOption = useMemo(
         () =>
             pageSizes.map((number) => ({
                 value: number,
-                label: `${number} / page`,
+                label: t('table.pageSize', '{{count}} / page', { count: number }),
             })),
-        [pageSizes],
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [pageSizes, i18n.language],
     )
 
     useEffect(() => {
@@ -333,7 +337,7 @@ function DataTable<T>(props: DataTableProps<T>) {
                                             <>
                                                 <FileNotFound />
                                                 <span className="font-semibold">
-                                                    No data found!
+                                                    {t('table.noData', 'No data found!')}
                                                 </span>
                                             </>
                                         )}

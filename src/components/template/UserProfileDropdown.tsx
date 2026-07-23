@@ -5,6 +5,7 @@ import { useSessionUser } from '@/store/authStore'
 import { Link } from 'react-router'
 import { PiUserDuotone, PiSignOutDuotone } from 'react-icons/pi'
 import { useAuth } from '@/auth'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { JSX } from 'react'
 
 type DropdownList = {
@@ -19,6 +20,8 @@ const _UserDropdown = () => {
     const { avatar, userName, email } = useSessionUser((state) => state.user)
 
     const { signOut } = useAuth()
+
+    const { t } = useTranslation()
 
     const handleSignOut = () => {
         signOut()
@@ -44,10 +47,10 @@ const _UserDropdown = () => {
                     <Avatar {...avatarProps} />
                     <div>
                         <div className="font-bold text-gray-900 dark:text-gray-100">
-                            {userName || 'Anonymous'}
+                            {userName || t('common.anonymous', 'Anonymous')}
                         </div>
                         <div className="text-xs">
-                            {email || 'No email available'}
+                            {email || t('common.noEmail', 'No email available')}
                         </div>
                     </div>
                 </div>
@@ -68,14 +71,14 @@ const _UserDropdown = () => {
                 </Dropdown.Item>
             ))}
             <Dropdown.Item
-                eventKey="Sign Out"
+                eventKey={t('common.signOut', 'Sign Out')}
                 className="gap-2"
                 onClick={handleSignOut}
             >
                 <span className="text-xl">
                     <PiSignOutDuotone />
                 </span>
-                <span>Sign Out</span>
+                <span>{t('common.signOut', 'Sign Out')}</span>
             </Dropdown.Item>
         </Dropdown>
     )

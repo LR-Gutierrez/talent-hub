@@ -6,6 +6,7 @@ import { apiResetPassword } from '@/services/AuthService'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { CommonProps } from '@/@types/common'
 
 interface ResetPasswordFormProps extends CommonProps {
@@ -19,21 +20,22 @@ type ResetPasswordFormSchema = {
     confirmPassword: string
 }
 
-const validationSchema = z
-    .object({
-        newPassword: z.string().min(1, 'Please enter your password'),
-        confirmPassword: z.string().min(1, 'Confirm Password Required'),
-    })
-    .refine((data) => data.newPassword === data.confirmPassword, {
-        message: 'Your passwords do not match',
-        path: ['confirmPassword'],
-    })
-
 const ResetPasswordForm = (props: ResetPasswordFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const { t } = useTranslation()
 
     const { className, setMessage, setResetComplete, resetComplete, children } =
         props
+
+    const validationSchema = z
+        .object({
+            newPassword: z.string().min(1, t('auth.passwordRequiredMsg', 'Password required')),
+            confirmPassword: z.string().min(1, t('auth.confirmPasswordRequired', 'Confirm Password Required')),
+        })
+        .refine((data) => data.newPassword === data.confirmPassword, {
+            message: t('auth.passwordNotMatch', 'Password not match'),
+            path: ['confirmPassword'],
+        })
 
     const {
         handleSubmit,
@@ -58,7 +60,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
             setMessage?.(
                 typeof errors === 'string'
                     ? errors
-                    : 'Failed to reset password',
+                    : t('auth.failedReset', 'Failed to reset password'),
             )
             setSubmitting(false)
         }
@@ -71,7 +73,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
             {!resetComplete ? (
                 <Form onSubmit={handleSubmit(onResetPassword)}>
                     <FormItem
-                        label="Password"
+                        label={t('auth.password', 'Password')}
                         invalid={Boolean(errors.newPassword)}
                         errorMessage={errors.newPassword?.message}
                     >
@@ -81,14 +83,14 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                             render={({ field }) => (
                                 <PasswordInput
                                     autoComplete="off"
-                                    placeholder="••••••••••••"
+                                    placeholder={t('auth.passwordPlaceholder', '••••••••••••')}
                                     {...field}
                                 />
                             )}
                         />
                     </FormItem>
                     <FormItem
-                        label="Confirm Password"
+                        label={t('auth.confirmPassword', 'Confirm Password')}
                         invalid={Boolean(errors.confirmPassword)}
                         errorMessage={errors.confirmPassword?.message}
                     >
@@ -98,7 +100,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                             render={({ field }) => (
                                 <PasswordInput
                                     autoComplete="off"
-                                    placeholder="Confirm Password"
+                                    placeholder={t('auth.confirmPassword', 'Confirm Password')}
                                     {...field}
                                 />
                             )}
@@ -110,7 +112,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                         variant="solid"
                         type="submit"
                     >
-                        {isSubmitting ? 'Submiting...' : 'Submit'}
+                        {isSubmitting ? t('auth.submitting', 'Submiting...') : t('auth.submit', 'Submit')}
                     </Button>
                 </Form>
             ) : (

@@ -29,7 +29,9 @@ export const useLocaleStore = create<LocaleState>()(
                         dayjs.locale(formattedLang)
                     })
 
-                    return set({ currentLang: lang })
+                    set({ currentLang: lang })
+
+                    window.location.reload()
                 },
             }),
             { name: 'locale' },

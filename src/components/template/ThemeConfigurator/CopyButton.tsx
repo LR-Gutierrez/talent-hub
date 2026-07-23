@@ -3,9 +3,11 @@ import Button from '@/components/ui/Button'
 import toast from '@/components/ui/toast'
 import { themeConfig } from '@/configs/theme.config'
 import { useThemeStore } from '@/store/themeStore'
+import useTranslation from '@/utils/hooks/useTranslation'
 
 const CopyButton = () => {
     const theme = useThemeStore((state) => state)
+    const { t } = useTranslation()
 
     const handleCopy = () => {
         const config = {
@@ -24,8 +26,8 @@ export const themeConfig: ThemeConfig = ${JSON.stringify(config, null, 2)}
 `)
 
         toast.push(
-            <Notification title="Copy Success" type="success">
-                {`Please replace themeConfig in 'src/configs/theme.config.ts'`}
+            <Notification title={t('themeConfig.copySuccess', 'Copy Success')} type="success">
+                {t('themeConfig.replaceConfig', "Please replace themeConfig in 'src/configs/theme.config.ts'")}
             </Notification>,
             {
                 placement: 'top-center',
@@ -35,7 +37,7 @@ export const themeConfig: ThemeConfig = ${JSON.stringify(config, null, 2)}
 
     return (
         <Button block variant="solid" onClick={handleCopy}>
-            Copy config
+            {t('themeConfig.copyConfig', 'Copy config')}
         </Button>
     )
 }

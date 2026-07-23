@@ -1,0 +1,177 @@
+{
+    "nav": {
+        "home": "Inicio",
+        "users": "Usuarios",
+        "singleMenuItem": "Elemento de menú único",
+        "collapseMenu": {
+            "collapseMenu": "Elemento de menú colapsable",
+            "item1": "Elemento colapsable 1",
+            "item2": "Elemento colapsable 2"
+        },
+        "groupMenu": {
+            "groupMenu": "Menú de grupo",
+            "single": "Elemento individual de grupo",
+            "collapse": {
+                "collapse": "Menú colapsable de grupo",
+                "item1": "Elemento colapsable de grupo 1",
+                "item2": "Elemento colapsable de grupo 2"
+            }
+        }
+    },
+    "footer": {
+        "allRightsReserved": "Todos los derechos reservados.",
+        "terms": "Términos y Condiciones",
+        "privacy": "Política de Privacidad"
+    },
+    "common": {
+        "signOut": "Cerrar Sesión",
+        "anonymous": "Anónimo",
+        "noEmail": "No hay correo disponible",
+        "addNew": "Añadir nuevo",
+        "quickSearch": "Búsqueda rápida...",
+        "back": "Volver",
+        "edit": "Editar",
+        "view": "Ver",
+        "save": "Guardar",
+        "delete": "Eliminar",
+        "discard": "Descartar",
+        "create": "Crear",
+        "home": "Inicio",
+        "users": "Usuarios"
+    },
+    "themeConfig": {
+        "darkMode": "Modo Oscuro",
+        "darkModeDesc": "Cambiar el tema a modo oscuro",
+        "direction": "Dirección",
+        "directionDesc": "Seleccionar una dirección",
+        "theme": "Tema",
+        "themeConfig": "Configuración de Tema",
+        "layout": "Diseño",
+        "copyConfig": "Copiar configuración",
+        "copySuccess": "Copia exitosa",
+        "replaceConfig": "Por favor reemplaza themeConfig en 'src/configs/theme.config.ts'"
+    },
+    "layoutSwitcher": {
+        "collapsible": "Plegable",
+        "stacked": "Apilado",
+        "topBar": "Barra superior",
+        "frameless": "Sin marco",
+        "overlay": "Superpuesto",
+        "blank": "Vacío"
+    },
+    "mobileNav": {
+        "navigation": "Navegación"
+    },
+    "search": {
+        "recommended": "Recomendado",
+        "placeholder": "Buscar...",
+        "noResults": "Sin resultados para "
+    },
+    "notification": {
+        "title": "Notificaciones",
+        "noNotifications": "¡Sin notificaciones!",
+        "markAllRead": "Marcar todo como leído",
+        "tryAgainLater": "Por favor intente más tarde",
+        "viewAllActivity": "Ver toda la actividad"
+    },
+    "userList": {
+        "name": "Nombre",
+        "email": "Correo",
+        "role": "Rol",
+        "status": "Estado",
+        "created": "Creado"
+    },
+    "userForm": {
+        "overview": "Resumen",
+        "displayName": "Nombre para mostrar",
+        "emailRequired": "Correo requerido",
+        "invalidEmail": "Correo inválido",
+        "email": "Correo",
+        "password": "Contraseña",
+        "role": "Rol",
+        "selectRole": "Seleccionar rol",
+        "active": "Activo",
+        "admin": "Administrador",
+        "recruiter": "Reclutador",
+        "candidate": "Candidato"
+    },
+    "userCreate": {
+        "userCreated": "¡Usuario creado!",
+        "failedToCreate": "Error al crear usuario",
+        "discardChanges": "Descartar cambios",
+        "discardConfirm": "¿Estás seguro de descartar esto? Esta acción no se puede deshacer."
+    },
+    "userEdit": {
+        "changesSaved": "¡Cambios guardados!",
+        "failedToUpdate": "Error al actualizar usuario",
+        "noUserFound": "¡Usuario no encontrado!"
+    },
+    "pageHeader": {
+        "createUser": "Crear usuario",
+        "createUserDesc": "Añadir un nuevo usuario a la plataforma.",
+        "editUser": "Editar usuario",
+        "editUserDesc": "Gestionar detalles y preferencias del usuario."
+    },
+    "auth": {
+        "checkYourEmail": "Revisa tu correo",
+        "emailSentDesc": "Hemos enviado un correo de recuperación a tu email",
+        "forgotPasswordTitle": "Olvidé mi Contraseña",
+        "enterEmailCode": "Ingresa tu correo para recibir un código de verificación",
+        "continue": "Continuar",
+        "backTo": "Volver a ",
+        "submit": "Enviar",
+        "submitting": "Enviando...",
+        "someError": "¡Ocurrió un error!",
+        "setNewPassword": "Establecer nueva contraseña",
+        "newPasswordDesc": "Tu nueva contraseña debe ser diferente a la anterior",
+        "resetDone": "Restablecimiento completado",
+        "resetDesc": "Tu contraseña ha sido restablecida exitosamente",
+        "passwordPlaceholder": "••••••••••••",
+        "welcomeBack": "¡Bienvenido de nuevo!",
+        "enterCredentials": "¡Ingrese sus credenciales para iniciar sesión!",
+        "forgotPassword": "Olvidé mi contraseña",
+        "signIn": "Iniciar Sesión",
+        "signingIn": "Iniciando sesión...",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "emailRequired": "Por favor ingrese su correo",
+        "passwordRequired": "Por favor ingrese su contraseña",
+        "signUp": "Registrarse",
+        "getStarted": "Y comencemos con su prueba gratuita",
+        "alreadyHaveAccount": "¿Ya tienes una cuenta? ",
+        "signInLink": "Iniciar sesión",
+        "userName": "Nombre de usuario",
+        "userNamePlaceholder": "Nombre de Usuario",
+        "confirmPassword": "Confirmar Contraseña",
+        "creatingAccount": "Creando cuenta...",
+        "invalidEmail": "Por favor ingrese un correo válido",
+        "enterName": "Por favor ingrese su nombre",
+        "passwordRequiredMsg": "Contraseña requerida",
+        "confirmPasswordRequired": "Confirmar contraseña requerida",
+        "passwordNotMatch": "Las contraseñas no coinciden",
+        "failedReset": "Error al restablecer la contraseña"
+    },
+    "table": {
+        "pageSize": "{{count}} / página",
+        "noData": "¡No se encontraron datos!"
+    },
+    "userDetails": {
+        "details": "Detalles",
+        "email": "Correo",
+        "role": "Rol",
+        "status": "Estado",
+        "created": "Creado",
+        "lastUpdated": "Última Actualización",
+        "changePassword": "Cambiar Contraseña",
+        "newPassword": "Nueva Contraseña",
+        "enterNewPassword": "Ingrese nueva contraseña",
+        "removeUser": "Eliminar usuario",
+        "removeUserConfirm": "¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.",
+        "userDeleted": "¡Usuario eliminado!",
+        "failedToDelete": "Error al eliminar usuario",
+        "passwordChanged": "¡Contraseña cambiada exitosamente!",
+        "failedToChangePassword": "Error al cambiar la contraseña",
+        "active": "Activo",
+        "inactive": "Inactivo"
+    }
+}

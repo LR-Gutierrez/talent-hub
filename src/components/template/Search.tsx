@@ -11,6 +11,7 @@ import { HiOutlineSearch, HiChevronRight } from 'react-icons/hi'
 import { PiMagnifyingGlassDuotone } from 'react-icons/pi'
 import { Link } from 'react-router'
 import Highlighter from 'react-highlight-words'
+import useTranslation from '@/utils/hooks/useTranslation'
 
 type SearchData = {
     key: string
@@ -84,6 +85,8 @@ const _Search = ({ className }: { className?: string }) => {
     const [noResult, setNoResult] = useState(false)
 
     const inputRef = useRef<HTMLInputElement>(null)
+
+    const { t } = useTranslation()
 
     const handleReset = () => {
         setNoResult(false)
@@ -159,7 +162,7 @@ const _Search = ({ className }: { className?: string }) => {
                             <input
                                 ref={inputRef}
                                 className="ring-0 outline-hidden block w-full p-4 text-base bg-transparent text-gray-900 dark:text-gray-100"
-                                placeholder="Search..."
+                                placeholder={t('search.placeholder', 'Search...')}
                                 onChange={handleSearch}
                             />
                         </div>
@@ -171,7 +174,7 @@ const _Search = ({ className }: { className?: string }) => {
                         <ScrollBar className=" max-h-[350px] overflow-y-auto">
                             {searchResult.map((result) => (
                                 <div key={result.title} className="mb-4">
-                                    <h6 className="mb-3">{result.title}</h6>
+                                    <h6 className="mb-3">{t('search.recommended', result.title)}</h6>
                                     {result.data.map((data, index) => (
                                         <ListItem
                                             key={data.title + index}
@@ -186,9 +189,9 @@ const _Search = ({ className }: { className?: string }) => {
                                     ))}
                                 </div>
                             ))}
-                            {searchResult.length === 0 && noResult && (
+                                    {searchResult.length === 0 && noResult && (
                                 <div className="my-10 text-center text-lg">
-                                    <span>No results for </span>
+                                    <span>{t('search.noResults', 'No results for ')}</span>
                                     <span className="heading-text">
                                         {`'`}
                                         {inputRef.current?.value}

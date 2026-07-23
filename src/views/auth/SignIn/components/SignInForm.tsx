@@ -8,6 +8,7 @@ import { useAuth } from '@/auth'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
 
@@ -22,17 +23,19 @@ type SignInFormSchema = {
     password: string
 }
 
-const validationSchema = z.object({
-    email: z
-        .string()
-        .min(1, { message: 'Please enter your email' }),
-    password: z
-        .string()
-        .min(1, { message: 'Please enter your password' }),
-})
-
 const SignInForm = (props: SignInFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
+
+    const { t } = useTranslation()
+
+    const validationSchema = z.object({
+        email: z
+            .string()
+            .min(1, { message: t('auth.emailRequired', 'Please enter your email') }),
+        password: z
+            .string()
+            .min(1, { message: t('auth.passwordRequired', 'Please enter your password') }),
+    })
 
     const { disableSubmit = false, className, setMessage, passwordHint } = props
 
@@ -70,7 +73,7 @@ const SignInForm = (props: SignInFormProps) => {
         <div className={className}>
             <Form onSubmit={handleSubmit(onSignIn)}>
                 <FormItem
-                    label="Email"
+                    label={t('auth.email', 'Email')}
                     invalid={Boolean(errors.email)}
                     errorMessage={errors.email?.message}
                 >
@@ -80,7 +83,7 @@ const SignInForm = (props: SignInFormProps) => {
                         render={({ field }) => (
                             <Input
                                 type="email"
-                                placeholder="Email"
+                                placeholder={t('auth.email', 'Email')}
                                 autoComplete="off"
                                 {...field}
                             />
@@ -88,7 +91,7 @@ const SignInForm = (props: SignInFormProps) => {
                     />
                 </FormItem>
                 <FormItem
-                    label="Password"
+                    label={t('auth.password', 'Password')}
                     invalid={Boolean(errors.password)}
                     errorMessage={errors.password?.message}
                     className={classNames(
@@ -103,7 +106,7 @@ const SignInForm = (props: SignInFormProps) => {
                         render={({ field }) => (
                             <PasswordInput
                                 type="text"
-                                placeholder="Password"
+                                placeholder={t('auth.password', 'Password')}
                                 autoComplete="off"
                                 {...field}
                             />
@@ -117,7 +120,7 @@ const SignInForm = (props: SignInFormProps) => {
                     variant="solid"
                     type="submit"
                 >
-                    {isSubmitting ? 'Signing in...' : 'Sign In'}
+                    {isSubmitting ? t('auth.signingIn', 'Signing in...') : t('auth.signIn', 'Sign In')}
                 </Button>
             </Form>
         </div>

@@ -2,6 +2,7 @@ import StackedSideNav from '@/components/template/StackedSideNav'
 import Header from '@/components/template/Header'
 import MobileNav from '@/components/template/MobileNav'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
+import LanguageSelector from '@/components/template/LanguageSelector'
 import SidePanel from '@/components//template/SidePanel'
 import LayoutBase from '@/components//template/LayoutBase'
 import useResponsive from '@/utils/hooks/useResponsive'
@@ -24,6 +25,7 @@ const StackedSide = ({ children }: CommonProps) => {
                         headerStart={<>{smaller.lg && <MobileNav />}</>}
                         headerEnd={
                             <>
+                                <LanguageSelector />
                                 <SidePanel />
                                 <UserProfileDropdown hoverable={false} />
                             </>

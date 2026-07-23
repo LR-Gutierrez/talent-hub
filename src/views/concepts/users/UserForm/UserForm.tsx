@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { CommonProps } from '@/@types/common'
 import type { UserFormSchema } from './types'
 
@@ -16,16 +17,18 @@ type UserFormProps = {
     newUser?: boolean
 } & CommonProps
 
-const validationSchema = z.object({
-    email: z.string().min(1, { message: 'Email required' }).email({ message: 'Invalid email' }),
-    password: z.string().min(6).or(z.literal('')),
-    displayName: z.string().optional(),
-    photoUrl: z.string().optional(),
-    role: z.enum(['admin', 'recruiter', 'candidate'], { message: 'Please select a role' }),
-    isActive: z.boolean(),
-})
-
 const UserForm = (props: UserFormProps) => {
+    const { t } = useTranslation()
+
+    const validationSchema = z.object({
+        email: z.string().min(1, { message: t('userForm.emailRequired', 'Email required') }).email({ message: t('userForm.invalidEmail', 'Invalid email') }),
+        password: z.string().min(6).or(z.literal('')),
+        displayName: z.string().optional(),
+        photoUrl: z.string().optional(),
+        role: z.enum(['admin', 'recruiter', 'candidate'], { message: t('userForm.selectRole', 'Please select a role') }),
+        isActive: z.boolean(),
+    })
+
     const { onFormSubmit, defaultValues = {}, newUser = false, children } = props
 
     const {

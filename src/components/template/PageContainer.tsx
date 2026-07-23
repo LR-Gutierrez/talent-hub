@@ -2,7 +2,9 @@ import { Suspense } from 'react'
 import Container from '@/components/shared/Container'
 import Footer from '@/components/template/Footer'
 import useLayout from '@/utils/hooks/useLayout'
+import useTranslation from '@/utils/hooks/useTranslation'
 import classNames from '@/utils/classNames'
+import appConfig from '@/configs/app.config'
 import {
     PAGE_CONTAINER_GUTTER_X,
     PAGE_CONTAINER_GUTTER_Y,
@@ -54,6 +56,8 @@ export const PageContainerHeader = ({
 }: PageContainerHeaderProps) => {
     if (!title && !extraHeader) return null
 
+    const { t } = useTranslation(!appConfig.activeNavTranslation)
+
     return (
         <div
             className={classNames(
@@ -69,7 +73,7 @@ export const PageContainerHeader = ({
                     (customeHeader ? (
                         customeHeader()
                     ) : (
-                        <h3 className="font-bold">{title}</h3>
+                        <h3 className="font-bold">{t(title)}</h3>
                     ))}
                 <Suspense fallback={<></>}>
                     {title && typeof title !== 'string' && (

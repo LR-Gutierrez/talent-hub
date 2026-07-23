@@ -1,6 +1,7 @@
 {
     "nav": {
         "home": "Home",
+        "users": "Users",
         "singleMenuItem": "Single menu item",
         "collapseMenu": {
             "collapseMenu": "Collapse menu item",
@@ -16,5 +17,161 @@
                 "item2": "Group collapse menu item 2"
             }
         }
+    },
+    "footer": {
+        "allRightsReserved": "All rights reserved.",
+        "terms": "Term & Conditions",
+        "privacy": "Privacy & Policy"
+    },
+    "common": {
+        "signOut": "Sign Out",
+        "anonymous": "Anonymous",
+        "noEmail": "No email available",
+        "addNew": "Add new",
+        "quickSearch": "Quick search...",
+        "back": "Back",
+        "edit": "Edit",
+        "view": "View",
+        "save": "Save",
+        "delete": "Delete",
+        "discard": "Discard",
+        "create": "Create",
+        "home": "Home",
+        "users": "Users"
+    },
+    "themeConfig": {
+        "darkMode": "Dark Mode",
+        "darkModeDesc": "Switch theme to dark mode",
+        "direction": "Direction",
+        "directionDesc": "Select a direction",
+        "theme": "Theme",
+        "themeConfig": "Theme Config",
+        "layout": "Layout",
+        "copyConfig": "Copy config",
+        "copySuccess": "Copy Success",
+        "replaceConfig": "Please replace themeConfig in 'src/configs/theme.config.ts'"
+    },
+    "layoutSwitcher": {
+        "collapsible": "Collapsible",
+        "stacked": "Stacked",
+        "topBar": "Top bar",
+        "frameless": "Frameless",
+        "overlay": "Overlay",
+        "blank": "Blank"
+    },
+    "mobileNav": {
+        "navigation": "Navigation"
+    },
+    "search": {
+        "recommended": "Recommended",
+        "placeholder": "Search...",
+        "noResults": "No results for "
+    },
+    "notification": {
+        "title": "Notifications",
+        "noNotifications": "No notifications!",
+        "markAllRead": "Mark all as read",
+        "tryAgainLater": "Please Try again later",
+        "viewAllActivity": "View All Activity"
+    },
+    "userList": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "created": "Created"
+    },
+    "userForm": {
+        "overview": "Overview",
+        "displayName": "Display Name",
+        "emailRequired": "Email required",
+        "invalidEmail": "Invalid email",
+        "email": "Email",
+        "password": "Password",
+        "role": "Role",
+        "selectRole": "Select role",
+        "active": "Active",
+        "admin": "Admin",
+        "recruiter": "Recruiter",
+        "candidate": "Candidate"
+    },
+    "userCreate": {
+        "userCreated": "User created!",
+        "failedToCreate": "Failed to create user",
+        "discardChanges": "Discard changes",
+        "discardConfirm": "Are you sure you want discard this? This action can't be undo."
+    },
+    "userEdit": {
+        "changesSaved": "Changes Saved!",
+        "failedToUpdate": "Failed to update user",
+        "noUserFound": "No user found!"
+    },
+    "pageHeader": {
+        "createUser": "Create user",
+        "createUserDesc": "Add a new user to the platform.",
+        "editUser": "Edit user",
+        "editUserDesc": "Manage user details and preferences."
+    },
+    "auth": {
+        "checkYourEmail": "Check your email",
+        "emailSentDesc": "We have sent a password recovery to your email",
+        "forgotPasswordTitle": "Forgot Password",
+        "enterEmailCode": "Please enter your email to receive a verification code",
+        "continue": "Continue",
+        "backTo": "Back to ",
+        "submit": "Submit",
+        "submitting": "Submiting...",
+        "someError": "Some error occured!",
+        "setNewPassword": "Set new password",
+        "newPasswordDesc": "Your new password must different to previos password",
+        "resetDone": "Reset done",
+        "resetDesc": "Your password has been successfully reset",
+        "passwordPlaceholder": "••••••••••••",
+        "welcomeBack": "Welcome back!",
+        "enterCredentials": "Please enter your credentials to sign in!",
+        "forgotPassword": "Forgot password",
+        "signIn": "Sign In",
+        "signingIn": "Signing in...",
+        "email": "Email",
+        "password": "Password",
+        "emailRequired": "Please enter your email",
+        "passwordRequired": "Please enter your password",
+        "signUp": "Sign Up",
+        "getStarted": "And lets get started with your free trial",
+        "alreadyHaveAccount": "Already have an account? ",
+        "signInLink": "Sign in",
+        "userName": "User name",
+        "userNamePlaceholder": "User Name",
+        "confirmPassword": "Confirm Password",
+        "creatingAccount": "Creating Account...",
+        "invalidEmail": "Please enter a valid email",
+        "enterName": "Please enter your name",
+        "passwordRequiredMsg": "Password required",
+        "confirmPasswordRequired": "Confirm Password Required",
+        "passwordNotMatch": "Password not match",
+        "failedReset": "Failed to reset password"
+    },
+    "table": {
+        "pageSize": "{{count}} / page",
+        "noData": "No data found!"
+    },
+    "userDetails": {
+        "details": "Details",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "created": "Created",
+        "lastUpdated": "Last Updated",
+        "changePassword": "Change Password",
+        "newPassword": "New Password",
+        "enterNewPassword": "Enter new password",
+        "removeUser": "Remove user",
+        "removeUserConfirm": "Are you sure you want to remove this user? This action can't be undo.",
+        "userDeleted": "User deleted!",
+        "failedToDelete": "Failed to delete user",
+        "passwordChanged": "Password changed successfully!",
+        "failedToChangePassword": "Failed to change password",
+        "active": "Active",
+        "inactive": "Inactive"
     }
 }

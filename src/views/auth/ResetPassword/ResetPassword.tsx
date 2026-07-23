@@ -4,6 +4,7 @@ import Button from '@/components/ui/Button'
 import ActionLink from '@/components/shared/ActionLink'
 import ResetPasswordForm from './components/ResetPasswordForm'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
+import useTranslation from '@/utils/hooks/useTranslation'
 import { useNavigate } from 'react-router'
 
 type ResetPasswordProps = {
@@ -16,6 +17,7 @@ export const ResetPasswordBase = ({
     const [resetComplete, setResetComplete] = useState(false)
 
     const [message, setMessage] = useTimeOutMessage()
+    const { t } = useTranslation()
 
     const navigate = useNavigate()
 
@@ -28,16 +30,16 @@ export const ResetPasswordBase = ({
             <div className="mb-6">
                 {resetComplete ? (
                     <>
-                        <h3 className="mb-1">Reset done</h3>
+                        <h3 className="mb-1">{t('auth.resetDone', 'Reset done')}</h3>
                         <p className="font-semibold heading-text">
-                            Your password has been successfully reset
+                            {t('auth.resetDesc', 'Your password has been successfully reset')}
                         </p>
                     </>
                 ) : (
                     <>
-                        <h3 className="mb-1">Set new password</h3>
+                        <h3 className="mb-1">{t('auth.setNewPassword', 'Set new password')}</h3>
                         <p className="font-semibold heading-text">
-                            Your new password must different to previos password
+                            {t('auth.newPasswordDesc', 'Your new password must different to previos password')}
                         </p>
                     </>
                 )}
@@ -58,17 +60,17 @@ export const ResetPasswordBase = ({
                     type="button"
                     onClick={handleContinue}
                 >
-                    Continue
+                    {t('auth.continue', 'Continue')}
                 </Button>
             </ResetPasswordForm>
             <div className="mt-4 text-center">
-                <span>Back to </span>
+                <span>{t('auth.backTo', 'Back to ')}</span>
                 <ActionLink
                     to={signInUrl}
                     className="heading-text font-bold"
                     themeColor={false}
                 >
-                    Sign in
+                    {t('auth.signInLink', 'Sign in')}
                 </ActionLink>
             </div>
         </div>

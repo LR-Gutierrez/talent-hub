@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router'
 import cloneDeep from 'lodash/cloneDeep'
 import { TbPencil, TbEye } from 'react-icons/tb'
 import { Can } from '@casl/react'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { OnSortParam, ColumnDef, Row } from '@/components/shared/DataTable'
 import type { User } from '../types'
 import type { TableQueries } from '@/@types/common'
@@ -46,10 +47,12 @@ const NameColumn = ({ row }: { row: User }) => {
 }
 
 const ActionColumn = ({ onEdit, onViewDetail }: { onEdit: () => void; onViewDetail: () => void }) => {
+    const { t } = useTranslation()
+
     return (
         <div className="flex items-center gap-3">
             <Can I="update" a="User">
-                <Tooltip title="Edit">
+                <Tooltip title={t('common.edit', 'Edit')}>
                     <div
                         className={`text-xl cursor-pointer select-none font-semibold`}
                         role="button"
@@ -59,7 +62,7 @@ const ActionColumn = ({ onEdit, onViewDetail }: { onEdit: () => void; onViewDeta
                     </div>
                 </Tooltip>
             </Can>
-            <Tooltip title="View">
+            <Tooltip title={t('common.view', 'View')}>
                 <div
                     className={`text-xl cursor-pointer select-none font-semibold`}
                     role="button"
@@ -86,10 +89,12 @@ const UserListTable = () => {
         navigate(`/users/${user.id}`)
     }
 
+    const { t } = useTranslation()
+
     const columns: ColumnDef<User>[] = useMemo(
         () => [
             {
-                header: 'Name',
+                header: t('userList.name', 'Name'),
                 accessorKey: 'displayName',
                 cell: (props) => {
                     const row = props.row.original
@@ -97,11 +102,11 @@ const UserListTable = () => {
                 },
             },
             {
-                header: 'Email',
+                header: t('userList.email', 'Email'),
                 accessorKey: 'email',
             },
             {
-                header: 'Role',
+                header: t('userList.role', 'Role'),
                 accessorKey: 'role',
                 cell: (props) => {
                     const row = props.row.original
@@ -113,20 +118,20 @@ const UserListTable = () => {
                 },
             },
             {
-                header: 'Status',
+                header: t('userList.status', 'Status'),
                 accessorKey: 'isActive',
                 cell: (props) => {
                     const row = props.row.original
                     const status = row.isActive ? 'active' : 'inactive'
                     return (
                         <Tag className={statusColor[status]}>
-                            <span className="capitalize">{status}</span>
+                            <span className="capitalize">{t('userDetails.' + status, status)}</span>
                         </Tag>
                     )
                 },
             },
             {
-                header: 'Created',
+                header: t('userList.created', 'Created'),
                 accessorKey: 'createdAt',
                 cell: (props) => {
                     return <span>{new Date(props.row.original.createdAt).toLocaleDateString()}</span>

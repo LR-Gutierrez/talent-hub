@@ -3,6 +3,7 @@ import Alert from '@/components/ui/Alert'
 import SignInForm from './components/SignInForm'
 import ActionLink from '@/components/shared/ActionLink'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
+import useTranslation from '@/utils/hooks/useTranslation'
 import { useThemeStore } from '@/store/themeStore'
 
 type SignInProps = {
@@ -15,6 +16,7 @@ export const SignInBase = ({
     disableSubmit,
 }: SignInProps) => {
     const [message, setMessage] = useTimeOutMessage()
+    const { t } = useTranslation()
 
     const mode = useThemeStore((state) => state.mode)
 
@@ -29,9 +31,9 @@ export const SignInBase = ({
                 />
             </div>
             <div className="mb-10">
-                <h2 className="mb-2">Welcome back!</h2>
+                <h2 className="mb-2">{t('auth.welcomeBack', 'Welcome back!')}</h2>
                 <p className="font-semibold heading-text">
-                    Please enter your credentials to sign in!
+                    {t('auth.enterCredentials', 'Please enter your credentials to sign in!')}
                 </p>
             </div>
             {message && (
@@ -49,7 +51,7 @@ export const SignInBase = ({
                             className="font-semibold heading-text mt-2 underline"
                             themeColor={false}
                         >
-                            Forgot password
+                            {t('auth.forgotPassword', 'Forgot password')}
                         </ActionLink>
                     </div>
                 }

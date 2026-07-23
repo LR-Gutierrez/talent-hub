@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import Segment from '@/components/ui/Segment'
 import { useThemeStore } from '@/store/themeStore'
+import useTranslation from '@/utils/hooks/useTranslation'
 import {
     LAYOUT_COLLAPSIBLE_SIDE,
     LAYOUT_STACKED_SIDE,
@@ -20,6 +21,7 @@ import type { LayoutType } from '@/@types/theme'
 const layouts = [
     {
         value: LAYOUT_COLLAPSIBLE_SIDE,
+        labelKey: 'layoutSwitcher.collapsible',
         label: 'Collapsible',
         src: '/img/thumbs/layouts/classic.jpg',
         srcDark: '/img/thumbs/layouts/classic-dark.jpg',
@@ -27,6 +29,7 @@ const layouts = [
     },
     {
         value: LAYOUT_STACKED_SIDE,
+        labelKey: 'layoutSwitcher.stacked',
         label: 'Stacked',
         src: '/img/thumbs/layouts/modern.jpg',
         srcDark: '/img/thumbs/layouts/modern-dark.jpg',
@@ -34,6 +37,7 @@ const layouts = [
     },
     {
         value: LAYOUT_TOP_BAR_CLASSIC,
+        labelKey: 'layoutSwitcher.topBar',
         label: 'Top bar',
         src: '/img/thumbs/layouts/stackedSide.jpg',
         srcDark: '/img/thumbs/layouts/stackedSide-dark.jpg',
@@ -41,6 +45,7 @@ const layouts = [
     },
     {
         value: LAYOUT_FRAMELESS_SIDE,
+        labelKey: 'layoutSwitcher.frameless',
         label: 'Frameless',
         src: '/img/thumbs/layouts/simple.jpg',
         srcDark: '/img/thumbs/layouts/simple-dark.jpg',
@@ -48,6 +53,7 @@ const layouts = [
     },
     {
         value: LAYOUT_CONTENT_OVERLAY,
+        labelKey: 'layoutSwitcher.overlay',
         label: 'Overlay',
         src: '/img/thumbs/layouts/decked.jpg',
         srcDark: '/img/thumbs/layouts/decked-dark.jpg',
@@ -55,6 +61,7 @@ const layouts = [
     },
     {
         value: LAYOUT_BLANK,
+        labelKey: 'layoutSwitcher.blank',
         label: 'Blank',
         src: '/img/thumbs/layouts/blank.jpg',
         srcDark: '/img/thumbs/layouts/blank-dark.jpg',
@@ -65,6 +72,7 @@ const layouts = [
 const LayoutSwitcher = () => {
     const themeLayout = useThemeStore((state) => state.layout)
     const setLayout = useThemeStore((state) => state.setLayout)
+    const { t } = useTranslation()
 
     return (
         <div>
@@ -92,7 +100,7 @@ const LayoutSwitcher = () => {
                                             {layout.svg}
                                         </button>
                                         <div className="mt-2 font-semibold">
-                                            {layout.label}
+                                            {t(layout.labelKey, layout.label)}
                                         </div>
                                     </div>
                                 )

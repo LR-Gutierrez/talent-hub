@@ -1,5 +1,6 @@
 import Header from '@/components/template/Header'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
+import LanguageSelector from '@/components/template/LanguageSelector'
 import SidePanel from '@/components/template/SidePanel'
 import HeaderLogo from '@/components/template/HeaderLogo'
 import MobileNav from '@/components/template/MobileNav'
@@ -31,6 +32,7 @@ const TopBarClassic = ({ children }: CommonProps) => {
                         headerMiddle={<>{larger.lg && <HorizontalNav />}</>}
                         headerEnd={
                             <>
+                                <LanguageSelector />
                                 <SidePanel />
                                 <UserProfileDropdown hoverable={false} />
                             </>

@@ -1,0 +1,177 @@
+{
+    "nav": {
+        "home": "Accueil",
+        "users": "Utilisateurs",
+        "singleMenuItem": "Élément de menu unique",
+        "collapseMenu": {
+            "collapseMenu": "Élément de menu pliable",
+            "item1": "Élément pliable 1",
+            "item2": "Élément pliable 2"
+        },
+        "groupMenu": {
+            "groupMenu": "Menu de groupe",
+            "single": "Élément individuel de groupe",
+            "collapse": {
+                "collapse": "Menu pliable de groupe",
+                "item1": "Élément pliable de groupe 1",
+                "item2": "Élément pliable de groupe 2"
+            }
+        }
+    },
+    "footer": {
+        "allRightsReserved": "Tous droits réservés.",
+        "terms": "Termes et Conditions",
+        "privacy": "Politique de Confidentialité"
+    },
+    "common": {
+        "signOut": "Déconnexion",
+        "anonymous": "Anonyme",
+        "noEmail": "Aucun email disponible",
+        "addNew": "Ajouter nouveau",
+        "quickSearch": "Recherche rapide...",
+        "back": "Retour",
+        "edit": "Modifier",
+        "view": "Voir",
+        "save": "Enregistrer",
+        "delete": "Supprimer",
+        "discard": "Annuler",
+        "create": "Créer",
+        "home": "Accueil",
+        "users": "Utilisateurs"
+    },
+    "themeConfig": {
+        "darkMode": "Mode Sombre",
+        "darkModeDesc": "Passer le thème en mode sombre",
+        "direction": "Direction",
+        "directionDesc": "Sélectionner une direction",
+        "theme": "Thème",
+        "themeConfig": "Configuration du Thème",
+        "layout": "Disposition",
+        "copyConfig": "Copier la configuration",
+        "copySuccess": "Copie réussie",
+        "replaceConfig": "Veuillez remplacer themeConfig dans 'src/configs/theme.config.ts'"
+    },
+    "layoutSwitcher": {
+        "collapsible": "Repliable",
+        "stacked": "Empilé",
+        "topBar": "Barre supérieure",
+        "frameless": "Sans cadre",
+        "overlay": "Superposé",
+        "blank": "Vide"
+    },
+    "mobileNav": {
+        "navigation": "Navigation"
+    },
+    "search": {
+        "recommended": "Recommandé",
+        "placeholder": "Rechercher...",
+        "noResults": "Aucun résultat pour "
+    },
+    "notification": {
+        "title": "Notifications",
+        "noNotifications": "Aucune notification !",
+        "markAllRead": "Tout marquer comme lu",
+        "tryAgainLater": "Veuillez réessayer plus tard",
+        "viewAllActivity": "Voir toute l'activité"
+    },
+    "userList": {
+        "name": "Nom",
+        "email": "Email",
+        "role": "Rôle",
+        "status": "Statut",
+        "created": "Créé"
+    },
+    "userForm": {
+        "overview": "Aperçu",
+        "displayName": "Nom d'affichage",
+        "emailRequired": "Email requis",
+        "invalidEmail": "Email invalide",
+        "email": "Email",
+        "password": "Mot de passe",
+        "role": "Rôle",
+        "selectRole": "Sélectionner un rôle",
+        "active": "Actif",
+        "admin": "Administrateur",
+        "recruiter": "Recruteur",
+        "candidate": "Candidat"
+    },
+    "userCreate": {
+        "userCreated": "Utilisateur créé !",
+        "failedToCreate": "Échec de la création de l'utilisateur",
+        "discardChanges": "Annuler les modifications",
+        "discardConfirm": "Êtes-vous sûr de vouloir annuler ? Cette action ne peut pas être annulée."
+    },
+    "userEdit": {
+        "changesSaved": "Modifications enregistrées !",
+        "failedToUpdate": "Échec de la mise à jour de l'utilisateur",
+        "noUserFound": "Aucun utilisateur trouvé !"
+    },
+    "pageHeader": {
+        "createUser": "Créer un utilisateur",
+        "createUserDesc": "Ajouter un nouvel utilisateur à la plateforme.",
+        "editUser": "Modifier l'utilisateur",
+        "editUserDesc": "Gérer les détails et préférences de l'utilisateur."
+    },
+    "auth": {
+        "checkYourEmail": "Vérifiez votre email",
+        "emailSentDesc": "Nous avons envoyé un email de récupération à votre adresse",
+        "forgotPasswordTitle": "Mot de passe oublié",
+        "enterEmailCode": "Veuillez saisir votre email pour recevoir un code de vérification",
+        "continue": "Continuer",
+        "backTo": "Retour à ",
+        "submit": "Envoyer",
+        "submitting": "Envoi en cours...",
+        "someError": "Une erreur est survenue !",
+        "setNewPassword": "Définir un nouveau mot de passe",
+        "newPasswordDesc": "Votre nouveau mot de passe doit être différent du précédent",
+        "resetDone": "Réinitialisation terminée",
+        "resetDesc": "Votre mot de passe a été réinitialisé avec succès",
+        "passwordPlaceholder": "••••••••••••",
+        "welcomeBack": "Bon retour !",
+        "enterCredentials": "Veuillez entrer vos identifiants pour vous connecter !",
+        "forgotPassword": "Mot de passe oublié",
+        "signIn": "Connexion",
+        "signingIn": "Connexion en cours...",
+        "email": "Email",
+        "password": "Mot de passe",
+        "emailRequired": "Veuillez saisir votre email",
+        "passwordRequired": "Veuillez saisir votre mot de passe",
+        "signUp": "S'inscrire",
+        "getStarted": "Et commencez avec votre essai gratuit",
+        "alreadyHaveAccount": "Vous avez déjà un compte ? ",
+        "signInLink": "Se connecter",
+        "userName": "Nom d'utilisateur",
+        "userNamePlaceholder": "Nom d'utilisateur",
+        "confirmPassword": "Confirmer le mot de passe",
+        "creatingAccount": "Création du compte...",
+        "invalidEmail": "Veuillez saisir un email valide",
+        "enterName": "Veuillez saisir votre nom",
+        "passwordRequiredMsg": "Mot de passe requis",
+        "confirmPasswordRequired": "Confirmation du mot de passe requise",
+        "passwordNotMatch": "Les mots de passe ne correspondent pas",
+        "failedReset": "Échec de la réinitialisation du mot de passe"
+    },
+    "table": {
+        "pageSize": "{{count}} / page",
+        "noData": "Aucune donnée trouvée !"
+    },
+    "userDetails": {
+        "details": "Détails",
+        "email": "Email",
+        "role": "Rôle",
+        "status": "Statut",
+        "created": "Créé",
+        "lastUpdated": "Dernière Mise à Jour",
+        "changePassword": "Changer le Mot de Passe",
+        "newPassword": "Nouveau Mot de Passe",
+        "enterNewPassword": "Entrez un nouveau mot de passe",
+        "removeUser": "Supprimer l'utilisateur",
+        "removeUserConfirm": "Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action ne peut pas être annulée.",
+        "userDeleted": "Utilisateur supprimé !",
+        "failedToDelete": "Échec de la suppression de l'utilisateur",
+        "passwordChanged": "Mot de passe changé avec succès !",
+        "failedToChangePassword": "Échec du changement de mot de passe",
+        "active": "Actif",
+        "inactive": "Inactif"
+    }
+}

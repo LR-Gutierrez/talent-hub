@@ -6,6 +6,7 @@ import { apiForgotPassword } from '@/services/AuthService'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { CommonProps } from '@/@types/common'
 
 interface ForgotPasswordFormProps extends CommonProps {
@@ -18,14 +19,15 @@ type ForgotPasswordFormSchema = {
     email: string
 }
 
-const validationSchema = z.object({
-    email: z.string().email().min(5),
-})
-
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const { t } = useTranslation()
 
     const { className, setMessage, setEmailSent, emailSent, children } = props
+
+    const validationSchema = z.object({
+        email: z.string().email().min(5),
+    })
 
     const {
         handleSubmit,
@@ -46,7 +48,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
             }
         } catch (errors) {
             setMessage?.(
-                typeof errors === 'string' ? errors : 'Some error occured!',
+                typeof errors === 'string' ? errors : t('auth.someError', 'Some error occured!'),
             )
             setSubmitting(false)
         }
@@ -59,7 +61,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
             {!emailSent ? (
                 <Form onSubmit={handleSubmit(onForgotPassword)}>
                     <FormItem
-                        label="Email"
+                        label={t('auth.email', 'Email')}
                         invalid={Boolean(errors.email)}
                         errorMessage={errors.email?.message}
                     >
@@ -69,7 +71,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                             render={({ field }) => (
                                 <Input
                                     type="email"
-                                    placeholder="Email"
+                                    placeholder={t('auth.email', 'Email')}
                                     autoComplete="off"
                                     {...field}
                                 />
@@ -82,7 +84,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                         variant="solid"
                         type="submit"
                     >
-                        {isSubmitting ? 'Submiting...' : 'Submit'}
+                        {isSubmitting ? t('auth.submitting', 'Submiting...') : t('auth.submit', 'Submit')}
                     </Button>
                 </Form>
             ) : (

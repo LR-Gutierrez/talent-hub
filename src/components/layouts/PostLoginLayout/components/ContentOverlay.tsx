@@ -1,5 +1,6 @@
 import Header from '@/components/template/Header'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
+import LanguageSelector from '@/components/template/LanguageSelector'
 import SidePanel from '@/components/template/SidePanel'
 import HeaderLogo from '@/components/template/HeaderLogo'
 import MobileNav from '@/components/template/MobileNav'
@@ -7,13 +8,16 @@ import HorizontalNav from '@/components/template/HorizontalNav'
 import LayoutBase from '@/components//template/LayoutBase'
 import classNames from '@/utils/classNames'
 import useScrollTop from '@/utils/hooks/useScrollTop'
+import useTranslation from '@/utils/hooks/useTranslation'
 import useResponsive from '@/utils/hooks/useResponsive'
+import appConfig from '@/configs/app.config'
 import { LAYOUT_CONTENT_OVERLAY } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
 import type { FooterPageContainerType } from '@/components/template/Footer'
 
 const ContentOverlay = ({ children }: CommonProps) => {
     const { isSticky } = useScrollTop()
+    const { t } = useTranslation(!appConfig.activeNavTranslation)
 
     const { larger, smaller } = useResponsive()
 
@@ -52,12 +56,12 @@ const ContentOverlay = ({ children }: CommonProps) => {
                                                 typeof header?.title ===
                                                     'string' && (
                                                     <h2 className="mb-2">
-                                                        {header.title}
+                                                        {t(header.title)}
                                                     </h2>
                                                 )}
-                                            {header?.description && (
+                                            {header?.description && typeof header.description === 'string' && (
                                                 <p className="text-base text-white opacity-60">
-                                                    {header.description}
+                                                    {t(header.description)}
                                                 </p>
                                             )}
                                         </>
@@ -112,6 +116,7 @@ const ContentOverlay = ({ children }: CommonProps) => {
                         headerMiddle={<>{larger.lg && <HorizontalNav />}</>}
                         headerEnd={
                             <>
+                                <LanguageSelector />
                                 <SidePanel />
                                 <UserProfileDropdown hoverable={false} />
                             </>

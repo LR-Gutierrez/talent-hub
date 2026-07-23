@@ -16,6 +16,7 @@ import useSWR from 'swr'
 import PasswordInput from '@/components/shared/PasswordInput'
 import { useSessionUser } from '@/store/authStore'
 import { Can } from '@casl/react'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { User } from '../UserList/types'
 
 const roleColor: Record<string, string> = {
@@ -29,6 +30,7 @@ const UserDetails = () => {
     const navigate = useNavigate()
     const currentUserId = useSessionUser((state) => state.user.userId)
     const isOwnAccount = id === currentUserId
+    const { t } = useTranslation()
 
     const { data, isLoading } = useSWR(
         [`/api/users/${id}`, { id: id as string }],
@@ -43,12 +45,12 @@ const UserDetails = () => {
     const handleConfirmDelete = async () => {
         try {
             await apiDeleteUser(id as string)
-            toast.push(<Notification type="success">User deleted!</Notification>, {
+            toast.push(<Notification type="success">{t('userDetails.userDeleted', 'User deleted!')}</Notification>, {
                 placement: 'top-center',
             })
             navigate('/users')
         } catch {
-            toast.push(<Notification type="danger">Failed to delete user</Notification>, {
+            toast.push(<Notification type="danger">{t('userDetails.failedToDelete', 'Failed to delete user')}</Notification>, {
                 placement: 'top-center',
             })
         }
@@ -58,12 +60,12 @@ const UserDetails = () => {
     const handleChangePassword = async () => {
         try {
             await apiChangeUserPassword(id as string, newPassword)
-            toast.push(<Notification type="success">Password changed successfully!</Notification>, {
+            toast.push(<Notification type="success">{t('userDetails.passwordChanged', 'Password changed successfully!')}</Notification>, {
                 placement: 'top-center',
             })
             setNewPassword('')
         } catch {
-            toast.push(<Notification type="danger">Failed to change password</Notification>, {
+            toast.push(<Notification type="danger">{t('userDetails.failedToChangePassword', 'Failed to change password')}</Notification>, {
                 placement: 'top-center',
             })
         }
@@ -81,7 +83,7 @@ const UserDetails = () => {
                                 icon={<TbArrowNarrowLeft />}
                                 onClick={() => navigate('/users')}
                             >
-                                Back
+                                {t('common.back', 'Back')}
                             </Button>
                             <div className="flex items-center gap-2">
                                 <Can I="update" a="User">
@@ -89,7 +91,7 @@ const UserDetails = () => {
                                         icon={<TbPencil />}
                                         onClick={() => navigate(`/users/${data.id}/edit`)}
                                     >
-                                        Edit
+                                        {t('common.edit', 'Edit')}
                                     </Button>
                                 </Can>
                                 {useSessionUser.getState().user.authority?.includes('admin') && (
@@ -97,7 +99,7 @@ const UserDetails = () => {
                                         icon={<TbLock />}
                                         onClick={() => setPasswordDialogOpen(true)}
                                     >
-                                        Change Password
+                                        {t('userDetails.changePassword', 'Change Password')}
                                     </Button>
                                 )}
                                 <Can I="delete" a="User">
@@ -109,7 +111,7 @@ const UserDetails = () => {
                                             icon={<TbTrash />}
                                             onClick={() => setDeleteConfirmationOpen(true)}
                                         >
-                                            Delete
+                                            {t('common.delete', 'Delete')}
                                         </Button>
                                     )}
                                 </Can>
@@ -132,33 +134,33 @@ const UserDetails = () => {
                                             <span className="capitalize">{data.role}</span>
                                         </Tag>
                                         <Tag className={data.isActive ? 'bg-emerald-200' : 'bg-red-200'}>
-                                            {data.isActive ? 'Active' : 'Inactive'}
+                                            {data.isActive ? t('userDetails.active', 'Active') : t('userDetails.inactive', 'Inactive')}
                                         </Tag>
                                     </div>
                                 </div>
                             </div>
                         </Card>
                         <Card>
-                            <h4 className="mb-4">Details</h4>
+                            <h4 className="mb-4">{t('userDetails.details', 'Details')}</h4>
                             <div className="grid md:grid-cols-2 gap-4">
                                 <div>
-                                    <span className="font-semibold">Email</span>
+                                    <span className="font-semibold">{t('userDetails.email', 'Email')}</span>
                                     <p className="mt-1">{data.email}</p>
                                 </div>
                                 <div>
-                                    <span className="font-semibold">Role</span>
+                                    <span className="font-semibold">{t('userDetails.role', 'Role')}</span>
                                     <p className="mt-1 capitalize">{data.role}</p>
                                 </div>
                                 <div>
-                                    <span className="font-semibold">Status</span>
-                                    <p className="mt-1">{data.isActive ? 'Active' : 'Inactive'}</p>
+                                    <span className="font-semibold">{t('userDetails.status', 'Status')}</span>
+                                    <p className="mt-1">{data.isActive ? t('userDetails.active', 'Active') : t('userDetails.inactive', 'Inactive')}</p>
                                 </div>
                                 <div>
-                                    <span className="font-semibold">Created</span>
+                                    <span className="font-semibold">{t('userDetails.created', 'Created')}</span>
                                     <p className="mt-1">{new Date(data.createdAt).toLocaleDateString()}</p>
                                 </div>
                                 <div>
-                                    <span className="font-semibold">Last Updated</span>
+                                    <span className="font-semibold">{t('userDetails.lastUpdated', 'Last Updated')}</span>
                                     <p className="mt-1">{new Date(data.updatedAt).toLocaleDateString()}</p>
                                 </div>
                             </div>
@@ -169,30 +171,30 @@ const UserDetails = () => {
             <ConfirmDialog
                 isOpen={deleteConfirmationOpen}
                 type="danger"
-                title="Remove user"
+                title={t('userDetails.removeUser', 'Remove user')}
                 onClose={() => setDeleteConfirmationOpen(false)}
                 onRequestClose={() => setDeleteConfirmationOpen(false)}
                 onCancel={() => setDeleteConfirmationOpen(false)}
                 onConfirm={handleConfirmDelete}
             >
-                <p>Are you sure you want to remove this user? This action can&apos;t be undo.</p>
+                <p>{t('userDetails.removeUserConfirm', "Are you sure you want to remove this user? This action can't be undo.")}</p>
             </ConfirmDialog>
             <ConfirmDialog
                 isOpen={passwordDialogOpen}
                 type="default"
-                title="Change Password"
+                title={t('userDetails.changePassword', 'Change Password')}
                 onClose={() => { setPasswordDialogOpen(false); setNewPassword('') }}
                 onRequestClose={() => { setPasswordDialogOpen(false); setNewPassword('') }}
                 onCancel={() => { setPasswordDialogOpen(false); setNewPassword('') }}
                 onConfirm={handleChangePassword}
-                confirmText="Save"
+                confirmText={t('common.save', 'Save')}
             >
                 <div className="flex flex-col gap-2">
-                    <label className="font-semibold">New Password</label>
+                    <label className="font-semibold">{t('userDetails.newPassword', 'New Password')}</label>
                     <PasswordInput
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="Enter new password"
+                        placeholder={t('userDetails.enterNewPassword', 'Enter new password')}
                     />
                 </div>
             </ConfirmDialog>
