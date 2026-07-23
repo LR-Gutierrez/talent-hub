@@ -4,6 +4,7 @@ import FrameLessGap from '@/components/template/FrameLessGap'
 import SideNavToggle from '@/components/template/SideNavToggle'
 import MobileNav from '@/components/template/MobileNav'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
+
 import LayoutBase from '@/components//template/LayoutBase'
 import classNames from '@/utils/classNames'
 import useScrollTop from '@/utils/hooks/useScrollTop'
@@ -97,9 +98,7 @@ const FrameLessSide = ({ children }: CommonProps) => {
                                 </>
                             }
                             headerEnd={
-                                <>
-                                    <UserProfileDropdown hoverable={false} />
-                                </>
+                                <UserProfileDropdown hoverable={false} />
                             }
                         />
                         <div className="h-full flex flex-auto flex-col">

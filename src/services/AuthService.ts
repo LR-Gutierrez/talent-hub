@@ -47,3 +47,10 @@ export async function apiResetPassword<T>(data: ResetPassword) {
         data,
     })
 }
+
+export async function apiGetMe() {
+    return ApiService.fetchDataWithAxios({
+        url: endpointConfig.me,
+        method: 'get',
+    })
+}

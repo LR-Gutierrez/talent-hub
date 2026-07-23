@@ -1,10 +1,11 @@
-import { useRef, useImperativeHandle, useState } from 'react'
+import { useEffect, useRef, useState, useImperativeHandle, useCallback } from 'react'
 import AuthContext from './AuthContext'
 import appConfig from '@/configs/app.config'
-import { useSessionUser, useToken } from '@/store/authStore'
-import { apiSignIn, apiSignOut, apiSignUp } from '@/services/AuthService'
+import { useSessionUser } from '@/store/authStore'
+import { apiSignIn, apiSignOut, apiSignUp, apiGetMe } from '@/services/AuthService'
 import { REDIRECT_URL_KEY } from '@/constants/app.constant'
 import { useNavigate } from 'react-router'
+import Loading from '@/components/shared/Loading'
 import type {
     SignInCredential,
     SignUpCredential,
@@ -38,13 +39,10 @@ function AuthProvider({ children }: AuthProviderProps) {
     const signedIn = useSessionUser((state) => state.session.signedIn)
     const user = useSessionUser((state) => state.user)
     const setUser = useSessionUser((state) => state.setUser)
-    const setSessionSignedIn = useSessionUser(
-        (state) => state.setSessionSignedIn,
-    )
-    const { token, setToken } = useToken()
-    const [tokenState, setTokenState] = useState(token)
+    const setSessionSignedIn = useSessionUser((state) => state.setSessionSignedIn)
 
-    const authenticated = Boolean(tokenState && signedIn)
+    const [initializing, setInitializing] = useState(true)
+    const [authenticated, setAuthenticated] = useState(false)
 
     const navigatorRef = useRef<IsolatedNavigatorRef>(null)
 
@@ -58,27 +56,41 @@ function AuthProvider({ children }: AuthProviderProps) {
         )
     }
 
-    const handleSignIn = (tokens: Token, user?: User) => {
-        setToken(tokens.accessToken)
-        setTokenState(tokens.accessToken)
-        setSessionSignedIn(true)
+    useEffect(() => {
+        apiGetMe()
+            .then((resp: any) => {
+                if (resp) {
+                    setUser(resp)
+                    setSessionSignedIn(true)
+                    setAuthenticated(true)
+                }
+            })
+            .catch(() => {
+                setSessionSignedIn(false)
+                setAuthenticated(false)
+            })
+            .finally(() => setInitializing(false))
+    }, [])
 
+    const handleSignIn = (user?: User) => {
+        setSessionSignedIn(true)
         if (user) {
             setUser(user)
         }
+        setAuthenticated(true)
     }
 
     const handleSignOut = () => {
-        setToken('')
         setUser({})
         setSessionSignedIn(false)
+        setAuthenticated(false)
     }
 
     const signIn = async (values: SignInCredential): AuthResult => {
         try {
             const resp = await apiSignIn(values)
             if (resp) {
-                handleSignIn({ accessToken: resp.token }, resp.user)
+                handleSignIn(resp.user)
                 redirect()
                 return {
                     status: 'success',
@@ -89,7 +101,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                 status: 'failed',
                 message: 'Unable to sign in',
             }
-            // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         } catch (errors: any) {
             return {
                 status: 'failed',
@@ -102,7 +113,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         try {
             const resp = await apiSignUp(values)
             if (resp) {
-                handleSignIn({ accessToken: resp.token }, resp.user)
+                handleSignIn(resp.user)
                 redirect()
                 return {
                     status: 'success',
@@ -113,7 +124,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                 status: 'failed',
                 message: 'Unable to sign up',
             }
-            // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         } catch (errors: any) {
             return {
                 status: 'failed',
@@ -130,13 +140,24 @@ function AuthProvider({ children }: AuthProviderProps) {
             navigatorRef.current?.navigate('/')
         }
     }
+
     const oAuthSignIn = (
         callback: (payload: OauthSignInCallbackPayload) => void,
     ) => {
         callback({
-            onSignIn: handleSignIn,
+            onSignIn: (tokens: Token, user?: User) => {
+                handleSignIn(user)
+            },
             redirect,
         })
+    }
+
+    if (initializing) {
+        return (
+            <div className="flex flex-auto flex-col h-[100vh]">
+                <Loading loading={true} />
+            </div>
+        )
     }
 
     return (

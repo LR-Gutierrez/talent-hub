@@ -3,6 +3,7 @@ import Theme from '@/components/template/Theme'
 import Layout from '@/components/layouts'
 import { AuthProvider } from '@/auth'
 import Views from '@/views'
+import CaslProvider from './ability/CaslProvider'
 import appConfig from './configs/app.config'
 
 if (appConfig.enableMock) {
@@ -14,9 +15,11 @@ function App() {
         <Theme>
             <BrowserRouter>
                 <AuthProvider>
-                    <Layout>
-                        <Views />
-                    </Layout>
+                    <CaslProvider>
+                        <Layout>
+                            <Views />
+                        </Layout>
+                    </CaslProvider>
                 </AuthProvider>
             </BrowserRouter>
         </Theme>

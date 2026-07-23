@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Input from '@/components/ui/Input'
+import PasswordInput from '@/components/shared/PasswordInput'
 import Button from '@/components/ui/Button'
 import { FormItem, Form } from '@/components/ui/Form'
 import { useAuth } from '@/auth'
@@ -110,8 +111,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                         name="password"
                         control={control}
                         render={({ field }) => (
-                            <Input
-                                type="password"
+                            <PasswordInput
                                 autoComplete="off"
                                 placeholder="Password"
                                 {...field}
@@ -128,8 +128,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                         name="confirmPassword"
                         control={control}
                         render={({ field }) => (
-                            <Input
-                                type="password"
+                            <PasswordInput
                                 autoComplete="off"
                                 placeholder="Confirm Password"
                                 {...field}

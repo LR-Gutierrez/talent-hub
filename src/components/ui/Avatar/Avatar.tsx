@@ -63,7 +63,7 @@ const Avatar = (props: AvatarProps) => {
                   height: size,
                   minWidth: size,
                   lineHeight: `${size}px`,
-                  fontSize: icon ? size / 2 : 12,
+                  fontSize: icon ? size / 2 : Math.round(size * 0.4),
               }
             : {}
 
