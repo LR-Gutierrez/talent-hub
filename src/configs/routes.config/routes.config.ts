@@ -2,6 +2,9 @@ import { lazy } from 'react'
 import authRoute from './authRoute'
 import othersRoute from './othersRoute'
 import usersRoute from './usersRoute'
+import employeesRoute from './employeesRoute'
+import departmentsRoute from './departmentsRoute'
+import settingsRoute from './settingsRoute'
 import type { Routes } from '@/@types/routes'
 
 export const publicRoutes: Routes = [...authRoute]
@@ -15,5 +18,8 @@ export const protectedRoutes: Routes = [
     },
 
     ...usersRoute,
+    ...employeesRoute,
+    ...departmentsRoute,
+    ...settingsRoute,
     ...othersRoute,
 ]

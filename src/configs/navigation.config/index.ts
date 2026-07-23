@@ -2,6 +2,9 @@ import { NAV_ITEM_TYPE_ITEM } from '@/constants/navigation.constant'
 
 import type { NavigationTree } from '@/@types/navigation'
 import usersNavigationConfig from './users.navigation.config'
+import employeesNavigationConfig from './employees.navigation.config'
+import departmentsNavigationConfig from './departments.navigation.config'
+import settingsNavigationConfig from './settings.navigation.config'
 
 const navigationConfig: NavigationTree[] = [
     {
@@ -15,6 +18,9 @@ const navigationConfig: NavigationTree[] = [
         subMenu: [],
     },
     ...usersNavigationConfig,
+    ...employeesNavigationConfig,
+    ...departmentsNavigationConfig,
+    ...settingsNavigationConfig,
 ]
 
 export default navigationConfig
