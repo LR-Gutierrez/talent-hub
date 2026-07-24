@@ -9,10 +9,11 @@ export type Department = {
     updatedAt: string
 }
 
-export async function apiGetDepartments<T = Department[]>() {
+export async function apiGetDepartments<T = Department[]>(params?: Record<string, unknown>) {
     return ApiService.fetchDataWithAxios<T>({
         url: '/departments',
         method: 'get',
+        params,
     })
 }
 

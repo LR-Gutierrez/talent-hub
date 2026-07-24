@@ -25,6 +25,9 @@ const EmployeeCreate = () => {
             const payload = {
                 ...values,
                 supervisorId: values.supervisorId || undefined,
+                birthDate: values.birthDate || undefined,
+                hireDate: values.hireDate || undefined,
+                endDate: values.endDate || undefined,
             }
             await apiCreateEmployee(payload)
             toast.push(<Notification type="success">{t('employeeCreate.employeeCreated', 'Employee created!')}</Notification>, {

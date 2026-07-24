@@ -4,6 +4,7 @@ import type { NavigationTree } from '@/@types/navigation'
 import usersNavigationConfig from './users.navigation.config'
 import employeesNavigationConfig from './employees.navigation.config'
 import departmentsNavigationConfig from './departments.navigation.config'
+import catalogsNavigationConfig from './catalogs.navigation.config'
 import settingsNavigationConfig from './settings.navigation.config'
 
 const navigationConfig: NavigationTree[] = [
@@ -20,6 +21,7 @@ const navigationConfig: NavigationTree[] = [
     ...usersNavigationConfig,
     ...employeesNavigationConfig,
     ...departmentsNavigationConfig,
+    ...catalogsNavigationConfig,
     ...settingsNavigationConfig,
 ]
 

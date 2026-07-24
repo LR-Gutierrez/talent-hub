@@ -35,6 +35,9 @@ const EmployeeEdit = () => {
             const payload = {
                 ...values,
                 supervisorId: values.supervisorId || undefined,
+                birthDate: values.birthDate || undefined,
+                hireDate: values.hireDate || undefined,
+                endDate: values.endDate || undefined,
             }
             await apiUpdateEmployee(id as string, payload)
             toast.push(<Notification type="success">{t('employeeEdit.changesSaved', 'Changes Saved!')}</Notification>, {
@@ -59,14 +62,32 @@ const EmployeeEdit = () => {
                 birthDate: data.birthDate || '',
                 documentId: data.documentId || '',
                 gender: data.gender || '',
+                nationality: data.nationality || '',
+                maritalStatus: data.maritalStatus || '',
+                placeOfBirth: data.placeOfBirth || '',
+                notes: data.notes || '',
                 departmentId: data.departmentId || '',
                 position: data.position || '',
                 hireDate: data.hireDate || '',
                 endDate: data.endDate || '',
-                salary: data.salary || 0,
+                salary: Number(data.salary) || 0,
                 supervisorId: data.supervisorId || '',
                 statusId: data.statusId,
                 isActive: data.isActive,
+                educationLevel: data.educations?.[0]?.educationLevel || '',
+                degree: data.educations?.[0]?.degree || '',
+                institution: data.educations?.[0]?.institution || '',
+                graduationYear: data.educations?.[0]?.graduationYear || '',
+                shirtSize: data.uniforms?.[0]?.shirtSize || '',
+                pantSize: data.uniforms?.[0]?.pantSize || '',
+                shoeSize: data.uniforms?.[0]?.shoeSize || '',
+                jacketSize: data.uniforms?.[0]?.jacketSize || '',
+                helmetSize: data.uniforms?.[0]?.helmetSize || '',
+                children: data.children?.map((c) => ({
+                    name: c.name,
+                    birthDate: c.birthDate || '',
+                    gender: c.gender || '',
+                })) || [],
             }
         }
         return {}

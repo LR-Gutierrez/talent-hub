@@ -1,9 +1,10 @@
 import ApiService from './ApiService'
 
-export async function apiGetEmployeeStatuses<T>() {
+export async function apiGetEmployeeStatuses<T>(params?: Record<string, unknown>) {
     return ApiService.fetchDataWithAxios<T>({
         url: '/employee-statuses',
         method: 'get',
+        params,
     })
 }
 

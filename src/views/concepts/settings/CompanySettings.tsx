@@ -15,10 +15,14 @@ import useTranslation from '@/utils/hooks/useTranslation'
 import type { CompanySettings } from '@/services/CompanySettingsService'
 
 const timezoneOptions = [
-    { value: 'America/Asuncion', label: 'America/Asuncion (PYT)' },
+    { value: 'America/Caracas', label: 'America/Caracas (VET)' },
     { value: 'America/New_York', label: 'America/New_York (EST)' },
     { value: 'America/Argentina/Buenos_Aires', label: 'America/Argentina/Buenos_Aires (ART)' },
+    { value: 'America/Bogota', label: 'America/Bogota (COT)' },
     { value: 'America/Sao_Paulo', label: 'America/Sao_Paulo (BRT)' },
+    { value: 'America/Santiago', label: 'America/Santiago (CLT)' },
+    { value: 'America/Mexico_City', label: 'America/Mexico_City (CST)' },
+    { value: 'America/Lima', label: 'America/Lima (PET)' },
     { value: 'Europe/Madrid', label: 'Europe/Madrid (CET)' },
     { value: 'UTC', label: 'UTC' },
 ]
@@ -85,7 +89,7 @@ const CompanySettings = () => {
             companyAddress: '',
             companyPhone: '',
             companyEmail: '',
-            timezone: 'America/Asuncion',
+            timezone: 'America/Caracas',
             dateFormat: 'DD/MM/YYYY',
             currency: 'PYG',
             defaultLang: 'es',
@@ -101,7 +105,7 @@ const CompanySettings = () => {
                 companyAddress: data.companyAddress || '',
                 companyPhone: data.companyPhone || '',
                 companyEmail: data.companyEmail || '',
-                timezone: data.timezone || 'America/Asuncion',
+                timezone: data.timezone || 'America/Caracas',
                 dateFormat: data.dateFormat || 'DD/MM/YYYY',
                 currency: data.currency || 'PYG',
                 defaultLang: data.defaultLang || 'es',

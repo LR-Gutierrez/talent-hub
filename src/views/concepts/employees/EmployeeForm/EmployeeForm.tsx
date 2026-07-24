@@ -4,6 +4,11 @@ import Container from '@/components/shared/Container'
 import BottomStickyBar from '@/components/template/BottomStickyBar'
 import PersonalSection from './PersonalSection'
 import LaborSection from './LaborSection'
+import DemographicSection from './DemographicSection'
+import EducationSection from './EducationSection'
+import UniformSection from './UniformSection'
+import ChildrenSection from './ChildrenSection'
+import NotesSection from './NotesSection'
 import isEmpty from 'lodash/isEmpty'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -37,6 +42,24 @@ const EmployeeForm = (props: EmployeeFormProps) => {
         supervisorId: z.string().optional().or(z.literal('')),
         statusId: z.string().min(1, { message: t('employeeForm.statusRequired', 'Status is required') }),
         isActive: z.boolean(),
+        nationality: z.string().optional().or(z.literal('')),
+        maritalStatus: z.string().optional().or(z.literal('')),
+        placeOfBirth: z.string().optional().or(z.literal('')),
+        educationLevel: z.string().optional().or(z.literal('')),
+        degree: z.string().optional().or(z.literal('')),
+        institution: z.string().optional().or(z.literal('')),
+        graduationYear: z.string().optional().or(z.literal('')),
+        shirtSize: z.string().optional().or(z.literal('')),
+        pantSize: z.string().optional().or(z.literal('')),
+        shoeSize: z.string().optional().or(z.literal('')),
+        jacketSize: z.string().optional().or(z.literal('')),
+        helmetSize: z.string().optional().or(z.literal('')),
+        notes: z.string().optional().or(z.literal('')),
+        children: z.array(z.object({
+            name: z.string().min(1, { message: 'Name is required' }),
+            birthDate: z.string().optional().or(z.literal('')),
+            gender: z.string().optional().or(z.literal('')),
+        })),
     })
 
     const { onFormSubmit, defaultValues = {}, newEmployee = false, children } = props
@@ -63,6 +86,20 @@ const EmployeeForm = (props: EmployeeFormProps) => {
             supervisorId: '',
             statusId: '',
             isActive: true,
+            nationality: '',
+            maritalStatus: '',
+            placeOfBirth: '',
+            educationLevel: '',
+            degree: '',
+            institution: '',
+            graduationYear: '',
+            shirtSize: '',
+            pantSize: '',
+            shoeSize: '',
+            jacketSize: '',
+            helmetSize: '',
+            notes: '',
+            children: [],
             ...defaultValues,
         },
         resolver: zodResolver(validationSchema) as any,
@@ -87,7 +124,12 @@ const EmployeeForm = (props: EmployeeFormProps) => {
             <Container>
                 <div className="flex flex-col gap-4">
                     <PersonalSection control={control} errors={errors} />
+                    <DemographicSection control={control} errors={errors} />
+                    <EducationSection control={control} errors={errors} />
+                    <UniformSection control={control} errors={errors} />
                     <LaborSection control={control} errors={errors} />
+                    <ChildrenSection control={control} errors={errors} />
+                    <NotesSection control={control} errors={errors} />
                 </div>
             </Container>
             <BottomStickyBar>{children}</BottomStickyBar>

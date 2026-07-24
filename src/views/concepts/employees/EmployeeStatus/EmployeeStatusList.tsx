@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Button from '@/components/ui/Button'
+import Pagination from '@/components/ui/Pagination'
+import Select from '@/components/ui/Select'
 import Tag from '@/components/ui/Tag'
 import Tooltip from '@/components/ui/Tooltip'
 import toast from '@/components/ui/toast'
@@ -17,19 +19,31 @@ import useTranslation from '@/utils/hooks/useTranslation'
 import EmployeeStatusForm from './EmployeeStatusForm'
 import type { EmployeeStatus } from '../EmployeeList/types'
 
+const pageSizeOption = [
+    { value: 5, label: '5 / page' },
+    { value: 10, label: '10 / page' },
+    { value: 20, label: '20 / page' },
+]
+
 const EmployeeStatusList = () => {
     const { t } = useTranslation()
     const [statuses, setStatuses] = useState<EmployeeStatus[]>([])
+    const [total, setTotal] = useState(0)
+    const [pageIndex, setPageIndex] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [editingStatus, setEditingStatus] = useState<EmployeeStatus | null>(null)
 
-    const loadStatuses = () => {
-        apiGetEmployeeStatuses<EmployeeStatus[]>().then(setStatuses)
-    }
+    const loadStatuses = useCallback(() => {
+        apiGetEmployeeStatuses<{ list: EmployeeStatus[]; total: number }>({ pageIndex, pageSize }).then((res) => {
+            setStatuses(res.list)
+            setTotal(res.total)
+        })
+    }, [pageIndex, pageSize])
 
     useEffect(() => {
         loadStatuses()
-    }, [])
+    }, [loadStatuses])
 
     const handleEdit = (status: EmployeeStatus) => {
         setEditingStatus(status)
@@ -115,6 +129,27 @@ const EmployeeStatusList = () => {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                    <div className="flex items-center justify-between mt-4">
+                        <Pagination
+                            pageSize={pageSize}
+                            currentPage={pageIndex}
+                            total={total}
+                            onChange={(page) => setPageIndex(page)}
+                        />
+                        <div style={{ minWidth: 130 }}>
+                            <Select
+                                size="sm"
+                                menuPlacement="top"
+                                isSearchable={false}
+                                value={pageSizeOption.find((o) => o.value === pageSize)}
+                                options={pageSizeOption}
+                                onChange={(option) => {
+                                    setPageSize(option?.value ?? 10)
+                                    setPageIndex(1)
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
             </AdaptiveCard>

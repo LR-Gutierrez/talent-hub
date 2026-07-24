@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import useSWR from 'swr'
+import dayjs from 'dayjs'
 import Container from '@/components/shared/Container'
 import Card from '@/components/ui/Card'
 import Avatar from '@/components/ui/Avatar'
@@ -11,16 +12,38 @@ import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import { apiGetEmployee, apiDeleteEmployee } from '@/services/EmployeesService'
-import { TbArrowNarrowLeft, TbPencil, TbTrash } from 'react-icons/tb'
+import { apiGetCompanySettings } from '@/services/CompanySettingsService'
+import {
+    TbArrowNarrowLeft,
+    TbPencil,
+    TbTrash,
+    TbUser,
+    TbMapPin,
+    TbSchool,
+    TbRuler,
+    TbBriefcase,
+    TbUsers,
+    TbClipboardText,
+} from 'react-icons/tb'
 import { Can } from '@casl/react'
 import useTranslation from '@/utils/hooks/useTranslation'
 import EmployeeHistoryTimeline from '../EmployeeHistory/EmployeeHistoryTimeline'
 import type { Employee } from '../EmployeeList/types'
+import type { CompanySettings } from '@/services/CompanySettingsService'
+
+const DEFAULT_DATE_FORMAT = 'DD/MM/YYYY'
 
 const DetailRow = ({ label, value }: { label: string; value?: string | number | null }) => (
     <div className="flex flex-col">
         <span className="text-sm text-gray-500 dark:text-gray-400">{label}</span>
         <span className="font-semibold">{value || '-'}</span>
+    </div>
+)
+
+const SectionHeader = ({ icon, title }: { icon: React.ReactNode; title: string }) => (
+    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+        <span className="text-lg text-blue-500 dark:text-blue-400">{icon}</span>
+        <h5 className="m-0">{title}</h5>
     </div>
 )
 
@@ -34,6 +57,14 @@ const EmployeeDetails = () => {
         ([_, params]) => apiGetEmployee<Employee, { id: string }>(params),
         { revalidateOnFocus: false },
     )
+
+    const { data: settings } = useSWR('company-settings', () =>
+        apiGetCompanySettings<CompanySettings>(),
+    )
+    const dateFormat = settings?.dateFormat || DEFAULT_DATE_FORMAT
+
+    const fmt = (date: string | null | undefined) =>
+        date ? dayjs(date).format(dateFormat) : '-'
 
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
 
@@ -106,28 +137,100 @@ const EmployeeDetails = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                <div className="md:col-span-2 lg:col-span-3">
-                                    <h5 className="mb-4">{t('employeeDetails.personalInfo', 'Personal Information')}</h5>
-                                </div>
-                                <DetailRow label={t('employeeDetails.phone', 'Phone')} value={data.phone} />
-                                <DetailRow label={t('employeeDetails.documentId', 'Document ID')} value={data.documentId} />
-                                <DetailRow label={t('employeeDetails.birthDate', 'Birth Date')} value={data.birthDate} />
-                                <DetailRow label={t('employeeDetails.gender', 'Gender')} value={data.gender} />
-                                <div className="md:col-span-2 lg:col-span-3">
-                                    <DetailRow label={t('employeeDetails.address', 'Address')} value={data.address} />
+                            <div className="space-y-8">
+                                {/* Personal Information */}
+                                <div>
+                                    <SectionHeader icon={<TbUser />} title={t('employeeDetails.personalInfo', 'Personal Information')} />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                                        <DetailRow label={t('employeeDetails.phone', 'Phone')} value={data.phone} />
+                                        <DetailRow label={t('employeeDetails.documentId', 'Document ID')} value={data.documentId} />
+                                        <DetailRow label={t('employeeDetails.birthDate', 'Birth Date')} value={fmt(data.birthDate)} />
+                                        <DetailRow label={t('employeeDetails.gender', 'Gender')} value={data.gender} />
+                                        <div className="md:col-span-2 lg:col-span-3">
+                                            <DetailRow label={t('employeeDetails.address', 'Address')} value={data.address} />
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className="md:col-span-2 lg:col-span-3 mt-4">
-                                    <h5 className="mb-4">{t('employeeDetails.laborInfo', 'Labor Information')}</h5>
+                                {/* Demographic Information */}
+                                <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
+                                    <SectionHeader icon={<TbMapPin />} title={t('employeeForm.demographicInfo', 'Demographic Information')} />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                                        <DetailRow label={t('employeeForm.nationality', 'Nationality')} value={data.nationality} />
+                                        <DetailRow label={t('employeeForm.maritalStatus', 'Marital Status')} value={data.maritalStatus} />
+                                        <DetailRow label={t('employeeForm.placeOfBirth', 'Place of Birth')} value={data.placeOfBirth} />
+                                    </div>
                                 </div>
-                                <DetailRow label={t('employeeDetails.department', 'Department')} value={data.department?.name} />
-                                <DetailRow label={t('employeeDetails.position', 'Position')} value={data.position} />
-                                <DetailRow label={t('employeeDetails.hireDate', 'Hire Date')} value={data.hireDate} />
-                                <DetailRow label={t('employeeDetails.endDate', 'End Date')} value={data.endDate} />
-                                <DetailRow label={t('employeeDetails.salary', 'Salary')} value={data.salary ? `$${data.salary}` : '-'} />
-                                <DetailRow label={t('employeeDetails.supervisor', 'Supervisor')} value={data.supervisor?.fullName} />
-                                <DetailRow label={t('employeeDetails.active', 'Active')} value={data.isActive ? t('common.yes', 'Yes') : t('common.no', 'No')} />
+
+                                {/* Education */}
+                                <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
+                                    <SectionHeader icon={<TbSchool />} title={t('employeeForm.educationInfo', 'Education')} />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                                        <DetailRow label={t('employeeForm.educationLevel', 'Education Level')} value={data.educations?.[0]?.educationLevel} />
+                                        <DetailRow label={t('employeeForm.degree', 'Degree / Title')} value={data.educations?.[0]?.degree} />
+                                        <DetailRow label={t('employeeForm.institution', 'Institution')} value={data.educations?.[0]?.institution} />
+                                        <DetailRow label={t('employeeForm.graduationYear', 'Graduation Year')} value={data.educations?.[0]?.graduationYear} />
+                                    </div>
+                                </div>
+
+                                {/* Uniform Sizes */}
+                                <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
+                                    <SectionHeader icon={<TbRuler />} title={t('employeeForm.uniformSizes', 'Uniform Sizes')} />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                                        <DetailRow label={t('employeeForm.shirtSize', 'Shirt')} value={data.uniforms?.[0]?.shirtSize} />
+                                        <DetailRow label={t('employeeForm.pantSize', 'Pants')} value={data.uniforms?.[0]?.pantSize} />
+                                        <DetailRow label={t('employeeForm.jacketSize', 'Jacket')} value={data.uniforms?.[0]?.jacketSize} />
+                                        <DetailRow label={t('employeeForm.shoeSize', 'Shoes')} value={data.uniforms?.[0]?.shoeSize} />
+                                        <DetailRow label={t('employeeForm.helmetSize', 'Helmet')} value={data.uniforms?.[0]?.helmetSize} />
+                                    </div>
+                                </div>
+
+                                {/* Labor Information */}
+                                <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
+                                    <SectionHeader icon={<TbBriefcase />} title={t('employeeDetails.laborInfo', 'Labor Information')} />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                                        <DetailRow label={t('employeeDetails.department', 'Department')} value={data.department?.name} />
+                                        <DetailRow label={t('employeeDetails.position', 'Position')} value={data.position} />
+                                        <DetailRow label={t('employeeDetails.hireDate', 'Hire Date')} value={fmt(data.hireDate)} />
+                                        <DetailRow label={t('employeeDetails.endDate', 'End Date')} value={fmt(data.endDate)} />
+                                        <DetailRow label={t('employeeDetails.salary', 'Salary')} value={data.salary ? `$${data.salary}` : '-'} />
+                                        <DetailRow label={t('employeeDetails.supervisor', 'Supervisor')} value={data.supervisor?.fullName} />
+                                        <DetailRow label={t('employeeDetails.active', 'Active')} value={data.isActive ? t('common.yes', 'Yes') : t('common.no', 'No')} />
+                                    </div>
+                                </div>
+
+                                {/* Children */}
+                                {data.children?.length > 0 && (
+                                    <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
+                                        <SectionHeader icon={<TbUsers />} title={t('employeeForm.children', 'Children')} />
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                                            {data.children.map((child) => (
+                                                <div
+                                                    key={child.id}
+                                                    className="rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-gray-50/50 dark:bg-gray-800/50"
+                                                >
+                                                    <p className="font-semibold m-0">{child.name}</p>
+                                                    <div className="flex items-center gap-3 mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                                        <span>{fmt(child.birthDate)}</span>
+                                                        {child.gender && (
+                                                            <span className="capitalize">{child.gender}</span>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Notes */}
+                                {data.notes && (
+                                    <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
+                                        <SectionHeader icon={<TbClipboardText />} title={t('employeeForm.notes', 'Notes / Observations')} />
+                                        <p className="mt-4 text-gray-700 dark:text-gray-300 whitespace-pre-wrap bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border border-gray-100 dark:border-gray-700">
+                                            {data.notes}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </Card>
 

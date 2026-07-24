@@ -1,5 +1,11 @@
 import type { Control, FieldErrors } from 'react-hook-form'
 
+export type ChildItem = {
+    name: string
+    birthDate: string
+    gender: string
+}
+
 export type EmployeeFormSchema = {
     fullName: string
     email: string
@@ -16,6 +22,20 @@ export type EmployeeFormSchema = {
     supervisorId: string
     statusId: string
     isActive: boolean
+    nationality: string
+    maritalStatus: string
+    placeOfBirth: string
+    educationLevel: string
+    degree: string
+    institution: string
+    graduationYear: string
+    shirtSize: string
+    pantSize: string
+    shoeSize: string
+    jacketSize: string
+    helmetSize: string
+    notes: string
+    children: ChildItem[]
 }
 
 export type FormSectionBaseProps = {

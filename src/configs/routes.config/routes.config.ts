@@ -4,6 +4,7 @@ import othersRoute from './othersRoute'
 import usersRoute from './usersRoute'
 import employeesRoute from './employeesRoute'
 import departmentsRoute from './departmentsRoute'
+import catalogsRoute from './catalogsRoute'
 import settingsRoute from './settingsRoute'
 import type { Routes } from '@/@types/routes'
 
@@ -20,6 +21,7 @@ export const protectedRoutes: Routes = [
     ...usersRoute,
     ...employeesRoute,
     ...departmentsRoute,
+    ...catalogsRoute,
     ...settingsRoute,
     ...othersRoute,
 ]
