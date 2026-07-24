@@ -61,7 +61,9 @@
         "deleted": "Eliminato!",
         "failedToDelete": "Errore durante l'eliminazione",
         "confirmDelete": "Conferma Eliminazione",
-        "cancel": "Annulla"
+        "cancel": "Annulla",
+        "viewAll": "Vedi tutto",
+        "createdAt": "Creato"
     },
     "themeConfig": {
         "darkMode": "Modalità Scura",
@@ -146,7 +148,9 @@
         "settings": "Impostazioni",
         "settingsDesc": "Gestisci le impostazioni aziendali e di sistema.",
         "catalogs": "Cataloghi",
-        "catalogsDesc": "Gestisci dati di riferimento e tabelle catalogo."
+        "catalogsDesc": "Gestisci dati di riferimento e tabelle catalogo.",
+        "home": "Dashboard",
+        "homeDesc": "Panoramica generale dell'organizzazione."
     },
     "catalogs": {
         "addNew": "Aggiungi",
@@ -426,5 +430,15 @@
         "failedToChangePassword": "Errore nel cambio password",
         "active": "Attivo",
         "inactive": "Inattivo"
+    },
+    "dashboard": {
+        "totalEmployees": "Totale Dipendenti",
+        "activeDepartments": "Dipartimenti Attivi",
+        "statusTypes": "Tipi di Stato",
+        "genders": "Generi",
+        "employeesByStatus": "Dipendenti per Stato",
+        "employeesByDepartment": "Dipendenti per Dipartimento",
+        "recentEmployees": "Dipendenti Recenti",
+        "noRecentEmployees": "Ancora nessun dipendente."
     }
 }

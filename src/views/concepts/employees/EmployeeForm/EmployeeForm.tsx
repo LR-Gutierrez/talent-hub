@@ -4,6 +4,7 @@ import Container from '@/components/shared/Container'
 import BottomStickyBar from '@/components/template/BottomStickyBar'
 import Button from '@/components/ui/Button'
 import Steps from '@/components/ui/Steps'
+import Avatar from '@/components/ui/Avatar'
 import BasicInfoSection from './BasicInfoSection'
 import ContactSection from './ContactSection'
 import LaborSection from './LaborSection'
@@ -18,7 +19,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import useTranslation from '@/utils/hooks/useTranslation'
-import { TbUser, TbPhone, TbBriefcase, TbDots, TbArrowNarrowLeft } from 'react-icons/tb'
+import { TbUser, TbPhone, TbBriefcase, TbDots, TbArrowNarrowLeft, TbCamera } from 'react-icons/tb'
+import { apiUploadEmployeePhoto } from '@/services/EmployeesService'
 import type { CommonProps } from '@/@types/common'
 import type { EmployeeFormSchema } from './types'
 
@@ -31,6 +33,7 @@ type EmployeeFormProps = {
     onFormSubmit: (values: EmployeeFormSchema) => void
     defaultValues?: EmployeeFormSchema
     newEmployee?: boolean
+    employeeId?: string
 } & CommonProps
 
 const EmployeeForm = (props: EmployeeFormProps) => {
@@ -81,6 +84,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
         jacketSize: z.string().optional().or(z.literal('')),
         helmetSize: z.string().optional().or(z.literal('')),
         notes: z.string().optional().or(z.literal('')),
+        photoUrl: z.string().optional().or(z.literal('')),
         children: z.array(z.object({
             name: z.string().min(1, { message: t('employeeForm.childNameRequired', 'Child name is required') }),
             birthDate: z.string().optional().or(z.literal('')),
@@ -93,7 +97,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
         })),
     })
 
-    const { onFormSubmit, defaultValues = {}, newEmployee = false, children } = props
+    const { onFormSubmit, defaultValues = {}, newEmployee = false, employeeId, children } = props
 
     const restored = newEmployee && !persisted.current
         ? (() => {
@@ -109,6 +113,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
     const {
         handleSubmit,
         reset,
+        setValue,
         formState: { errors, isDirty },
         control,
     } = useForm<EmployeeFormSchema>({
@@ -147,6 +152,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
             jacketSize: '',
             helmetSize: '',
             notes: '',
+            photoUrl: '',
             children: [],
             emergencyContacts: [],
             ...defaultValues,
@@ -187,6 +193,46 @@ const EmployeeForm = (props: EmployeeFormProps) => {
         >
             <Container>
                 <div className="flex flex-col gap-4">
+                    <div className="flex items-center gap-5 mb-6">
+                        <div className="relative group">
+                            <Avatar
+                                size={80}
+                                shape="circle"
+                                src={formValues?.photoUrl || ''}
+                                icon={!formValues?.photoUrl ? <TbCamera className="text-2xl" /> : undefined}
+                                className="border-2 border-gray-200 dark:border-gray-600"
+                            />
+                            {employeeId && (
+                                <label className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/0 text-white opacity-0 transition group-hover:bg-black/40 group-hover:opacity-100">
+                                    <TbCamera className="text-xl" />
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={async (e) => {
+                                            const file = e.target.files?.[0]
+                                            if (!file) return
+                                            try {
+                                                const { photoUrl } = await apiUploadEmployeePhoto(employeeId, file)
+                                                setValue('photoUrl', photoUrl)
+                                            } catch {
+                                                // silent
+                                            }
+                                        }}
+                                    />
+                                </label>
+                            )}
+                        </div>
+                        <div>
+                            <div className="font-semibold text-gray-900 dark:text-gray-100">
+                                {formValues?.fullName || t('common.employees', 'Employee')}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                                {employeeId ? t('employeeForm.clickToChangePhoto', 'Click to change photo') : t('employeeForm.photoAfterCreate', 'Add photo after creating')}
+                            </div>
+                        </div>
+                    </div>
+
                     <Steps current={step}>
                         {steps.map((s, i) => (
                             <Item key={i} title={s.title} customIcon={s.icon} />
@@ -194,9 +240,9 @@ const EmployeeForm = (props: EmployeeFormProps) => {
                     </Steps>
 
                     <div className="mt-4">
-                        {step === 0 && <BasicInfoSection control={control} errors={errors} />}
-                        {step === 1 && <ContactSection control={control} errors={errors} />}
-                        {step === 2 && <LaborSection control={control} errors={errors} />}
+                        {step === 0 && <BasicInfoSection control={control} errors={errors} setValue={setValue} />}
+                        {step === 1 && <ContactSection control={control} errors={errors} setValue={setValue} />}
+                        {step === 2 && <LaborSection control={control} errors={errors} setValue={setValue} />}
                         {step === 3 && (
                             <div className="flex flex-col gap-4">
                                 <EducationSection control={control} errors={errors} />

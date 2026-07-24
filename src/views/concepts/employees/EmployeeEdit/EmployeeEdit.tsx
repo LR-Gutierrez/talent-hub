@@ -70,6 +70,7 @@ const EmployeeEdit = () => {
                 maritalStatusId: data.maritalStatusId || '',
                 placeOfBirthId: data.placeOfBirthId || '',
                 notes: data.notes || '',
+                photoUrl: data.photoUrl || '',
                 departmentId: data.departmentId || '',
                 position: data.position || '',
                 contractingCompany: data.contractingCompany || '',
@@ -137,6 +138,7 @@ const EmployeeEdit = () => {
             {!isLoading && data && (
                 <>
                     <EmployeeForm
+                        employeeId={id}
                         defaultValues={getDefaultValues() as EmployeeFormSchema}
                         onFormSubmit={handleFormSubmit}
                     >

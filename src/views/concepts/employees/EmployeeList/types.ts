@@ -25,6 +25,7 @@ export type Employee = {
     maritalStatusRef: { id: string; name: string; value: string; displayName?: string } | null
     placeOfBirthRef: { id: string; name: string; value: string; displayName?: string } | null
     notes: string
+    photoUrl: string | null
     departmentId: string
     department: Department | null
     position: string

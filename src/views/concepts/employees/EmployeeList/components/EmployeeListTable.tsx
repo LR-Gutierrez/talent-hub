@@ -5,6 +5,7 @@ import DataTable from '@/components/shared/DataTable'
 import useEmployeeList from '../hooks/useEmployeeList'
 import { Link, useNavigate } from 'react-router'
 import cloneDeep from 'lodash/cloneDeep'
+import Avatar from '@/components/ui/Avatar'
 import { TbPencil, TbEye } from 'react-icons/tb'
 import { Can } from '@casl/react'
 import useTranslation from '@/utils/hooks/useTranslation'
@@ -59,6 +60,16 @@ const EmployeeListTable = () => {
 
     const columns: ColumnDef<Employee>[] = useMemo(
         () => [
+            {
+                header: '',
+                id: 'avatar',
+                size: 60,
+                cell: (props) => (
+                    <Avatar size={32} shape="circle" src={props.row.original.photoUrl || ''}>
+                        {!props.row.original.photoUrl && props.row.original.fullName?.charAt(0)?.toUpperCase()}
+                    </Avatar>
+                ),
+            },
             {
                 header: t('employeeList.fullName', 'Full Name'),
                 accessorKey: 'fullName',

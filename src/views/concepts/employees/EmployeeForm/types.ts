@@ -47,6 +47,7 @@ export type EmployeeFormSchema = {
     jacketSize: string
     helmetSize: string
     notes: string
+    photoUrl: string
     children: ChildItem[]
     emergencyContacts: EmergencyContactItem[]
 }
@@ -54,4 +55,6 @@ export type EmployeeFormSchema = {
 export type FormSectionBaseProps = {
     control: Control<EmployeeFormSchema>
     errors: FieldErrors<EmployeeFormSchema>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setValue?: any
 }

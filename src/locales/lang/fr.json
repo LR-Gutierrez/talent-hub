@@ -61,7 +61,9 @@
         "deleted": "Supprimé !",
         "failedToDelete": "Échec de la suppression",
         "confirmDelete": "Confirmer la suppression",
-        "cancel": "Annuler"
+        "cancel": "Annuler",
+        "viewAll": "Voir tout",
+        "createdAt": "Créé"
     },
     "themeConfig": {
         "darkMode": "Mode Sombre",
@@ -146,7 +148,9 @@
         "settings": "Paramètres",
         "settingsDesc": "Gérer les paramètres de l'entreprise et du système.",
         "catalogs": "Catalogues",
-        "catalogsDesc": "Gérer les données de référence et les tables de catalogue."
+        "catalogsDesc": "Gérer les données de référence et les tables de catalogue.",
+        "home": "Tableau de bord",
+        "homeDesc": "Aperçu général de l'organisation."
     },
     "catalogs": {
         "addNew": "Ajouter",
@@ -426,5 +430,15 @@
         "failedToChangePassword": "Échec du changement de mot de passe",
         "active": "Actif",
         "inactive": "Inactif"
+    },
+    "dashboard": {
+        "totalEmployees": "Total Employés",
+        "activeDepartments": "Départements Actifs",
+        "statusTypes": "Types de Statut",
+        "genders": "Genres",
+        "employeesByStatus": "Employés par Statut",
+        "employeesByDepartment": "Employés par Département",
+        "recentEmployees": "Employés Récents",
+        "noRecentEmployees": "Pas encore d'employés."
     }
 }

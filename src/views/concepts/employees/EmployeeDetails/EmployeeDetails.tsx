@@ -264,8 +264,8 @@ const EmployeeDetails = () => {
 
                         <Card>
                             <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-                                <Avatar size={72} shape="circle" className="ring-2 ring-blue-100 dark:ring-blue-900">
-                                    {data.fullName?.charAt(0)?.toUpperCase()}
+                                <Avatar size={72} shape="circle" src={data.photoUrl || ''} className="ring-2 ring-blue-100 dark:ring-blue-900">
+                                    {!data.photoUrl && data.fullName?.charAt(0)?.toUpperCase()}
                                 </Avatar>
                                 <div className="text-center md:text-left">
                                     <h3 className="m-0">{data.fullName}</h3>

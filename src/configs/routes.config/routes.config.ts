@@ -16,6 +16,14 @@ export const protectedRoutes: Routes = [
         path: '/home',
         component: lazy(() => import('@/views/Home')),
         authority: [],
+        meta: {
+            header: {
+                title: 'pageHeader.home',
+                description: 'pageHeader.homeDesc',
+                contained: true,
+            },
+            footer: false,
+        },
     },
 
     ...usersRoute,
