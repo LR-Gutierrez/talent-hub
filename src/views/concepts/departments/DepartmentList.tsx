@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Button from '@/components/ui/Button'
-import Pagination from '@/components/ui/Pagination'
-import Select from '@/components/ui/Select'
+import DataTable from '@/components/shared/DataTable'
+import DebouceInput from '@/components/shared/DebouceInput'
 import Tag from '@/components/ui/Tag'
 import Tooltip from '@/components/ui/Tooltip'
 import toast from '@/components/ui/toast'
@@ -13,17 +13,12 @@ import {
     apiGetDepartments,
     apiDeleteDepartment,
 } from '@/services/DepartmentsService'
-import { TbPencil, TbTrash, TbPlus } from 'react-icons/tb'
+import { TbPencil, TbTrash, TbPlus, TbSearch } from 'react-icons/tb'
 import { Can } from '@casl/react'
 import useTranslation from '@/utils/hooks/useTranslation'
 import DepartmentForm from './DepartmentForm'
 import type { Department } from '@/services/DepartmentsService'
-
-const pageSizeOption = [
-    { value: 5, label: '5 / page' },
-    { value: 10, label: '10 / page' },
-    { value: 20, label: '20 / page' },
-]
+import type { ColumnDef } from '@/components/shared/DataTable'
 
 const DepartmentList = () => {
     const { t } = useTranslation()
@@ -31,15 +26,18 @@ const DepartmentList = () => {
     const [total, setTotal] = useState(0)
     const [pageIndex, setPageIndex] = useState(1)
     const [pageSize, setPageSize] = useState(10)
+    const [query, setQuery] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [editingDepartment, setEditingDepartment] = useState<Department | null>(null)
 
     const loadDepartments = useCallback(() => {
-        apiGetDepartments<{ list: Department[]; total: number }>({ pageIndex, pageSize }).then((res) => {
+        setIsLoading(true)
+        apiGetDepartments<{ list: Department[]; total: number }>({ pageIndex, pageSize, query: query || undefined }).then((res) => {
             setDepartments(res.list)
             setTotal(res.total)
-        })
-    }, [pageIndex, pageSize])
+        }).finally(() => setIsLoading(false))
+    }, [pageIndex, pageSize, query])
 
     useEffect(() => {
         loadDepartments()
@@ -75,81 +73,106 @@ const DepartmentList = () => {
         loadDepartments()
     }
 
+    const columns: ColumnDef<Department>[] = useMemo(
+        () => [
+            {
+                header: t('department.name', 'Name'),
+                accessorKey: 'name',
+                cell: (props) => (
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">{props.row.original.name}</span>
+                ),
+            },
+            {
+                header: t('department.description', 'Description'),
+                accessorKey: 'description',
+                cell: (props) => <span>{props.row.original.description || '-'}</span>,
+            },
+            {
+                header: t('department.status', 'Status'),
+                accessorKey: 'isActive',
+                cell: (props) => {
+                    const active = props.row.original.isActive
+                    return (
+                        <Tag className={active ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : 'bg-red-100 text-red-700 border-red-200'}>
+                            {active ? t('common.active', 'Active') : t('common.inactive', 'Inactive')}
+                        </Tag>
+                    )
+                },
+            },
+            {
+                header: '',
+                id: 'action',
+                cell: (props) => {
+                    const dept = props.row.original
+                    return (
+                        <div className="flex items-center gap-3">
+                            <Can I="update" a="Department">
+                                <Tooltip title={t('common.edit', 'Edit')}>
+                                    <div
+                                        className="text-xl cursor-pointer select-none font-semibold"
+                                        role="button"
+                                        onClick={() => handleEdit(dept)}
+                                    >
+                                        <TbPencil />
+                                    </div>
+                                </Tooltip>
+                            </Can>
+                            <Can I="delete" a="Department">
+                                <Tooltip title={t('common.delete', 'Delete')}>
+                                    <div
+                                        className="text-xl cursor-pointer select-none font-semibold text-red-500"
+                                        role="button"
+                                        onClick={() => handleDelete(dept.id)}
+                                    >
+                                        <TbTrash />
+                                    </div>
+                                </Tooltip>
+                            </Can>
+                        </div>
+                    )
+                },
+            },
+        ],
+        [t],
+    )
+
     return (
         <Container>
             <AdaptiveCard>
                 <div className="flex flex-col gap-4">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                        <h3>{t('department.title', 'Departments')}</h3>
+                    <div className="flex justify-end">
                         <Can I="create" a="Department">
                             <Button variant="solid" icon={<TbPlus />} onClick={handleCreate}>
                                 {t('department.addNew', 'Add Department')}
                             </Button>
                         </Can>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {departments.map((dept) => (
-                            <div
-                                key={dept.id}
-                                className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex items-center justify-between"
-                            >
-                                <div>
-                                    <div className="font-semibold">{dept.name}</div>
-                                    {dept.description && (
-                                        <div className="text-sm text-gray-500">{dept.description}</div>
-                                    )}
-                                    <div className="mt-1">
-                                        <Tag className={dept.isActive ? 'bg-emerald-200' : 'bg-red-200'}>
-                                            {dept.isActive ? t('common.active', 'Active') : t('common.inactive', 'Inactive')}
-                                        </Tag>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Can I="update" a="Department">
-                                        <Tooltip title={t('common.edit', 'Edit')}>
-                                            <button
-                                                className="text-xl cursor-pointer"
-                                                onClick={() => handleEdit(dept)}
-                                            >
-                                                <TbPencil />
-                                            </button>
-                                        </Tooltip>
-                                    </Can>
-                                    <Can I="delete" a="Department">
-                                        <Tooltip title={t('common.delete', 'Delete')}>
-                                            <button
-                                                className="text-xl cursor-pointer text-red-500"
-                                                onClick={() => handleDelete(dept.id)}
-                                            >
-                                                <TbTrash />
-                                            </button>
-                                        </Tooltip>
-                                    </Can>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex items-center justify-between mt-4">
-                        <Pagination
-                            pageSize={pageSize}
-                            currentPage={pageIndex}
-                            total={total}
-                            onChange={(page) => setPageIndex(page)}
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                        <DebouceInput
+                            placeholder={t('common.quickSearch', 'Quick search...')}
+                            suffix={<TbSearch className="text-lg" />}
+                            onChange={(e) => {
+                                setQuery(e.target.value)
+                                setPageIndex(1)
+                            }}
                         />
-                        <div style={{ minWidth: 130 }}>
-                            <Select
-                                size="sm"
-                                menuPlacement="top"
-                                isSearchable={false}
-                                value={pageSizeOption.find((o) => o.value === pageSize)}
-                                options={pageSizeOption}
-                                onChange={(option) => {
-                                    setPageSize(option?.value ?? 10)
-                                    setPageIndex(1)
-                                }}
-                            />
-                        </div>
                     </div>
+                    <DataTable
+                        columns={columns}
+                        data={departments}
+                        noData={!isLoading && departments.length === 0}
+                        loading={isLoading}
+                        pagingData={{
+                            total,
+                            pageIndex,
+                            pageSize,
+                        }}
+                        onPaginationChange={(page) => setPageIndex(page)}
+                        onSelectChange={(value) => {
+                            setPageSize(Number(value))
+                            setPageIndex(1)
+                        }}
+                    />
                 </div>
             </AdaptiveCard>
             <Dialog

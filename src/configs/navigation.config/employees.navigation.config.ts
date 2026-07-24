@@ -7,7 +7,7 @@ const employeesNavigationConfig: NavigationTree[] = [
         path: '',
         title: 'Employees',
         translateKey: 'nav.employees',
-        icon: 'usersGroup',
+        icon: 'employeesGroup',
         type: NAV_ITEM_TYPE_COLLAPSE,
         authority: [],
         subMenu: [

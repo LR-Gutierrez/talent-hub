@@ -16,10 +16,14 @@ export type Employee = {
     address: string
     birthDate: string
     documentId: string
-    gender: string
-    nationality: string
-    maritalStatus: string
-    placeOfBirth: string
+    genderId: string | null
+    nationalityId: string | null
+    maritalStatusId: string | null
+    placeOfBirthId: string | null
+    genderRef: { id: string; name: string; value: string; displayName?: string } | null
+    nationalityRef: { id: string; name: string; value: string; displayName?: string } | null
+    maritalStatusRef: { id: string; name: string; value: string; displayName?: string } | null
+    placeOfBirthRef: { id: string; name: string; value: string; displayName?: string } | null
     notes: string
     departmentId: string
     department: Department | null

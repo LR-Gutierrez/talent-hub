@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import Input from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
 import PatternInput from '@/components/shared/PatternInput'
@@ -37,6 +37,8 @@ const VenezuelanDocInput = ({
     return (
         <div className="flex gap-0">
             <Select
+                className="w-22 mr-2"
+                isSearchable={false}
                 options={[
                     { value: 'V', label: 'V-' },
                     { value: 'E', label: 'E-' },
@@ -47,10 +49,9 @@ const VenezuelanDocInput = ({
                     setPrefix(p)
                     emit(p, digits)
                 }}
-                isSearchable={false}
-                className="w-22 mr-2"
             />
             <PatternInput
+                className="flex-1"
                 format="##.###.###"
                 placeholder="12.345.678"
                 value={digits}
@@ -58,56 +59,57 @@ const VenezuelanDocInput = ({
                     setDigits(vals.value)
                     emit(prefix, vals.value)
                 }}
-                className="flex-1"
             />
         </div>
     )
 }
 
+type CatalogOption = { value: string; label: string }
+
 const BasicInfoSection = ({ control, errors }: FormSectionBaseProps) => {
     const { t } = useTranslation()
 
-    const nationality = useWatch({ control, name: 'nationality' })
+    const nationalityId = useWatch({ control, name: 'nationalityId' })
     const birthDate = useWatch({ control, name: 'birthDate' })
-
-    const isVenezuelan = nationality === 'VE'
 
     const age = birthDate ? dayjs().diff(dayjs(birthDate), 'year') : null
 
-    const [countries, setCountries] = useState<
-        { value: string; label: string }[]
-    >([])
-
-    const [maritalStatuses, setMaritalStatuses] = useState<
-        { value: string; label: string }[]
-    >([])
+    const [countries, setCountries] = useState<CatalogOption[]>([])
+    const [countriesMap, setCountriesMap] = useState<Record<string, string>>({})
+    const [maritalStatuses, setMaritalStatuses] = useState<CatalogOption[]>([])
+    const [genders, setGenders] = useState<CatalogOption[]>([])
 
     useEffect(() => {
         const locale = i18n.language
         apiGetCatalogs<{ list: { id: string; name: string; value: string; displayName?: string }[] }>(
             '/countries', { locale },
-        ).then((res) =>
-            setCountries(
-                res.list.map((c) => ({ value: c.value, label: c.displayName ?? c.name })),
-            ),
-        )
+        ).then((res) => {
+            const map: Record<string, string> = {}
+            const opts = res.list.map((c) => {
+                map[c.value] = c.id
+                return { value: c.id, label: c.displayName ?? c.name }
+            })
+            setCountries(opts)
+            setCountriesMap(map)
+        })
         apiGetCatalogs<{ list: { id: string; name: string; value: string; displayName?: string }[] }>(
             '/marital-statuses', { locale },
         ).then((res) =>
             setMaritalStatuses(
-                res.list.map((m) => ({ value: m.value, label: m.displayName ?? m.name })),
+                res.list.map((m) => ({ value: m.id, label: m.displayName ?? m.name })),
             ),
         )
+        apiGetCatalogs<{ list: { id: string; name: string; value: string; displayName?: string }[] }>(
+            '/genders', { locale },
+        ).then((res) =>
+            setGenders(
+                res.list.map((g) => ({ value: g.id, label: g.displayName ?? g.name })),
+            ),
+        )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [i18n.language])
 
-    const genderOptions = useMemo(
-        () => [
-            { value: 'male', label: t('gender.male', 'Male') },
-            { value: 'female', label: t('gender.female', 'Female') },
-            { value: 'other', label: t('gender.other', 'Other') },
-        ],
-        [t],
-    )
+    const isVenezuelan = nationalityId === countriesMap['VE']
 
     return (
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
@@ -138,26 +140,26 @@ const BasicInfoSection = ({ control, errors }: FormSectionBaseProps) => {
                 </div>
                 <FormItem
                     label={t('employeeForm.nationality', 'Nationality')}
-                    invalid={Boolean(errors.nationality)}
-                    errorMessage={errors.nationality?.message}
+                    invalid={Boolean(errors.nationalityId)}
+                    errorMessage={errors.nationalityId?.message}
                 >
                     <Controller
-                        name="nationality"
+                        name="nationalityId"
                         control={control}
                         render={({ field }) => (
                             <Select
+                                isClearable
+                                options={countries}
                                 placeholder={t(
                                     'employeeForm.selectNationality',
                                     'Select nationality',
                                 )}
-                                options={countries}
                                 value={countries.find(
                                     (o) => o.value === field.value,
                                 )}
                                 onChange={(option) =>
-                                    field.onChange(option?.value)
+                                    field.onChange(option?.value ?? '')
                                 }
-                                isClearable
                             />
                         )}
                     />
@@ -178,11 +180,11 @@ const BasicInfoSection = ({ control, errors }: FormSectionBaseProps) => {
                                 />
                             ) : (
                                 <Input
+                                    {...field}
                                     placeholder={t(
                                         'employeeForm.documentIdForeign',
                                         'Passport / ID number',
                                     )}
-                                    {...field}
                                     onChange={(e) =>
                                         field.onChange(
                                             e.target.value.toUpperCase(),
@@ -205,28 +207,28 @@ const BasicInfoSection = ({ control, errors }: FormSectionBaseProps) => {
                     />
                 </FormItem>
                 <FormItem label={t('employeeForm.age', 'Age')}>
-                    <Input value={age !== null ? String(age) : ''} disabled />
+                    <Input disabled value={age !== null ? String(age) : ''} />
                 </FormItem>
                 <FormItem
                     label={t('employeeForm.gender', 'Gender')}
-                    invalid={Boolean(errors.gender)}
-                    errorMessage={errors.gender?.message}
+                    invalid={Boolean(errors.genderId)}
+                    errorMessage={errors.genderId?.message}
                 >
                     <Controller
-                        name="gender"
+                        name="genderId"
                         control={control}
                         render={({ field }) => (
                             <Select
+                                options={genders}
                                 placeholder={t(
                                     'employeeForm.selectGender',
                                     'Select gender',
                                 )}
-                                options={genderOptions}
-                                value={genderOptions.find(
+                                value={genders.find(
                                     (o) => o.value === field.value,
                                 )}
                                 onChange={(option) =>
-                                    field.onChange(option?.value)
+                                    field.onChange(option?.value ?? '')
                                 }
                             />
                         )}
@@ -234,19 +236,19 @@ const BasicInfoSection = ({ control, errors }: FormSectionBaseProps) => {
                 </FormItem>
                 <FormItem
                     label={t('employeeForm.maritalStatus', 'Marital Status')}
-                    invalid={Boolean(errors.maritalStatus)}
-                    errorMessage={errors.maritalStatus?.message}
+                    invalid={Boolean(errors.maritalStatusId)}
+                    errorMessage={errors.maritalStatusId?.message}
                 >
                     <Controller
-                        name="maritalStatus"
+                        name="maritalStatusId"
                         control={control}
                         render={({ field }) => (
                             <Select
-                                placeholder={t('employeeForm.selectMaritalStatus', 'Select status')}
-                                options={maritalStatuses}
-                                value={maritalStatuses.find((o) => o.value === field.value)}
-                                onChange={(option) => field.onChange(option?.value)}
                                 isClearable
+                                options={maritalStatuses}
+                                placeholder={t('employeeForm.selectMaritalStatus', 'Select status')}
+                                value={maritalStatuses.find((o) => o.value === field.value)}
+                                onChange={(option) => field.onChange(option?.value ?? '')}
                             />
                         )}
                     />
@@ -254,26 +256,26 @@ const BasicInfoSection = ({ control, errors }: FormSectionBaseProps) => {
                 <div className="md:col-span-2">
                     <FormItem
                         label={t('employeeForm.placeOfBirth', 'Place of Birth')}
-                        invalid={Boolean(errors.placeOfBirth)}
-                        errorMessage={errors.placeOfBirth?.message}
+                        invalid={Boolean(errors.placeOfBirthId)}
+                        errorMessage={errors.placeOfBirthId?.message}
                     >
                         <Controller
-                            name="placeOfBirth"
+                            name="placeOfBirthId"
                             control={control}
                             render={({ field }) => (
                                 <Select
+                                    isClearable
+                                    options={countries}
                                     placeholder={t(
                                         'employeeForm.selectPlaceOfBirth',
                                         'Select country',
                                     )}
-                                    options={countries}
                                     value={countries.find(
                                         (o) => o.value === field.value,
                                     )}
                                     onChange={(option) =>
-                                        field.onChange(option?.value)
+                                        field.onChange(option?.value ?? '')
                                     }
-                                    isClearable
                                 />
                             )}
                         />

@@ -71,7 +71,7 @@ const LOCALES = ['es', 'fr', 'it'] as const
 
 const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], imageUpload, translatable = false }: CatalogManagerProps) => {
     const { t, i18n } = useTranslation()
-    const locale = (i18n as any)?.language || 'en'
+    const locale = typeof i18n !== 'string' ? i18n.language : 'en'
     const [items, setItems] = useState<CatalogItem[]>([])
     const [dialogOpen, setDialogOpen] = useState(false)
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -123,6 +123,7 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
         control,
         reset,
     } = useForm<FormSchema>({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         resolver: zodResolver(validationSchema) as any,
     })
 
@@ -131,15 +132,15 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
         const defaults: Record<string, string> = { name: item.displayName || item.name }
         if (showValue) defaults.value = item.value || ''
         formFields.forEach((f) => {
-            defaults[f.key] = (item as any)[f.key] || ''
+            defaults[f.key] = String((item as Record<string, unknown>)[f.key] ?? '')
         })
         if (translatable) {
-            const tr = (item as any).translations || {}
+            const tr: Record<string, string> = item.translations ?? {}
             for (const l of LOCALES) {
                 defaults[`translation_${l}`] = tr[l] || ''
             }
         }
-        reset(defaults as any)
+        reset(defaults as FormSchema)
         if (imageUpload) {
             setPreviewUrl(imageUpload.getImageUrl(item))
         }
@@ -159,7 +160,7 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
                 defaults[`translation_${l}`] = ''
             }
         }
-        reset(defaults as any)
+        reset(defaults as FormSchema)
         setDialogOpen(true)
     }
 
@@ -293,11 +294,11 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
                             ) : (
                                 paginatedItems.map((item) => (
                                     <Tr key={item.id}>
-                                        <Td className="font-semibold">{(item as any).displayName || item.name}</Td>
+                                        <Td className="font-semibold">{item.displayName || item.name}</Td>
                                         {showValue && <Td>{item.value}</Td>}
                                         {extraFields.map((f) => (
                                             <Td key={f.key}>
-                                                {f.render ? f.render((item as any)[f.key], item) : (item as any)[f.key]}
+                                                {f.render ? f.render(String((item as Record<string, unknown>)[f.key] ?? ''), item) : String((item as Record<string, unknown>)[f.key] ?? '')}
                                             </Td>
                                         ))}
                                         <Td>
@@ -384,38 +385,44 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
                                 />
                             </FormItem>
                         )}
-                        {formFields.map((f) => (
-                            <FormItem
-                                key={f.key}
-                                label={f.label as string}
-                                invalid={Boolean((errors as any)[f.key])}
-                                errorMessage={(errors as any)[f.key]?.message}
-                            >
-                                <Controller
-                                    name={f.key as any}
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Input placeholder={f.label as string} value={String(field.value ?? '')} onChange={field.onChange} onBlur={field.onBlur} />
-                                    )}
-                                />
-                            </FormItem>
-                        ))}
-                        {translatable && LOCALES.map((l) => (
-                            <FormItem
-                                key={l}
-                                label={`Name (${l.toUpperCase()})`}
-                                invalid={Boolean((errors as any)[`translation_${l}`])}
-                                errorMessage={(errors as any)[`translation_${l}`]?.message}
-                            >
-                                <Controller
-                                    name={`translation_${l}` as any}
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Input placeholder={`Name (${l.toUpperCase()})`} value={String(field.value ?? '')} onChange={field.onChange} onBlur={field.onBlur} />
-                                    )}
-                                />
-                            </FormItem>
-                        ))}
+                        {formFields.map((f) => {
+                            const fieldName = f.key
+                            return (
+                                <FormItem
+                                    key={fieldName}
+                                    label={String(f.label)}
+                                    invalid={Boolean(errors[fieldName as keyof FormSchema])}
+                                    errorMessage={errors[fieldName as keyof FormSchema]?.message}
+                                >
+                                    <Controller
+                                        name={fieldName as keyof FormSchema}
+                                        control={control}
+                                        render={({ field }) => (
+                                            <Input placeholder={String(f.label)} value={String(field.value ?? '')} onChange={field.onChange} onBlur={field.onBlur} />
+                                        )}
+                                    />
+                                </FormItem>
+                            )
+                        })}
+                        {translatable && LOCALES.map((l) => {
+                            const fieldName = `translation_${l}` as keyof FormSchema
+                            return (
+                                <FormItem
+                                    key={String(fieldName)}
+                                    label={`Name (${l.toUpperCase()})`}
+                                    invalid={Boolean(errors[fieldName])}
+                                    errorMessage={errors[fieldName]?.message}
+                                >
+                                    <Controller
+                                        name={fieldName}
+                                        control={control}
+                                        render={({ field }) => (
+                                            <Input placeholder={`Name (${l.toUpperCase()})`} value={String(field.value ?? '')} onChange={field.onChange} onBlur={field.onBlur} />
+                                        )}
+                                    />
+                                </FormItem>
+                            )
+                        })}
                         {imageUpload && editingItem && (
                             <div className="border rounded-lg p-4 flex flex-col items-center gap-3">
                                 {previewUrl && (

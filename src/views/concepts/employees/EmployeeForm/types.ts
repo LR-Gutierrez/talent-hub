@@ -24,7 +24,7 @@ export type EmployeeFormSchema = {
     address: string
     birthDate: string
     documentId: string
-    gender: string
+    genderId: string
     departmentId: string
     position: string
     contractingCompany: string
@@ -34,9 +34,9 @@ export type EmployeeFormSchema = {
     supervisorId: string
     statusId: string
     isActive: boolean
-    nationality: string
-    maritalStatus: string
-    placeOfBirth: string
+    nationalityId: string
+    maritalStatusId: string
+    placeOfBirthId: string
     educationLevel: string
     degree: string
     institution: string

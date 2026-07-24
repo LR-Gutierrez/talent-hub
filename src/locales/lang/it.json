@@ -330,6 +330,13 @@
         "removeEmployeeConfirm": "Sei sicuro di voler rimuovere questo dipendente? Questa azione non può essere annullata."
     },
     "employeeDetails": {
+        "tab": {
+            "profile": "Profilo",
+            "labor": "Lavorativo",
+            "education": "Istruzione",
+            "family": "Famiglia",
+            "notes": "Note"
+        },
         "personalInfo": "Informazioni Personali",
         "laborInfo": "Informazioni Lavorative",
         "phone": "Telefono",

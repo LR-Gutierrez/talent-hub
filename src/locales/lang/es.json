@@ -626,6 +626,13 @@
         "removeEmployeeConfirm": "¿Estás seguro de eliminar este empleado? Esta acción no se puede deshacer."
     },
     "employeeDetails": {
+        "tab": {
+            "profile": "Perfil",
+            "labor": "Laboral",
+            "education": "Educación",
+            "family": "Familia",
+            "notes": "Notas"
+        },
         "personalInfo": "Información Personal",
         "laborInfo": "Información Laboral",
         "phone": "Teléfono",

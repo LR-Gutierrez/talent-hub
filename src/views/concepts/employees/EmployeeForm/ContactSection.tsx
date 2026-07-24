@@ -39,10 +39,10 @@ const ContactSection = ({ control, errors }: FormSectionBaseProps) => {
                         control={control}
                         render={({ field }) => (
                             <PhoneNumberInput
+                                defaultCountry="VE"
                                 placeholder={t('employeeForm.phone', 'Phone')}
                                 value={field.value || undefined}
                                 onChange={(val) => field.onChange(val || '')}
-                                defaultCountry="VE"
                             />
                         )}
                     />
@@ -73,10 +73,10 @@ const ContactSection = ({ control, errors }: FormSectionBaseProps) => {
                         control={control}
                         render={({ field }) => (
                             <PhoneNumberInput
+                                defaultCountry="VE"
                                 placeholder={t('employeeForm.corporatePhone', 'Corporate Phone')}
                                 value={field.value || undefined}
                                 onChange={(val) => field.onChange(val || '')}
-                                defaultCountry="VE"
                             />
                         )}
                     />
@@ -91,10 +91,10 @@ const ContactSection = ({ control, errors }: FormSectionBaseProps) => {
                         control={control}
                         render={({ field }) => (
                             <PhoneNumberInput
+                                defaultCountry="VE"
                                 placeholder={t('employeeForm.mobilePhone', 'Mobile Phone')}
                                 value={field.value || undefined}
                                 onChange={(val) => field.onChange(val || '')}
-                                defaultCountry="VE"
                             />
                         )}
                     />
@@ -109,10 +109,10 @@ const ContactSection = ({ control, errors }: FormSectionBaseProps) => {
                         control={control}
                         render={({ field }) => (
                             <PhoneNumberInput
+                                defaultCountry="VE"
                                 placeholder={t('employeeForm.satellitePhone', 'Satellite Phone')}
                                 value={field.value || undefined}
                                 onChange={(val) => field.onChange(val || '')}
-                                defaultCountry="VE"
                             />
                         )}
                     />
@@ -127,10 +127,10 @@ const ContactSection = ({ control, errors }: FormSectionBaseProps) => {
                         control={control}
                         render={({ field }) => (
                             <PhoneNumberInput
+                                defaultCountry="VE"
                                 placeholder={t('employeeForm.roomPhone', 'Room Phone')}
                                 value={field.value || undefined}
                                 onChange={(val) => field.onChange(val || '')}
-                                defaultCountry="VE"
                             />
                         )}
                     />

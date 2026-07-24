@@ -336,6 +336,13 @@
         "removeEmployeeConfirm": "Are you sure you want to remove this employee? This action can't be undo."
     },
     "employeeDetails": {
+        "tab": {
+            "profile": "Profile",
+            "labor": "Labor",
+            "education": "Education",
+            "family": "Family",
+            "notes": "Notes"
+        },
         "personalInfo": "Personal Information",
         "laborInfo": "Labor Information",
         "phone": "Phone",
