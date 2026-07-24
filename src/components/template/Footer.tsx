@@ -3,7 +3,9 @@ import classNames from '@/utils/classNames'
 import { APP_NAME } from '@/constants/app.constant'
 import { PAGE_CONTAINER_GUTTER_X } from '@/constants/theme.constant'
 import useTranslation from '@/utils/hooks/useTranslation'
-
+import AboutModal from './AboutModal'
+import TermsModal from './TermsModal'
+import PrivacyModal from './PrivacyModal'
 export type FooterPageContainerType = 'gutterless' | 'contained'
 
 type FooterProps = {
@@ -21,22 +23,12 @@ const FooterContent = () => {
                 <span className="font-semibold">{`${APP_NAME}`}</span>{' '}
                 {t('footer.allRightsReserved', 'All rights reserved.')}
             </span>
-            <div className="">
-                <a
-                    className="text-gray"
-                    href="/#"
-                    onClick={(e) => e.preventDefault()}
-                >
-                    {t('footer.terms', "Term & Conditions")}
-                </a>
+            <div className="flex items-center">
+                <TermsModal />
                 <span className="mx-2 text-muted"> | </span>
-                <a
-                    className="text-gray"
-                    href="/#"
-                    onClick={(e) => e.preventDefault()}
-                >
-                    {t('footer.privacy', 'Privacy & Policy')}
-                </a>
+                <PrivacyModal />
+                <span className="mx-2 text-muted"> | </span>
+                <AboutModal />
             </div>
         </div>
     )

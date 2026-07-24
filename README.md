@@ -28,3 +28,12 @@ cp .env.example .env
 | `VITE_COMPANY_NAME` | Company name | Company |
 | `VITE_APP_EMAIL_DOMAIN` | Email domain for example users | company.com |
 | `VITE_FIREBASE_*` | Firebase configuration | — |
+
+---
+
+## Diseño y Desarrollo
+
+Desarrollado originalmente por **Luis Angel Gutiérrez**, Ingeniero en Informática y Desarrollador de Software.
+
+* 🌐 **LinkedIn**: [lrgutierrez](https://www.linkedin.com/in/lrgutierrez/)
+* 💻 **GitHub**: [LR-Gutierrez](https://github.com/LR-Gutierrez)
