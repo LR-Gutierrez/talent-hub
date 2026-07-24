@@ -6,16 +6,28 @@ export type ChildItem = {
     gender: string
 }
 
+export type EmergencyContactItem = {
+    name: string
+    phone: string
+    relationship: string
+}
+
 export type EmployeeFormSchema = {
     fullName: string
     email: string
     phone: string
+    phoneExtension: string
+    corporatePhone: string
+    satellitePhone: string
+    roomPhone: string
+    mobilePhone: string
     address: string
     birthDate: string
     documentId: string
     gender: string
     departmentId: string
     position: string
+    contractingCompany: string
     hireDate: string
     endDate: string
     salary: number
@@ -36,6 +48,7 @@ export type EmployeeFormSchema = {
     helmetSize: string
     notes: string
     children: ChildItem[]
+    emergencyContacts: EmergencyContactItem[]
 }
 
 export type FormSectionBaseProps = {

@@ -1,9 +1,9 @@
 @layer components {
   .input {
     @apply border
-      border-gray-100 
+      border-gray-200 
       dark:border-gray-700
-      bg-gray-100 
+      bg-white 
       dark:bg-gray-700 
       rounded-xl 
       w-full 
@@ -21,7 +21,7 @@
       font-semibold
       read-only:focus:ring-0
       read-only:focus:border-transparent!
-      read-only:focus:bg-gray-100
+      read-only:focus:bg-white
       read-only:focus:dark:bg-gray-700
       ease-in-out;
 

@@ -21,9 +21,9 @@ const CollapsibleSection = ({ title, children, icon, defaultOpen = true }: Colla
     return (
         <div
             className={classNames(
-                'border rounded-lg transition-shadow duration-200',
+                'bg-white dark:bg-gray-800 border rounded-lg transition-shadow duration-200',
                 open
-                    ? 'border-blue-200 dark:border-blue-800 shadow-sm'
+                    ? 'border-gray-200 dark:border-gray-700 shadow-sm'
                     : 'border-gray-200 dark:border-gray-700',
             )}
         >
@@ -33,8 +33,8 @@ const CollapsibleSection = ({ title, children, icon, defaultOpen = true }: Colla
                 className={classNames(
                     'w-full flex items-center justify-between px-4 py-3 transition-colors duration-150',
                     open
-                        ? 'bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30'
-                        : 'bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700',
+                        ? 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700'
+                        : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg',
                 )}
             >
                 <div className="flex items-center gap-2.5">

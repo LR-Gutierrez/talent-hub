@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Container from '@/components/shared/Container'
 import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
@@ -7,7 +6,7 @@ import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import { apiGetEmployee, apiUpdateEmployee, apiDeleteEmployee } from '@/services/EmployeesService'
 import EmployeeForm from '../EmployeeForm/EmployeeForm'
 import NoUserFound from '@/assets/svg/NoUserFound'
-import { TbTrash, TbArrowNarrowLeft } from 'react-icons/tb'
+import { TbTrash } from 'react-icons/tb'
 import { useParams, useNavigate } from 'react-router'
 import { Can } from '@casl/react'
 import useSWR from 'swr'
@@ -58,6 +57,11 @@ const EmployeeEdit = () => {
                 fullName: data.fullName,
                 email: data.email,
                 phone: data.phone || '',
+                phoneExtension: data.phoneExtension || '',
+                corporatePhone: data.corporatePhone || '',
+                satellitePhone: data.satellitePhone || '',
+                roomPhone: data.roomPhone || '',
+                mobilePhone: data.mobilePhone || '',
                 address: data.address || '',
                 birthDate: data.birthDate || '',
                 documentId: data.documentId || '',
@@ -68,6 +72,7 @@ const EmployeeEdit = () => {
                 notes: data.notes || '',
                 departmentId: data.departmentId || '',
                 position: data.position || '',
+                contractingCompany: data.contractingCompany || '',
                 hireDate: data.hireDate || '',
                 endDate: data.endDate || '',
                 salary: Number(data.salary) || 0,
@@ -87,6 +92,11 @@ const EmployeeEdit = () => {
                     name: c.name,
                     birthDate: c.birthDate || '',
                     gender: c.gender || '',
+                })) || [],
+                emergencyContacts: data.emergencyContacts?.map((c) => ({
+                    name: c.name,
+                    phone: c.phone || '',
+                    relationship: c.relationship || '',
                 })) || [],
             }
         }
@@ -116,10 +126,6 @@ const EmployeeEdit = () => {
         setDeleteConfirmationOpen(false)
     }
 
-    const handleBack = () => {
-        history.back()
-    }
-
     return (
         <>
             {!isLoading && !data && (
@@ -134,37 +140,23 @@ const EmployeeEdit = () => {
                         defaultValues={getDefaultValues() as EmployeeFormSchema}
                         onFormSubmit={handleFormSubmit}
                     >
-                        <Container>
-                            <div className="flex items-center justify-between px-8">
+                        <div className="flex items-center gap-3">
+                            <Can I="delete" a="Employee">
                                 <Button
-                                    className="ltr:mr-3 rtl:ml-3"
                                     type="button"
-                                    variant="plain"
-                                    icon={<TbArrowNarrowLeft />}
-                                    onClick={handleBack}
+                                    customColorClass={() =>
+                                        'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
+                                    }
+                                    icon={<TbTrash />}
+                                    onClick={handleDelete}
                                 >
-                                    {t('common.back', 'Back')}
+                                    {t('common.delete', 'Delete')}
                                 </Button>
-                                <div className="flex items-center">
-                                    <Can I="delete" a="Employee">
-                                        <Button
-                                            className="ltr:mr-3 rtl:ml-3"
-                                            type="button"
-                                            customColorClass={() =>
-                                                'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
-                                            }
-                                            icon={<TbTrash />}
-                                            onClick={handleDelete}
-                                        >
-                                            {t('common.delete', 'Delete')}
-                                        </Button>
-                                    </Can>
-                                    <Button variant="solid" type="submit" loading={isSubmiting}>
-                                        {t('common.save', 'Save')}
-                                    </Button>
-                                </div>
-                            </div>
-                        </Container>
+                            </Can>
+                            <Button variant="solid" type="submit" loading={isSubmiting}>
+                                {t('common.save', 'Save')}
+                            </Button>
+                        </div>
                     </EmployeeForm>
                     <ConfirmDialog
                         isOpen={deleteConfirmationOpen}

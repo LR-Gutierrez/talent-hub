@@ -23,6 +23,7 @@ import {
     TbRuler,
     TbBriefcase,
     TbUsers,
+    TbPhoneCall,
     TbClipboardText,
 } from 'react-icons/tb'
 import { Can } from '@casl/react'
@@ -143,6 +144,11 @@ const EmployeeDetails = () => {
                                     <SectionHeader icon={<TbUser />} title={t('employeeDetails.personalInfo', 'Personal Information')} />
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
                                         <DetailRow label={t('employeeDetails.phone', 'Phone')} value={data.phone} />
+                                        <DetailRow label={t('employeeDetails.phoneExtension', 'Phone Ext.')} value={data.phoneExtension} />
+                                        <DetailRow label={t('employeeDetails.corporatePhone', 'Corporate Phone')} value={data.corporatePhone} />
+                                        <DetailRow label={t('employeeDetails.mobilePhone', 'Mobile Phone')} value={data.mobilePhone} />
+                                        <DetailRow label={t('employeeDetails.satellitePhone', 'Satellite Phone')} value={data.satellitePhone} />
+                                        <DetailRow label={t('employeeDetails.roomPhone', 'Room Phone')} value={data.roomPhone} />
                                         <DetailRow label={t('employeeDetails.documentId', 'Document ID')} value={data.documentId} />
                                         <DetailRow label={t('employeeDetails.birthDate', 'Birth Date')} value={fmt(data.birthDate)} />
                                         <DetailRow label={t('employeeDetails.gender', 'Gender')} value={data.gender} />
@@ -191,6 +197,7 @@ const EmployeeDetails = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
                                         <DetailRow label={t('employeeDetails.department', 'Department')} value={data.department?.name} />
                                         <DetailRow label={t('employeeDetails.position', 'Position')} value={data.position} />
+                                        <DetailRow label={t('employeeDetails.contractingCompany', 'Contracting Company')} value={data.contractingCompany} />
                                         <DetailRow label={t('employeeDetails.hireDate', 'Hire Date')} value={fmt(data.hireDate)} />
                                         <DetailRow label={t('employeeDetails.endDate', 'End Date')} value={fmt(data.endDate)} />
                                         <DetailRow label={t('employeeDetails.salary', 'Salary')} value={data.salary ? `$${data.salary}` : '-'} />
@@ -215,6 +222,27 @@ const EmployeeDetails = () => {
                                                         {child.gender && (
                                                             <span className="capitalize">{child.gender}</span>
                                                         )}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Emergency Contacts */}
+                                {data.emergencyContacts?.length > 0 && (
+                                    <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
+                                        <SectionHeader icon={<TbPhoneCall />} title={t('employeeForm.emergencyContacts', 'Emergency Contacts')} />
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                                            {data.emergencyContacts.map((contact) => (
+                                                <div
+                                                    key={contact.id}
+                                                    className="rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-gray-50/50 dark:bg-gray-800/50"
+                                                >
+                                                    <p className="font-semibold m-0">{contact.name}</p>
+                                                    <div className="flex flex-col gap-1 mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                                        <span>{contact.phone}</span>
+                                                        <span className="capitalize">{contact.relationship}</span>
                                                     </div>
                                                 </div>
                                             ))}

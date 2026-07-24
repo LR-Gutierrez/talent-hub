@@ -131,6 +131,94 @@ const PersonalSection = ({ control, errors }: FormSectionBaseProps) => {
                     />
                 </FormItem>
                 <FormItem
+                    label={t('employeeForm.phoneExtension', 'Phone Ext.')}
+                    invalid={Boolean(errors.phoneExtension)}
+                    errorMessage={errors.phoneExtension?.message}
+                >
+                    <Controller
+                        name="phoneExtension"
+                        control={control}
+                        render={({ field }) => (
+                            <Input
+                                placeholder={t('employeeForm.phoneExtension', 'Phone Ext.')}
+                                {...field}
+                            />
+                        )}
+                    />
+                </FormItem>
+                <FormItem
+                    label={t('employeeForm.corporatePhone', 'Corporate Phone')}
+                    invalid={Boolean(errors.corporatePhone)}
+                    errorMessage={errors.corporatePhone?.message}
+                >
+                    <Controller
+                        name="corporatePhone"
+                        control={control}
+                        render={({ field }) => (
+                            <PatternInput
+                                format="+### ### ### ###"
+                                placeholder={t('employeeForm.corporatePhone', 'Corporate Phone')}
+                                value={field.value}
+                                onValueChange={(vals) => field.onChange(vals.value)}
+                            />
+                        )}
+                    />
+                </FormItem>
+                <FormItem
+                    label={t('employeeForm.mobilePhone', 'Mobile Phone')}
+                    invalid={Boolean(errors.mobilePhone)}
+                    errorMessage={errors.mobilePhone?.message}
+                >
+                    <Controller
+                        name="mobilePhone"
+                        control={control}
+                        render={({ field }) => (
+                            <PatternInput
+                                format="+### ### ### ###"
+                                placeholder={t('employeeForm.mobilePhone', 'Mobile Phone')}
+                                value={field.value}
+                                onValueChange={(vals) => field.onChange(vals.value)}
+                            />
+                        )}
+                    />
+                </FormItem>
+                <FormItem
+                    label={t('employeeForm.satellitePhone', 'Satellite Phone')}
+                    invalid={Boolean(errors.satellitePhone)}
+                    errorMessage={errors.satellitePhone?.message}
+                >
+                    <Controller
+                        name="satellitePhone"
+                        control={control}
+                        render={({ field }) => (
+                            <PatternInput
+                                format="+### ### ### ###"
+                                placeholder={t('employeeForm.satellitePhone', 'Satellite Phone')}
+                                value={field.value}
+                                onValueChange={(vals) => field.onChange(vals.value)}
+                            />
+                        )}
+                    />
+                </FormItem>
+                <FormItem
+                    label={t('employeeForm.roomPhone', 'Room Phone')}
+                    invalid={Boolean(errors.roomPhone)}
+                    errorMessage={errors.roomPhone?.message}
+                >
+                    <Controller
+                        name="roomPhone"
+                        control={control}
+                        render={({ field }) => (
+                            <PatternInput
+                                format="+### ### ### ###"
+                                placeholder={t('employeeForm.roomPhone', 'Room Phone')}
+                                value={field.value}
+                                onValueChange={(vals) => field.onChange(vals.value)}
+                            />
+                        )}
+                    />
+                </FormItem>
+                <FormItem
                     label={t('employeeForm.documentId', 'Document ID')}
                     invalid={Boolean(errors.documentId)}
                     errorMessage={errors.documentId?.message}

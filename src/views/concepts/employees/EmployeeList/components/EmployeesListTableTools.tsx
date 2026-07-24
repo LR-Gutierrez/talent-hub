@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import EmployeeListSearch from './EmployeeListSearch'
 import Select from '@/components/ui/Select'
 import useEmployeeList from '../hooks/useEmployeeList'
+import useTranslation from '@/utils/hooks/useTranslation'
 import { apiGetEmployeeStatuses } from '@/services/EmployeeStatusesService'
 import { apiGetDepartments } from '@/services/DepartmentsService'
 import type { EmployeeStatus } from '../types'
@@ -10,16 +11,17 @@ import type { Department } from '../types'
 type Option = { value: string; label: string }
 
 const EmployeesListTableTools = () => {
+    const { t } = useTranslation()
     const { setTableData, setFilter, tableData } = useEmployeeList()
     const [statuses, setStatuses] = useState<Option[]>([])
     const [departments, setDepartments] = useState<Option[]>([])
 
     useEffect(() => {
-        apiGetEmployeeStatuses<EmployeeStatus[]>().then((res) => {
-            setStatuses(res.filter((s) => s.isActive).map((s) => ({ value: s.id, label: s.name })))
+        apiGetEmployeeStatuses<{ list: EmployeeStatus[]; total: number }>().then((res) => {
+            setStatuses(res.list.filter((s) => s.isActive).map((s) => ({ value: s.id, label: s.name })))
         })
-        apiGetDepartments<Department[]>().then((res) => {
-            setDepartments(res.filter((d) => d.isActive).map((d) => ({ value: d.id, label: d.name })))
+        apiGetDepartments<{ list: Department[]; total: number }>().then((res) => {
+            setDepartments(res.list.filter((d) => d.isActive).map((d) => ({ value: d.id, label: d.name })))
         })
     }, [])
 
@@ -42,18 +44,18 @@ const EmployeesListTableTools = () => {
             <EmployeeListSearch onInputChange={handleSearch} />
             <div className="flex flex-col md:flex-row gap-2">
                 <Select
-                    placeholder="Filter by status"
+                    placeholder={t('employeeList.filterByStatus', 'Filter by status')}
                     options={statuses}
                     onChange={handleStatusFilter}
                     isClearable
-                    className="min-w-[180px]"
+                    className="min-w-[180px] [&_.select-control]:min-h-12"
                 />
                 <Select
-                    placeholder="Filter by department"
+                    placeholder={t('employeeList.filterByDepartment', 'Filter by department')}
                     options={departments}
                     onChange={handleDepartmentFilter}
                     isClearable
-                    className="min-w-[180px]"
+                    className="min-w-[180px] [&_.select-control]:min-h-12"
                 />
             </div>
         </div>

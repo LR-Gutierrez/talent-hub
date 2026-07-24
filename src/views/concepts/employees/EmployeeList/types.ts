@@ -8,6 +8,11 @@ export type Employee = {
     fullName: string
     email: string
     phone: string
+    phoneExtension: string
+    corporatePhone: string
+    satellitePhone: string
+    roomPhone: string
+    mobilePhone: string
     address: string
     birthDate: string
     documentId: string
@@ -19,6 +24,7 @@ export type Employee = {
     departmentId: string
     department: Department | null
     position: string
+    contractingCompany: string
     hireDate: string
     endDate: string
     salary: number
@@ -30,6 +36,7 @@ export type Employee = {
     educations: EmployeeEducation[]
     uniforms: EmployeeUniform[]
     children: EmployeeChild[]
+    emergencyContacts: EmployeeEmergencyContact[]
     createdAt: string
     updatedAt: string
 }
@@ -59,6 +66,14 @@ export type EmployeeChild = {
     name: string
     birthDate: string
     gender: string
+}
+
+export type EmployeeEmergencyContact = {
+    id: string
+    employeeId: string
+    name: string
+    phone: string
+    relationship: string
 }
 
 export type EmployeeStatus = {

@@ -24,9 +24,13 @@ const LaborSection = ({ control, errors }: FormSectionBaseProps) => {
     const [departments, setDepartments] = useState<Department[]>([])
 
     useEffect(() => {
-        apiGetEmployeeStatuses<EmployeeStatus[]>().then(setStatuses)
-        apiGetDepartments<Department[]>().then(setDepartments)
-        apiGetEmployeesList<{ list: Employee[] }>({ pageSize: 100, pageIndex: 1 }).then((res) => {
+        apiGetEmployeeStatuses<{ list: EmployeeStatus[]; total: number }>().then((res) => {
+            setStatuses(res.list)
+        })
+        apiGetDepartments<{ list: Department[]; total: number }>().then((res) => {
+            setDepartments(res.list)
+        })
+        apiGetEmployeesList<{ list: Employee[]; total: number }>({ pageSize: 100, pageIndex: 1 }).then((res) => {
             setEmployees(res.list || [])
         })
     }, [])
@@ -75,6 +79,19 @@ const LaborSection = ({ control, errors }: FormSectionBaseProps) => {
                         control={control}
                         render={({ field }) => (
                             <Input placeholder={t('employeeForm.position', 'Position')} {...field} />
+                        )}
+                    />
+                </FormItem>
+                <FormItem
+                    label={t('employeeForm.contractingCompany', 'Contracting Company')}
+                    invalid={Boolean(errors.contractingCompany)}
+                    errorMessage={errors.contractingCompany?.message}
+                >
+                    <Controller
+                        name="contractingCompany"
+                        control={control}
+                        render={({ field }) => (
+                            <Input placeholder={t('employeeForm.contractingCompany', 'Contracting Company')} {...field} />
                         )}
                     />
                 </FormItem>

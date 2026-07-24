@@ -1,0 +1,25 @@
+@layer components {
+  .phone-number-input-wrapper {
+    @apply flex w-full;
+  }
+
+  .phone-number-input-wrapper .PhoneInputCountry {
+    @apply flex items-center gap-1 px-3 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-100 font-semibold text-sm;
+  }
+
+  .phone-number-input-wrapper .PhoneInputCountrySelect {
+    @apply cursor-pointer;
+  }
+
+  .phone-number-input-wrapper .PhoneInputInput {
+    @apply border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 rounded-xl w-full py-2 px-3 focus:outline-none focus:ring-1 focus-within:ring-1 focus:bg-transparent focus:dark:bg-transparent appearance-none transition duration-150 ease-in-out text-gray-800 dark:text-gray-100 font-semibold ml-2;
+  }
+
+  .phone-number-input-wrapper .PhoneInputInput::placeholder {
+    @apply text-gray-400;
+  }
+
+  .phone-number-input-wrapper .PhoneInputInput:focus {
+    @apply ring-1 ring-primary border-primary bg-transparent;
+  }
+}
