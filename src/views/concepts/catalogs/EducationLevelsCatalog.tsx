@@ -7,6 +7,7 @@ const EducationLevelsCatalog = () => {
         <CatalogManager
             title={t('catalogs.educationLevels', 'Education Levels')}
             endpoint="/education-levels"
+            translatable
         />
     )
 }

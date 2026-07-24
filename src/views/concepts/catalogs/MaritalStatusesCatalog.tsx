@@ -7,6 +7,7 @@ const MaritalStatusesCatalog = () => {
         <CatalogManager
             title={t('catalogs.maritalStatuses', 'Marital Statuses')}
             endpoint="/marital-statuses"
+            translatable
         />
     )
 }

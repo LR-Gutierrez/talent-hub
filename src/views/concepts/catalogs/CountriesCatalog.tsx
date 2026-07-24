@@ -31,6 +31,7 @@ const CountriesCatalog = () => {
                 endpoint: '/countries',
                 getImageUrl: (item) => flagUrl(item.value!),
             }}
+            translatable
         />
     )
 }

@@ -8,6 +8,7 @@ const EmployeeDegreesCatalog = () => {
             title={t('catalogs.employeeDegrees', 'Degrees / Titles')}
             endpoint="/employee-degrees"
             showValue
+            translatable
         />
     )
 }

@@ -36,6 +36,8 @@ type CatalogItem = {
     isActive: boolean
     category?: string
     dialCode?: string
+    displayName?: string
+    translations?: Record<string, string>
 }
 
 type ExtraField = {
@@ -56,6 +58,7 @@ interface CatalogManagerProps {
     showValue?: boolean
     extraFields?: ExtraField[]
     imageUpload?: ImageUploadConfig
+    translatable?: boolean
 }
 
 const pageSizeOption = [
@@ -64,8 +67,11 @@ const pageSizeOption = [
     { value: 20, label: '20 / page' },
 ]
 
-const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], imageUpload }: CatalogManagerProps) => {
-    const { t } = useTranslation()
+const LOCALES = ['es', 'fr', 'it'] as const
+
+const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], imageUpload, translatable = false }: CatalogManagerProps) => {
+    const { t, i18n } = useTranslation()
+    const locale = (i18n as any)?.language || 'en'
     const [items, setItems] = useState<CatalogItem[]>([])
     const [dialogOpen, setDialogOpen] = useState(false)
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -80,11 +86,13 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
     const [total, setTotal] = useState(0)
 
     const loadItems = useCallback(() => {
-        apiGetCatalogs<{ list: CatalogItem[]; total: number }>(endpoint, { pageIndex, pageSize }).then((res) => {
+        const params: Record<string, unknown> = { pageIndex, pageSize }
+        if (locale !== 'en') params.locale = locale
+        apiGetCatalogs<{ list: CatalogItem[]; total: number }>(endpoint, params).then((res) => {
             setItems(res.list)
             setTotal(res.total)
         })
-    }, [endpoint, pageIndex, pageSize])
+    }, [endpoint, pageIndex, pageSize, locale])
 
     useEffect(() => {
         loadItems()
@@ -100,6 +108,11 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
     formFields.forEach((f) => {
         shape[f.key] = z.string().optional().or(z.literal(''))
     })
+    if (translatable) {
+        for (const l of LOCALES) {
+            shape[`translation_${l}`] = z.string().optional().or(z.literal(''))
+        }
+    }
     const validationSchema = z.object(shape)
 
     type FormSchema = z.infer<typeof validationSchema>
@@ -115,11 +128,17 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
 
     const openEdit = (item: CatalogItem) => {
         setEditingItem(item)
-        const defaults: Record<string, string> = { name: item.name }
+        const defaults: Record<string, string> = { name: item.displayName || item.name }
         if (showValue) defaults.value = item.value || ''
         formFields.forEach((f) => {
             defaults[f.key] = (item as any)[f.key] || ''
         })
+        if (translatable) {
+            const tr = (item as any).translations || {}
+            for (const l of LOCALES) {
+                defaults[`translation_${l}`] = tr[l] || ''
+            }
+        }
         reset(defaults as any)
         if (imageUpload) {
             setPreviewUrl(imageUpload.getImageUrl(item))
@@ -135,6 +154,11 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
         formFields.forEach((f) => {
             defaults[f.key] = ''
         })
+        if (translatable) {
+            for (const l of LOCALES) {
+                defaults[`translation_${l}`] = ''
+            }
+        }
         reset(defaults as any)
         setDialogOpen(true)
     }
@@ -142,10 +166,20 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
     const onSubmit = async (values: FormSchema) => {
         setIsSubmitting(true)
         try {
+            const data = { ...values } as Record<string, unknown>
+            if (translatable) {
+                const translations: Record<string, string> = {}
+                for (const l of LOCALES) {
+                    const key = `translation_${l}`
+                    if (data[key]) translations[l] = data[key] as string
+                    delete data[key]
+                }
+                if (Object.keys(translations).length > 0) data.translations = translations
+            }
             if (editingItem) {
-                await apiUpdateCatalog(endpoint, editingItem.id, values as Record<string, unknown>)
+                await apiUpdateCatalog(endpoint, editingItem.id, data)
             } else {
-                await apiCreateCatalog(endpoint, values as Record<string, unknown>)
+                await apiCreateCatalog(endpoint, data)
             }
             setDialogOpen(false)
             setEditingItem(null)
@@ -259,7 +293,7 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
                             ) : (
                                 paginatedItems.map((item) => (
                                     <Tr key={item.id}>
-                                        <Td className="font-semibold">{item.name}</Td>
+                                        <Td className="font-semibold">{(item as any).displayName || item.name}</Td>
                                         {showValue && <Td>{item.value}</Td>}
                                         {extraFields.map((f) => (
                                             <Td key={f.key}>
@@ -362,6 +396,22 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
                                     control={control}
                                     render={({ field }) => (
                                         <Input placeholder={f.label as string} value={String(field.value ?? '')} onChange={field.onChange} onBlur={field.onBlur} />
+                                    )}
+                                />
+                            </FormItem>
+                        ))}
+                        {translatable && LOCALES.map((l) => (
+                            <FormItem
+                                key={l}
+                                label={`Name (${l.toUpperCase()})`}
+                                invalid={Boolean((errors as any)[`translation_${l}`])}
+                                errorMessage={(errors as any)[`translation_${l}`]?.message}
+                            >
+                                <Controller
+                                    name={`translation_${l}` as any}
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input placeholder={`Name (${l.toUpperCase()})`} value={String(field.value ?? '')} onChange={field.onChange} onBlur={field.onBlur} />
                                     )}
                                 />
                             </FormItem>

@@ -7,6 +7,7 @@ const GendersCatalog = () => {
         <CatalogManager
             title={t('catalogs.genders', 'Genders')}
             endpoint="/genders"
+            translatable
         />
     )
 }
