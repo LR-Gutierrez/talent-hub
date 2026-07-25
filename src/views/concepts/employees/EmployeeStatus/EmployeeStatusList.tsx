@@ -16,6 +16,7 @@ import {
 import { TbPencil, TbTrash, TbPlus } from 'react-icons/tb'
 import { Can } from '@casl/react'
 import useTranslation from '@/utils/hooks/useTranslation'
+import FileNotFound from '@/assets/svg/FileNotFound'
 import EmployeeStatusForm from './EmployeeStatusForm'
 import type { EmployeeStatus } from '../EmployeeList/types'
 
@@ -87,47 +88,56 @@ const EmployeeStatusList = () => {
                         </Can>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {statuses.map((status) => (
-                            <div
-                                key={status.id}
-                                className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex items-center justify-between"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <div
-                                        className="w-4 h-4 rounded-full"
-                                        style={{ backgroundColor: status.color || '#6b7280' }}
-                                    />
-                                    <div>
-                                        <div className="font-semibold">{status.name}</div>
-                                        {status.description && (
-                                            <div className="text-sm text-gray-500">{status.description}</div>
-                                        )}
+                        {statuses.length === 0 ? (
+                            <div className="col-span-full flex flex-col items-center gap-4 py-8">
+                                <FileNotFound />
+                                <span className="font-semibold text-gray-500">
+                                    {t('table.noData', 'No data found!')}
+                                </span>
+                            </div>
+                        ) : (
+                            statuses.map((status) => (
+                                <div
+                                    key={status.id}
+                                    className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex items-center justify-between"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div
+                                            className="w-4 h-4 rounded-full"
+                                            style={{ backgroundColor: status.color || '#6b7280' }}
+                                        />
+                                        <div>
+                                            <div className="font-semibold">{status.name}</div>
+                                            {status.description && (
+                                                <div className="text-sm text-gray-500">{status.description}</div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Can I="update" a="EmployeeStatus">
+                                            <Tooltip title={t('common.edit', 'Edit')}>
+                                                <button
+                                                    className="text-xl cursor-pointer"
+                                                    onClick={() => handleEdit(status)}
+                                                >
+                                                    <TbPencil />
+                                                </button>
+                                            </Tooltip>
+                                        </Can>
+                                        <Can I="delete" a="EmployeeStatus">
+                                            <Tooltip title={t('common.delete', 'Delete')}>
+                                                <button
+                                                    className="text-xl cursor-pointer text-red-500"
+                                                    onClick={() => handleDelete(status.id)}
+                                                >
+                                                    <TbTrash />
+                                                </button>
+                                            </Tooltip>
+                                        </Can>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <Can I="update" a="EmployeeStatus">
-                                        <Tooltip title={t('common.edit', 'Edit')}>
-                                            <button
-                                                className="text-xl cursor-pointer"
-                                                onClick={() => handleEdit(status)}
-                                            >
-                                                <TbPencil />
-                                            </button>
-                                        </Tooltip>
-                                    </Can>
-                                    <Can I="delete" a="EmployeeStatus">
-                                        <Tooltip title={t('common.delete', 'Delete')}>
-                                            <button
-                                                className="text-xl cursor-pointer text-red-500"
-                                                onClick={() => handleDelete(status.id)}
-                                            >
-                                                <TbTrash />
-                                            </button>
-                                        </Tooltip>
-                                    </Can>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                     <div className="flex items-center justify-between mt-4">
                         <Pagination

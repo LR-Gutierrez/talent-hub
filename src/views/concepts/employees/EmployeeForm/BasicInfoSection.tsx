@@ -78,6 +78,7 @@ const BasicInfoSection = ({ control, errors }: FormSectionBaseProps) => {
     const [countriesMap, setCountriesMap] = useState<Record<string, string>>({})
     const [maritalStatuses, setMaritalStatuses] = useState<CatalogOption[]>([])
     const [genders, setGenders] = useState<CatalogOption[]>([])
+    const [bloodTypes, setBloodTypes] = useState<CatalogOption[]>([])
 
     useEffect(() => {
         const locale = i18n.language
@@ -104,6 +105,13 @@ const BasicInfoSection = ({ control, errors }: FormSectionBaseProps) => {
         ).then((res) =>
             setGenders(
                 res.list.map((g) => ({ value: g.id, label: g.displayName ?? g.name })),
+            ),
+        )
+        apiGetCatalogs<{ list: { id: string; name: string; value: string; displayName?: string }[] }>(
+            '/blood-types', { locale },
+        ).then((res) =>
+            setBloodTypes(
+                res.list.map((bt) => ({ value: bt.id, label: bt.displayName ?? bt.name })),
             ),
         )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -248,6 +256,24 @@ const BasicInfoSection = ({ control, errors }: FormSectionBaseProps) => {
                                 options={maritalStatuses}
                                 placeholder={t('employeeForm.selectMaritalStatus', 'Select status')}
                                 value={maritalStatuses.find((o) => o.value === field.value)}
+                                onChange={(option) => field.onChange(option?.value ?? '')}
+                            />
+                        )}
+                    />
+                </FormItem>
+                <FormItem
+                    label={t('employeeForm.bloodType', 'Blood Type')}
+                    invalid={Boolean(errors.bloodTypeId)}
+                    errorMessage={errors.bloodTypeId?.message}
+                >
+                    <Controller
+                        name="bloodTypeId"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                placeholder={t('employeeForm.bloodTypePlaceholder', 'Select blood type')}
+                                options={bloodTypes}
+                                value={bloodTypes.find((o) => o.value === field.value)}
                                 onChange={(option) => field.onChange(option?.value ?? '')}
                             />
                         )}

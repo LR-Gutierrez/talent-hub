@@ -71,6 +71,16 @@ const catalogsNavigationConfig: NavigationTree[] = [
                 authority: ['admin'],
                 subMenu: [],
             },
+            {
+                key: 'catalogs.bloodTypes',
+                path: '/catalogs/blood-types',
+                title: 'Blood Types',
+                translateKey: 'nav.bloodTypes',
+                icon: '',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: ['admin'],
+                subMenu: [],
+            },
         ],
     },
 ]

@@ -14,7 +14,7 @@ export type EmergencyContactItem = {
 
 export type EmployeeFormSchema = {
     fullName: string
-    email: string
+    email?: string
     phone: string
     phoneExtension: string
     corporatePhone: string
@@ -48,6 +48,7 @@ export type EmployeeFormSchema = {
     helmetSize: string
     notes: string
     photoUrl: string
+    bloodTypeId: string
     children: ChildItem[]
     emergencyContacts: EmergencyContactItem[]
 }

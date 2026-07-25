@@ -91,7 +91,7 @@ const CompanySettings = () => {
             companyEmail: '',
             timezone: 'America/Caracas',
             dateFormat: 'DD/MM/YYYY',
-            currency: 'PYG',
+            currency: 'USD',
             defaultLang: 'es',
         },
         resolver: zodResolver(validationSchema) as any,
@@ -107,7 +107,7 @@ const CompanySettings = () => {
                 companyEmail: data.companyEmail || '',
                 timezone: data.timezone || 'America/Caracas',
                 dateFormat: data.dateFormat || 'DD/MM/YYYY',
-                currency: data.currency || 'PYG',
+                currency: data.currency || 'USD',
                 defaultLang: data.defaultLang || 'es',
             })
             setLoading(false)

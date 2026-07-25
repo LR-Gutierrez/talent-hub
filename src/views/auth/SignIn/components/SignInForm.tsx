@@ -45,8 +45,8 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            email: `admin-01@${import.meta.env.VITE_APP_EMAIL_DOMAIN || 'company.com'}`,
-            password: '123Qwe',
+            email: '',
+            password: '',
         },
         resolver: zodResolver(validationSchema),
     })

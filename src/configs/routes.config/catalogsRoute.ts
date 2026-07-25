@@ -86,6 +86,20 @@ const catalogsRoute: Routes = [
             footer: false,
         },
     },
+    {
+        key: 'catalogs.bloodTypes',
+        path: '/catalogs/blood-types',
+        component: lazy(() => import('@/views/concepts/catalogs/BloodTypesCatalog')),
+        authority: ['admin'],
+        meta: {
+            header: {
+                title: 'pageHeader.catalogs',
+                description: 'pageHeader.catalogsDesc',
+                contained: true,
+            },
+            footer: false,
+        },
+    },
 ]
 
 export default catalogsRoute

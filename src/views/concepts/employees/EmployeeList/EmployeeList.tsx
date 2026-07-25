@@ -3,10 +3,12 @@ import Container from '@/components/shared/Container'
 import EmployeeListTable from './components/EmployeeListTable'
 import EmployeeListActionTools from './components/EmployeeListActionTools'
 import EmployeesListTableTools from './components/EmployeesListTableTools'
+import useEmployeeList from './hooks/useEmployeeList'
 import useTranslation from '@/utils/hooks/useTranslation'
 
 const EmployeeList = () => {
     const { t } = useTranslation()
+    const { mutate } = useEmployeeList()
 
     return (
         <Container>
@@ -14,7 +16,7 @@ const EmployeeList = () => {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                         <h3>{t('common.employees', 'Employees')}</h3>
-                        <EmployeeListActionTools />
+                        <EmployeeListActionTools onImportComplete={() => mutate()} />
                     </div>
                     <EmployeesListTableTools />
                     <EmployeeListTable />

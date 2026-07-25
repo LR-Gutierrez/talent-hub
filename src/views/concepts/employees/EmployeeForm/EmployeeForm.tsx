@@ -51,7 +51,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
 
     const validationSchema = z.object({
         fullName: z.string().min(1, { message: t('employeeForm.fullNameRequired', 'Full name is required') }),
-        email: z.string().min(1, { message: t('employeeForm.emailRequired', 'Email is required') }).email({ message: t('employeeForm.invalidEmail', 'Invalid email') }),
+        email: z.string().email({ message: t('employeeForm.invalidEmail', 'Invalid email') }).optional().or(z.literal('')),
         phone: z.string().optional().or(z.literal('')),
         phoneExtension: z.string().optional().or(z.literal('')),
         corporatePhone: z.string().optional().or(z.literal('')),
@@ -85,6 +85,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
         helmetSize: z.string().optional().or(z.literal('')),
         notes: z.string().optional().or(z.literal('')),
         photoUrl: z.string().optional().or(z.literal('')),
+        bloodTypeId: z.string().optional().or(z.literal('')),
         children: z.array(z.object({
             name: z.string().min(1, { message: t('employeeForm.childNameRequired', 'Child name is required') }),
             birthDate: z.string().optional().or(z.literal('')),
@@ -153,6 +154,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
             helmetSize: '',
             notes: '',
             photoUrl: '',
+            bloodTypeId: '',
             children: [],
             emergencyContacts: [],
             ...defaultValues,

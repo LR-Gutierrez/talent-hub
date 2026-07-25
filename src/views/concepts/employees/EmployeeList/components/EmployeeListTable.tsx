@@ -78,6 +78,7 @@ const EmployeeListTable = () => {
                     return (
                         <Link
                             className={`hover:text-primary ml-2 rtl:mr-2 font-semibold text-gray-900 dark:text-gray-100`}
+                            style={{ textAlign: 'left' }}
                             to={`/employees/${row.id}`}
                         >
                             {row.fullName}

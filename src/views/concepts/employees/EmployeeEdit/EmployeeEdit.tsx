@@ -71,6 +71,7 @@ const EmployeeEdit = () => {
                 placeOfBirthId: data.placeOfBirthId || '',
                 notes: data.notes || '',
                 photoUrl: data.photoUrl || '',
+                bloodTypeId: data.bloodTypeId || '',
                 departmentId: data.departmentId || '',
                 position: data.position || '',
                 contractingCompany: data.contractingCompany || '',

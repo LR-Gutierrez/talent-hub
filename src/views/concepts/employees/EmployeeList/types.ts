@@ -20,12 +20,14 @@ export type Employee = {
     nationalityId: string | null
     maritalStatusId: string | null
     placeOfBirthId: string | null
-    genderRef: { id: string; name: string; value: string; displayName?: string } | null
-    nationalityRef: { id: string; name: string; value: string; displayName?: string } | null
-    maritalStatusRef: { id: string; name: string; value: string; displayName?: string } | null
-    placeOfBirthRef: { id: string; name: string; value: string; displayName?: string } | null
+    genderRef: { id: string; name: string; value: string; translations?: Record<string, string> | null } | null
+    nationalityRef: { id: string; name: string; value: string; translations?: Record<string, string> | null } | null
+    maritalStatusRef: { id: string; name: string; value: string; translations?: Record<string, string> | null } | null
+    placeOfBirthRef: { id: string; name: string; value: string; translations?: Record<string, string> | null } | null
     notes: string
     photoUrl: string | null
+    bloodTypeId: string | null
+    bloodTypeRef: { id: string; name: string; value: string; translations?: Record<string, string> | null } | null
     departmentId: string
     department: Department | null
     position: string

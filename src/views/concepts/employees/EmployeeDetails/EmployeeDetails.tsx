@@ -27,6 +27,7 @@ import {
 } from 'react-icons/tb'
 import { Can } from '@casl/react'
 import useTranslation from '@/utils/hooks/useTranslation'
+import useLocale from '@/utils/hooks/useLocale'
 import EmployeeHistoryTimeline from '../EmployeeHistory/EmployeeHistoryTimeline'
 import type { Employee } from '../EmployeeList/types'
 import type { CompanySettings } from '@/services/CompanySettingsService'
@@ -37,7 +38,7 @@ type DetailRowProps = { label: string; value?: string | number | null; colSpan?:
 const DetailRow = ({ label, value, colSpan }: DetailRowProps) => (
     <div className={colSpan || 'flex flex-col'}>
         <span className="text-xs tracking-wide uppercase text-gray-400 dark:text-gray-500">{label}</span>
-        <span className="font-semibold text-gray-800 dark:text-gray-200 mt-0.5">{value || '-'}</span>
+        <span className="font-semibold text-gray-800 dark:text-gray-200 mt-0.5">{value ?? '-'}</span>
     </div>
 )
 
@@ -65,8 +66,16 @@ const EmployeeDetails = () => {
     const { id } = useParams()
     const navigate = useNavigate()
     const { t } = useTranslation()
+    const { locale } = useLocale()
 
     const [activeTab, setActiveTab] = useState('profile')
+
+    const getTranslatedName = (ref: { name: string; translations?: Record<string, string> | null } | null | undefined): string | undefined => {
+        if (!ref) return undefined
+        const lang = locale?.split('-')[0] || 'en'
+        if (lang === 'en') return ref.name
+        return ref.translations?.[lang] || ref.name
+    }
 
     const { data, isLoading } = useSWR(
         [`/api/employees/${id}`, { id: id as string }],
@@ -108,11 +117,12 @@ const EmployeeDetails = () => {
             <DetailRow label={t('employeeDetails.satellitePhone', 'Satellite Phone')} value={d.satellitePhone} />
             <DetailRow label={t('employeeDetails.roomPhone', 'Room Phone')} value={d.roomPhone} />
             <DetailRow label={t('employeeDetails.documentId', 'Document ID')} value={d.documentId} />
+            <DetailRow label={t('employeeDetails.bloodType', 'Blood Type')} value={d.bloodTypeRef?.name} />
             <DetailRow label={t('employeeDetails.birthDate', 'Birth Date')} value={fmt(d.birthDate)} />
-            <DetailRow label={t('employeeDetails.gender', 'Gender')} value={d.genderRef?.displayName} />
-            <DetailRow label={t('employeeForm.nationality', 'Nationality')} value={d.nationalityRef?.displayName} />
-            <DetailRow label={t('employeeForm.maritalStatus', 'Marital Status')} value={d.maritalStatusRef?.displayName} />
-            <DetailRow label={t('employeeForm.placeOfBirth', 'Place of Birth')} value={d.placeOfBirthRef?.displayName} />
+            <DetailRow label={t('employeeDetails.gender', 'Gender')} value={getTranslatedName(d.genderRef)} />
+            <DetailRow label={t('employeeForm.nationality', 'Nationality')} value={getTranslatedName(d.nationalityRef)} />
+            <DetailRow label={t('employeeForm.maritalStatus', 'Marital Status')} value={getTranslatedName(d.maritalStatusRef)} />
+            <DetailRow label={t('employeeForm.placeOfBirth', 'Place of Birth')} value={getTranslatedName(d.placeOfBirthRef)} />
             <div className="sm:col-span-2 lg:col-span-3">
                 <DetailRow label={t('employeeDetails.address', 'Address')} value={d.address} />
             </div>
@@ -126,7 +136,7 @@ const EmployeeDetails = () => {
             <DetailRow label={t('employeeDetails.contractingCompany', 'Contracting Company')} value={d.contractingCompany} />
             <DetailRow label={t('employeeDetails.hireDate', 'Hire Date')} value={fmt(d.hireDate)} />
             <DetailRow label={t('employeeDetails.endDate', 'End Date')} value={fmt(d.endDate)} />
-            <DetailRow label={t('employeeDetails.salary', 'Salary')} value={d.salary ? `$${d.salary}` : '-'} />
+            <DetailRow label={t('employeeDetails.salary', 'Salary')} value={d.salary != null ? `$${d.salary}` : '-'} />
             <DetailRow label={t('employeeDetails.supervisor', 'Supervisor')} value={d.supervisor?.fullName} />
             <DetailRow label={t('employeeDetails.active', 'Active')} value={d.isActive ? t('common.yes', 'Yes') : t('common.no', 'No')} />
         </SectionGrid>

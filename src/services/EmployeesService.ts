@@ -99,3 +99,75 @@ export async function apiGetDashboardStats() {
         method: 'get',
     })
 }
+
+export type ImportResult = {
+    imported: number
+    errors: { row: number; message: string }[]
+}
+
+export type PreviewResult = {
+    totalRows: number
+    mappedColumns: { excelHeader: string; mappedTo: string }[]
+    unmappedColumns: string[]
+    sampleData: Record<string, string>[]
+    duplicateNames: string[]
+    warnings: string[]
+    missingCatalogs: {
+        departments: { name: string; affectedRows: number }[]
+        bloodTypes: { name: string; affectedRows: number }[]
+    }
+    catalogSummary: {
+        departments: string[]
+        statuses: string[]
+        genders: string[]
+        bloodTypes: string[]
+    }
+}
+
+export async function apiPreviewEmployeesExcel(file: File) {
+    const formData = new FormData()
+    formData.append('file', file)
+    return ApiService.fetchDataWithAxios<PreviewResult, FormData>({
+        url: '/employees/import/preview',
+        method: 'post',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+    })
+}
+
+export async function apiExportEmployeesExcel() {
+    return ApiService.fetchDataWithAxios<Blob>({
+        url: '/employees/export/excel',
+        method: 'get',
+        responseType: 'blob',
+    })
+}
+
+export async function apiImportEmployeesExcel(
+    file: File,
+    autoCreateDepartments?: string[],
+    autoCreateBloodTypes?: string[],
+) {
+    const formData = new FormData()
+    formData.append('file', file)
+    if (autoCreateDepartments?.length) {
+        formData.append('autoCreateDepartments', JSON.stringify(autoCreateDepartments))
+    }
+    if (autoCreateBloodTypes?.length) {
+        formData.append('autoCreateBloodTypes', JSON.stringify(autoCreateBloodTypes))
+    }
+    return ApiService.fetchDataWithAxios<ImportResult, FormData>({
+        url: '/employees/import/excel',
+        method: 'post',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+    })
+}
+
+export async function apiDownloadImportTemplate() {
+    return ApiService.fetchDataWithAxios<Blob>({
+        url: '/employees/import/template',
+        method: 'get',
+        responseType: 'blob',
+    })
+}
