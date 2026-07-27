@@ -2,7 +2,17 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <script>
+      try {
+        var s = JSON.parse(localStorage.getItem('company-settings-cache'));
+        if (s && s.favicon) {
+          var l = document.createElement('link');
+          l.rel = 'shortcut icon';
+          l.href = s.favicon;
+          document.head.appendChild(l);
+        }
+      } catch(e) {}
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Admin Template and Starter Kit with React, Tailwind Components and Vite">
     <title>%VITE_APP_NAME% - %VITE_COMPANY_NAME%</title>

@@ -7,11 +7,18 @@ import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import { FormItem, Form } from '@/components/ui/Form'
-import { apiGetCompanySettings, apiUpdateCompanySettings } from '@/services/CompanySettingsService'
+import {
+    apiGetCompanySettings,
+    apiUpdateCompanySettings,
+    apiUploadCompanyLogo,
+    apiUploadCompanyFavicon,
+    setCachedCompanySettings,
+} from '@/services/CompanySettingsService'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import useTranslation from '@/utils/hooks/useTranslation'
+import { TbUpload } from 'react-icons/tb'
 import type { CompanySettings } from '@/services/CompanySettingsService'
 
 const timezoneOptions = [
@@ -65,6 +72,11 @@ const CompanySettings = () => {
     const [loading, setLoading] = useState(true)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
+    const [logoUrl, setLogoUrl] = useState<string>('')
+    const [faviconUrl, setFaviconUrl] = useState<string>('')
+    const [uploadingLogo, setUploadingLogo] = useState(false)
+    const [uploadingFavicon, setUploadingFavicon] = useState(false)
+
     const validationSchema = z.object({
         companyName: z.string().min(1, { message: t('settings.companyNameRequired', 'Company name is required') }),
         companyRuc: z.string().optional().or(z.literal('')),
@@ -99,6 +111,7 @@ const CompanySettings = () => {
 
     useEffect(() => {
         apiGetCompanySettings<CompanySettings>().then((data) => {
+            setCachedCompanySettings(data)
             reset({
                 companyName: data.companyName || '',
                 companyRuc: data.companyRuc || '',
@@ -110,13 +123,59 @@ const CompanySettings = () => {
                 currency: data.currency || 'USD',
                 defaultLang: data.defaultLang || 'es',
             })
+            setLogoUrl(data.companyLogo || '')
+            setFaviconUrl(data.favicon || '')
             setLoading(false)
         })
     }, [])
 
+    const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+        setUploadingLogo(true)
+        try {
+            const { companyLogo } = await apiUploadCompanyLogo(file)
+            setLogoUrl(companyLogo)
+            apiGetCompanySettings<CompanySettings>().then(setCachedCompanySettings)
+            toast.push(<Notification type="success">{t('settings.logoUploaded', 'Logo uploaded!')}</Notification>, {
+                placement: 'top-center',
+            })
+        } catch {
+            toast.push(<Notification type="danger">{t('settings.failedToUpload', 'Upload failed')}</Notification>, {
+                placement: 'top-center',
+            })
+        }
+        setUploadingLogo(false)
+        e.target.value = ''
+    }
+
+    const handleFaviconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+        setUploadingFavicon(true)
+        try {
+            const { favicon } = await apiUploadCompanyFavicon(file)
+            setFaviconUrl(favicon)
+            const link = document.querySelector("link[rel='shortcut icon']") as HTMLLinkElement
+            if (link) link.href = favicon
+            apiGetCompanySettings<CompanySettings>().then(setCachedCompanySettings)
+            toast.push(<Notification type="success">{t('settings.faviconUploaded', 'Favicon uploaded!')}</Notification>, {
+                placement: 'top-center',
+            })
+        } catch {
+            toast.push(<Notification type="danger">{t('settings.failedToUpload', 'Upload failed')}</Notification>, {
+                placement: 'top-center',
+            })
+        }
+        setUploadingFavicon(false)
+        e.target.value = ''
+    }
+
     const onSubmit = async (values: FormSchema) => {
         setIsSubmitting(true)
         try {
+            await apiUpdateCompanySettings(values)
+            apiGetCompanySettings<CompanySettings>().then(setCachedCompanySettings)
             toast.push(<Notification type="success">{t('settings.saved', 'Settings saved!')}</Notification>, {
                 placement: 'top-center',
             })
@@ -134,6 +193,70 @@ const CompanySettings = () => {
         <Container>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-4">
+                    <Card>
+                        <h4 className="mb-6">{t('settings.branding', 'Branding')}</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="flex flex-col gap-3">
+                                <label className="font-medium">{t('settings.companyLogo', 'Company Logo')}</label>
+                                <div className="border-2 border-dashed rounded-lg p-4 flex flex-col items-center gap-3">
+                                    {logoUrl ? (
+                                        <img src={logoUrl} alt="Logo" className="max-h-20 object-contain" />
+                                    ) : (
+                                        <div className="h-20 flex items-center text-gray-400">{t('settings.noLogo', 'No logo')}</div>
+                                    )}
+                                    <div className="flex gap-2">
+                                        <Button
+                                            variant="default"
+                                            size="sm"
+                                            icon={<TbUpload />}
+                                            loading={uploadingLogo}
+                                            onClick={() => document.getElementById('logo-input')?.click()}
+                                        >
+                                            {t('settings.uploadLogo', 'Upload Logo')}
+                                        </Button>
+                                    </div>
+                                    <input
+                                        id="logo-input"
+                                        type="file"
+                                        accept="image/png,image/jpeg,image/gif,image/webp"
+                                        className="hidden"
+                                        onChange={handleLogoUpload}
+                                    />
+                                    <p className="text-xs text-gray-400">{t('settings.logoHint', 'Recommended: PNG or SVG, max 5MB')}</p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col gap-3">
+                                <label className="font-medium">{t('settings.faviconLabel', 'Favicon')}</label>
+                                <div className="border-2 border-dashed rounded-lg p-4 flex flex-col items-center gap-3">
+                                    {faviconUrl ? (
+                                        <img src={faviconUrl} alt="Favicon" className="h-12 w-12 object-contain" />
+                                    ) : (
+                                        <div className="h-12 flex items-center text-gray-400">{t('settings.noFavicon', 'No favicon')}</div>
+                                    )}
+                                    <div className="flex gap-2">
+                                        <Button
+                                            variant="default"
+                                            size="sm"
+                                            icon={<TbUpload />}
+                                            loading={uploadingFavicon}
+                                            onClick={() => document.getElementById('favicon-input')?.click()}
+                                        >
+                                            {t('settings.uploadFavicon', 'Upload Favicon')}
+                                        </Button>
+                                    </div>
+                                    <input
+                                        id="favicon-input"
+                                        type="file"
+                                        accept="image/png,image/x-icon,image/gif,image/webp"
+                                        className="hidden"
+                                        onChange={handleFaviconUpload}
+                                    />
+                                    <p className="text-xs text-gray-400">{t('settings.faviconHint', 'Recommended: ICO or PNG, max 1MB')}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </Card>
+
                     <Card>
                         <h4 className="mb-6">{t('settings.companyInfo', 'Company Information')}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
