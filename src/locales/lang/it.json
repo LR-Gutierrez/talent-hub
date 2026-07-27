@@ -211,11 +211,11 @@
     },
     "employeeList": {
         "fullName": "Nome Completo",
-        "email": "Email",
+        "location": "Posizione",
         "department": "Dipartimento",
         "position": "Posizione",
         "status": "Stato",
-        "supervisor": "Supervisore"
+        "phoneExtension": "Estensione Telefonica"
     },
     "employeeForm": {
         "personalInfo": "Informazioni Personali",

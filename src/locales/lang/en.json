@@ -216,11 +216,11 @@
     },
     "employeeList": {
         "fullName": "Full Name",
-        "email": "Email",
+        "location": "Location",
         "department": "Department",
         "position": "Position",
         "status": "Status",
-        "supervisor": "Supervisor",
+        "phoneExtension": "Phone Extension",
         "filterByStatus": "Status",
         "filterByDepartment": "Department"
     },
