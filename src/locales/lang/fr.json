@@ -62,6 +62,7 @@
         "failedToDelete": "Échec de la suppression",
         "confirmDelete": "Confirmer la suppression",
         "cancel": "Annuler",
+        "apply": "Appliquer",
         "viewAll": "Voir tout",
         "createdAt": "Créé"
     },
@@ -215,7 +216,12 @@
         "department": "Département",
         "position": "Poste",
         "status": "Statut",
-        "phoneExtension": "Extension Téléphone"
+        "phoneExtension": "Extension Téléphone",
+        "statusChanged": "Statut mis à jour !",
+        "failedToChangeStatus": "Échec de la mise à jour du statut",
+        "selected": "{{count}} sélectionnés",
+        "changeStatusTo": "Changer le statut à...",
+        "bulkStatusChanged": "Statut mis à jour pour {{count}} employés"
     },
         "employeeForm": {
         "personalInfo": "Informations Personnelles",
@@ -377,6 +383,7 @@
         "nameRequired": "Le nom est requis",
         "description": "Description",
         "color": "Couleur",
+        "status": "Statut",
         "deleted": "Statut supprimé !",
         "failedToDelete": "Échec de la suppression du statut"
     },
@@ -393,6 +400,18 @@
         "failedToDelete": "Échec de la suppression du département"
     },
     "settings": {
+        "branding": "Image de Marque",
+        "companyLogo": "Logo de l'Entreprise",
+        "noLogo": "Pas de logo",
+        "uploadLogo": "Télécharger le Logo",
+        "logoHint": "Recommandé : PNG ou SVG, max 5 Mo",
+        "faviconLabel": "Favicon",
+        "noFavicon": "Pas de favicon",
+        "uploadFavicon": "Télécharger le Favicon",
+        "faviconHint": "Recommandé : ICO ou PNG, max 1 Mo",
+        "logoUploaded": "Logo téléchargé !",
+        "faviconUploaded": "Favicon téléchargé !",
+        "failedToUpload": "Échec du téléchargement",
         "companyInfo": "Informations sur l'Entreprise",
         "companyName": "Nom de l'Entreprise",
         "companyNameRequired": "Le nom de l'entreprise est requis",

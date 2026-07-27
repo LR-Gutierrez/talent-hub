@@ -13,7 +13,6 @@ const departmentsRoute: Routes = [
                 description: 'pageHeader.departmentsDesc',
                 contained: true,
             },
-            footer: false,
         },
     },
 ]

@@ -43,6 +43,7 @@ const usersRoute: Routes = [
         authority: ['admin', 'recruiter', 'candidate'],
         meta: {
             pageContainerType: 'contained',
+            footer: false,
         },
     },
 ]

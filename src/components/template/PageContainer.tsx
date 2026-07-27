@@ -164,7 +164,7 @@ const PageContainer = (props: PageContainerProps) => {
                                     pageContainerGutterClass,
                                 pageContainerType === 'contained' &&
                                     'container mx-auto',
-                                !footer && 'pb-0 sm:pb-0 md:pb-0',
+                                !footer && 'pb-8 sm:pb-10 md:pb-12',
                             )}
                         >
                             <PageContainerHeader

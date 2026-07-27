@@ -34,6 +34,9 @@ function useDynamicFavicon() {
                 if (settings.favicon) {
                     applyFavicon(settings.favicon)
                 }
+                if (settings.companyName) {
+                    document.title = `TalentHub - ${settings.companyName}`
+                }
             })
             .catch(() => {})
     }, [])

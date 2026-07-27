@@ -56,6 +56,14 @@ export async function apiChangeEmployeeStatus<T>(id: string, data: { statusId: s
     })
 }
 
+export async function apiBulkChangeEmployeeStatus<T>(data: { employeeIds: string[]; statusId: string; notes?: string }) {
+    return ApiService.fetchDataWithAxios<T>({
+        url: '/employees/bulk-status',
+        method: 'patch',
+        data,
+    })
+}
+
 export async function apiGetEmployeeHistory<T>(id: string) {
     return ApiService.fetchDataWithAxios<T>({
         url: `/employees/${id}/history`,

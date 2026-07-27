@@ -43,6 +43,7 @@ const employeesRoute: Routes = [
         authority: ['admin', 'recruiter', 'candidate'],
         meta: {
             pageContainerType: 'contained',
+            footer: false,
         },
     },
     {
@@ -56,7 +57,6 @@ const employeesRoute: Routes = [
                 description: 'pageHeader.employeeStatusesDesc',
                 contained: true,
             },
-            footer: false,
         },
     },
 ]

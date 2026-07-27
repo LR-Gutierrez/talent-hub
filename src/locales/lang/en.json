@@ -66,6 +66,7 @@
         "failedToDelete": "Failed to delete",
         "confirmDelete": "Confirm Delete",
         "cancel": "Cancel",
+        "apply": "Apply",
         "viewAll": "View all",
         "createdAt": "Created"
     },
@@ -222,7 +223,12 @@
         "status": "Status",
         "phoneExtension": "Phone Extension",
         "filterByStatus": "Status",
-        "filterByDepartment": "Department"
+        "filterByDepartment": "Department",
+        "statusChanged": "Status updated!",
+        "failedToChangeStatus": "Failed to update status",
+        "selected": "{{count}} selected",
+        "changeStatusTo": "Change status to...",
+        "bulkStatusChanged": "Status updated for {{count}} employees"
     },
     "employeeForm": {
         "personalInfo": "Personal Information",
@@ -391,6 +397,7 @@
         "nameRequired": "Name is required",
         "description": "Description",
         "color": "Color",
+        "status": "Status",
         "deleted": "Status deleted!",
         "failedToDelete": "Failed to delete status"
     },
@@ -407,6 +414,18 @@
         "failedToDelete": "Failed to delete department"
     },
     "settings": {
+        "branding": "Branding",
+        "companyLogo": "Company Logo",
+        "noLogo": "No logo",
+        "uploadLogo": "Upload Logo",
+        "logoHint": "Recommended: PNG or SVG, max 5MB",
+        "faviconLabel": "Favicon",
+        "noFavicon": "No favicon",
+        "uploadFavicon": "Upload Favicon",
+        "faviconHint": "Recommended: ICO or PNG, max 1MB",
+        "logoUploaded": "Logo uploaded!",
+        "faviconUploaded": "Favicon uploaded!",
+        "failedToUpload": "Upload failed",
         "companyInfo": "Company Information",
         "companyName": "Company Name",
         "companyNameRequired": "Company name is required",

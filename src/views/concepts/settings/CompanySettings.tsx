@@ -112,6 +112,7 @@ const CompanySettings = () => {
     useEffect(() => {
         apiGetCompanySettings<CompanySettings>().then((data) => {
             setCachedCompanySettings(data)
+            if (data.companyName) document.title = `TalentHub - ${data.companyName}`
             reset({
                 companyName: data.companyName || '',
                 companyRuc: data.companyRuc || '',

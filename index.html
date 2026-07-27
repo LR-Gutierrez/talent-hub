@@ -15,7 +15,15 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Admin Template and Starter Kit with React, Tailwind Components and Vite">
-    <title>%VITE_APP_NAME% - %VITE_COMPANY_NAME%</title>
+    <title>TalentHub</title>
+    <script>
+      try {
+        var s = JSON.parse(localStorage.getItem('company-settings-cache'));
+        if (s && s.companyName) {
+          document.title = 'TalentHub - ' + s.companyName;
+        }
+      } catch(e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

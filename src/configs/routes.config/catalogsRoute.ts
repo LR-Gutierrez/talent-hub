@@ -13,7 +13,6 @@ const catalogsRoute: Routes = [
                 description: 'pageHeader.catalogsDesc',
                 contained: true,
             },
-            footer: false,
         },
     },
     {
@@ -27,7 +26,6 @@ const catalogsRoute: Routes = [
                 description: 'pageHeader.catalogsDesc',
                 contained: true,
             },
-            footer: false,
         },
     },
     {
@@ -41,7 +39,6 @@ const catalogsRoute: Routes = [
                 description: 'pageHeader.catalogsDesc',
                 contained: true,
             },
-            footer: false,
         },
     },
     {
@@ -55,7 +52,6 @@ const catalogsRoute: Routes = [
                 description: 'pageHeader.catalogsDesc',
                 contained: true,
             },
-            footer: false,
         },
     },
     {
@@ -69,7 +65,6 @@ const catalogsRoute: Routes = [
                 description: 'pageHeader.catalogsDesc',
                 contained: true,
             },
-            footer: false,
         },
     },
     {
@@ -83,7 +78,6 @@ const catalogsRoute: Routes = [
                 description: 'pageHeader.catalogsDesc',
                 contained: true,
             },
-            footer: false,
         },
     },
     {
@@ -97,7 +91,6 @@ const catalogsRoute: Routes = [
                 description: 'pageHeader.catalogsDesc',
                 contained: true,
             },
-            footer: false,
         },
     },
 ]
