@@ -87,8 +87,8 @@ const EmployeeListTable = () => {
                 },
             },
             {
-                header: t('employeeList.email', 'Email'),
-                accessorKey: 'email',
+                header: t('employeeList.location', 'Location'),
+                accessorKey: 'address',
             },
             {
                 header: t('employeeList.department', 'Department'),
@@ -117,12 +117,8 @@ const EmployeeListTable = () => {
                 },
             },
             {
-                header: t('employeeList.supervisor', 'Supervisor'),
-                accessorKey: 'supervisor',
-                cell: (props) => {
-                    const row = props.row.original
-                    return <span>{row.supervisor?.fullName || '-'}</span>
-                },
+                header: t('employeeList.phoneExtension', 'Phone Extension'),
+                accessorKey: 'phoneExtension',
             },
             {
                 header: '',
