@@ -94,6 +94,8 @@ npm run build         # Compilar para producción
 npm run preview       # Previsualizar build de producción
 npm run lint          # ESLint
 npm run format        # Prettier + ESLint --fix
+npm run test          # Tests unitarios (Vitest + Testing Library)
+npm run test:run      # Tests una sola vez (sin watch)
 ```
 
 ## Funcionalidades
