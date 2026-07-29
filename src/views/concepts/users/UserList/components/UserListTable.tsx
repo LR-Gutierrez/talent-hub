@@ -1,14 +1,19 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import Avatar from '@/components/ui/Avatar'
 import getInitials, { getAvatarColor } from '@/utils/getInitials'
 import Tag from '@/components/ui/Tag'
 import Tooltip from '@/components/ui/Tooltip'
 import DataTable from '@/components/shared/DataTable'
+import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import useUserList from '../hooks/useUserList'
+import { apiDeleteUser, apiRestoreUser } from '@/services/UsersService'
 import { Link, useNavigate } from 'react-router'
+import Notification from '@/components/ui/Notification'
+import toast from '@/components/ui/toast'
 import cloneDeep from 'lodash/cloneDeep'
-import { TbPencil, TbEye } from 'react-icons/tb'
+import { TbPencil, TbEye, TbRestore, TbTrash } from 'react-icons/tb'
 import { Can } from '@casl/react'
+import useAuth from '@/auth/useAuth'
 import useTranslation from '@/utils/hooks/useTranslation'
 import type { OnSortParam, ColumnDef, Row } from '@/components/shared/DataTable'
 import type { User } from '../types'
@@ -26,6 +31,7 @@ const statusColor: Record<string, string> = {
 }
 
 const NameColumn = ({ row }: { row: User }) => {
+    const { t } = useTranslation()
     return (
         <div className="flex items-center">
             <Avatar
@@ -36,18 +42,41 @@ const NameColumn = ({ row }: { row: User }) => {
             >
                 {!row.photoUrl ? getInitials(row.displayName || row.email) : undefined}
             </Avatar>
-            <Link
-                className={`hover:text-primary ml-2 rtl:mr-2 font-semibold text-gray-900 dark:text-gray-100`}
-                to={`/users/${row.id}`}
-            >
-                {row.displayName || row.email}
-            </Link>
+            <div className="flex items-center gap-2 ml-2 rtl:mr-2">
+                <Link
+                    className={`hover:text-primary font-semibold text-gray-900 dark:text-gray-100 ${row.deletedAt ? 'line-through opacity-60' : ''}`}
+                    to={`/users/${row.id}`}
+                >
+                    {row.displayName || row.email}
+                </Link>
+                {row.deletedAt && (
+                    <Tag className="bg-red-100 text-red-600 border-red-200 text-xs shrink-0">
+                        {t('common.deleted', 'Deleted')}
+                    </Tag>
+                )}
+            </div>
         </div>
     )
 }
 
-const ActionColumn = ({ onEdit, onViewDetail }: { onEdit: () => void; onViewDetail: () => void }) => {
+const ActionColumn = ({ onEdit, onViewDetail, onDelete, onRestore, isDeleted, isSelf }: { onEdit: () => void; onViewDetail: () => void; onDelete: () => void; onRestore: () => void; isDeleted: boolean; isSelf?: boolean }) => {
     const { t } = useTranslation()
+
+    if (isDeleted) {
+        return (
+            <Can I="update" a="User">
+                <Tooltip title={t('common.restore', 'Restore')}>
+                    <span
+                        className="inline-flex items-center text-xl cursor-pointer select-none font-semibold text-emerald-600 hover:text-emerald-700"
+                        role="button"
+                        onClick={onRestore}
+                    >
+                        <TbRestore />
+                    </span>
+                </Tooltip>
+            </Can>
+        )
+    }
 
     return (
         <div className="flex items-center gap-3">
@@ -62,6 +91,19 @@ const ActionColumn = ({ onEdit, onViewDetail }: { onEdit: () => void; onViewDeta
                     </div>
                 </Tooltip>
             </Can>
+            {!isSelf && (
+                <Can I="delete" a="User">
+                    <Tooltip title={t('common.delete', 'Delete')}>
+                        <div
+                            className="text-xl cursor-pointer select-none font-semibold text-red-500"
+                            role="button"
+                            onClick={onDelete}
+                        >
+                            <TbTrash />
+                        </div>
+                    </Tooltip>
+                </Can>
+            )}
             <Tooltip title={t('common.view', 'View')}>
                 <div
                     className={`text-xl cursor-pointer select-none font-semibold`}
@@ -77,9 +119,12 @@ const ActionColumn = ({ onEdit, onViewDetail }: { onEdit: () => void; onViewDeta
 
 const UserListTable = () => {
     const navigate = useNavigate()
+    const { user: currentUser } = useAuth()
 
-    const { userList, userListTotal, tableData, isLoading, setTableData, setSelectAllUser, setSelectedUser, selectedUser } =
+    const { userList, userListTotal, tableData, isLoading, setTableData, setSelectAllUser, setSelectedUser, selectedUser, mutate } =
         useUserList()
+
+    const [deleteUser, setDeleteUser] = useState<User | null>(null)
 
     const handleEdit = (user: User) => {
         navigate(`/users/${user.id}/edit`)
@@ -87,6 +132,47 @@ const UserListTable = () => {
 
     const handleViewDetails = (user: User) => {
         navigate(`/users/${user.id}`)
+    }
+
+    const handleDelete = (user: User) => {
+        if (user.id === currentUser?.userId) {
+            toast.push(<Notification type="danger">{t('userList.cannotDeleteSelf', 'You cannot delete your own account.')}</Notification>, {
+                placement: 'top-center',
+            })
+            return
+        }
+        setDeleteUser(user)
+    }
+
+    const confirmDelete = async () => {
+        if (!deleteUser) return
+        try {
+            await apiDeleteUser(deleteUser.id)
+            mutate()
+            toast.push(<Notification type="success">{t('userList.deleted', 'User deleted!')}</Notification>, {
+                placement: 'top-center',
+            })
+        } catch (err: any) {
+            const msg = err?.response?.data?.message || t('userList.failedToDelete', 'Failed to delete user')
+            toast.push(<Notification type="danger">{msg}</Notification>, {
+                placement: 'top-center',
+            })
+        }
+        setDeleteUser(null)
+    }
+
+    const handleRestore = async (user: User) => {
+        try {
+            await apiRestoreUser(user.id)
+            mutate()
+            toast.push(<Notification type="success">{t('userList.userRestored', 'User restored!')}</Notification>, {
+                placement: 'top-center',
+            })
+        } catch {
+            toast.push(<Notification type="danger">{t('userList.failedToRestore', 'Failed to restore user')}</Notification>, {
+                placement: 'top-center',
+            })
+        }
     }
 
     const { t } = useTranslation()
@@ -140,12 +226,19 @@ const UserListTable = () => {
             {
                 header: '',
                 id: 'action',
-                cell: (props) => (
-                    <ActionColumn
-                        onEdit={() => handleEdit(props.row.original)}
-                        onViewDetail={() => handleViewDetails(props.row.original)}
-                    />
-                ),
+                cell: (props) => {
+                    const row = props.row.original
+                    return (
+                        <ActionColumn
+                            onEdit={() => handleEdit(row)}
+                            onViewDetail={() => handleViewDetails(row)}
+                            onDelete={() => handleDelete(row)}
+                            onRestore={() => handleRestore(row)}
+                            isDeleted={Boolean(row.deletedAt)}
+                            isSelf={row.id === currentUser?.userId}
+                        />
+                    )
+                },
             },
         ],
         [],
@@ -191,6 +284,7 @@ const UserListTable = () => {
     }
 
     return (
+        <>
         <DataTable
             selectable
             columns={columns}
@@ -211,6 +305,19 @@ const UserListTable = () => {
             onCheckBoxChange={handleRowSelect}
             onIndeterminateCheckBoxChange={handleAllRowSelect}
         />
+        <ConfirmDialog
+            isOpen={deleteUser !== null}
+            type="danger"
+            title={t('userList.confirmDeleteTitle', 'Delete User')}
+            confirmText={t('common.delete', 'Delete')}
+            cancelText={t('common.cancel', 'Cancel')}
+            confirmButtonProps={{ className: 'bg-red-500 hover:bg-red-600' }}
+            onCancel={() => setDeleteUser(null)}
+            onConfirm={confirmDelete}
+        >
+            <p>{t('userList.confirmDeleteMessage', 'Are you sure you want to delete user "{{name}}"?', { name: deleteUser?.displayName || deleteUser?.email || '' })}</p>
+        </ConfirmDialog>
+        </>
     )
 }
 

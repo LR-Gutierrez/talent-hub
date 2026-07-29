@@ -59,7 +59,11 @@
         "created": "Créé !",
         "updated": "Mis à jour !",
         "deleted": "Supprimé !",
+        "restore": "Restaurer",
+        "showDeleted": "Afficher supprimés",
         "failedToDelete": "Échec de la suppression",
+        "restored": "Restauré !",
+        "failedToRestore": "Échec de la restauration",
         "confirmDelete": "Confirmer la suppression",
         "cancel": "Annuler",
         "apply": "Appliquer",
@@ -106,7 +110,14 @@
         "email": "Email",
         "role": "Rôle",
         "status": "Statut",
-        "created": "Créé"
+        "created": "Créé",
+        "deleted": "Utilisateur supprimé !",
+        "userRestored": "Utilisateur restauré !",
+        "failedToDelete": "Échec de la suppression de l'utilisateur",
+        "failedToRestore": "Échec de la restauration de l'utilisateur",
+        "confirmDeleteTitle": "Supprimer l'utilisateur",
+        "cannotDeleteSelf": "Vous ne pouvez pas supprimer votre propre compte.",
+        "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer l'utilisateur \"{{name}}\" ?"
     },
     "userForm": {
         "overview": "Aperçu",
@@ -221,9 +232,15 @@
         "failedToChangeStatus": "Échec de la mise à jour du statut",
         "selected": "{{count}} sélectionnés",
         "changeStatusTo": "Changer le statut à...",
-        "bulkStatusChanged": "Statut mis à jour pour {{count}} employés"
+        "bulkStatusChanged": "Statut mis à jour pour {{count}} employés",
+        "deleted": "Employé supprimé !",
+        "employeeRestored": "Employé restauré !",
+        "failedToDelete": "Échec de la suppression de l'employé",
+        "failedToRestore": "Échec de la restauration de l'employé",
+        "confirmDeleteTitle": "Supprimer l'employé",
+        "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer l'employé \"{{name}}\" ?"
     },
-        "employeeForm": {
+    "employeeForm": {
         "personalInfo": "Informations Personnelles",
         "contactInfo": "Informations de Contact",
         "additionalInfo": "Informations Supplémentaires",
@@ -336,6 +353,8 @@
         "noEmployeeFound": "Aucun employé trouvé !",
         "employeeDeleted": "Employé supprimé !",
         "failedToDelete": "Échec de la suppression de l'employé",
+        "employeeRestored": "Employé restauré !",
+        "failedToRestore": "Échec de la restauration de l'employé",
         "removeEmployee": "Supprimer l'employé",
         "removeEmployeeConfirm": "Êtes-vous sûr de vouloir supprimer cet employé ? Cette action ne peut pas être annulée."
     },
@@ -371,6 +390,8 @@
         "changedBy": "Modifié par",
         "employeeDeleted": "Employé supprimé !",
         "failedToDelete": "Échec de la suppression de l'employé",
+        "employeeRestored": "Employé restauré !",
+        "failedToRestore": "Échec de la restauration de l'employé",
         "removeEmployee": "Supprimer l'employé",
         "removeEmployeeConfirm": "Êtes-vous sûr de vouloir supprimer cet employé ? Cette action ne peut pas être annulée."
     },
@@ -385,7 +406,20 @@
         "color": "Couleur",
         "status": "Statut",
         "deleted": "Statut supprimé !",
-        "failedToDelete": "Échec de la suppression du statut"
+        "statusRestored": "Statut restauré !",
+        "failedToDelete": "Échec de la suppression du statut",
+        "failedToRestore": "Échec de la restauration du statut",
+        "confirmDeleteTitle": "Supprimer le statut",
+        "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer le statut \"{{name}}\" ?",
+        "reassignTitle": "Impossible de supprimer le statut",
+        "reassignMessage": "Le statut \"{{name}}\" a {{count}} employé(s) affectés. Réaffectez-les à un autre statut avant de supprimer.",
+        "reassignLabel": "Déplacer les employés vers",
+        "reassignSelectPlaceholder": "Sélectionnez un statut...",
+        "reassignAction": "Déplacer {{count}} et supprimer",
+        "reassignedAndDeleted": "Statut supprimé ! {{count}} employés déplacés vers \"{{name}}\"",
+        "noActiveStatus": "Aucun autre statut actif disponible.",
+        "createNew": "Créer un nouveau statut...",
+        "newStatusName": "Nom du nouveau statut..."
     },
     "department": {
         "title": "Départements",
@@ -397,7 +431,20 @@
         "description": "Description",
         "active": "Actif",
         "deleted": "Département supprimé !",
-        "failedToDelete": "Échec de la suppression du département"
+        "departmentRestored": "Département restauré !",
+        "failedToDelete": "Échec de la suppression du département",
+        "failedToRestore": "Échec de la restauration du département",
+        "confirmDeleteTitle": "Supprimer le département",
+        "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer le département \"{{name}}\" ?",
+        "reassignTitle": "Impossible de supprimer le département",
+        "reassignMessage": "Le département \"{{name}}\" a {{count}} employé(s) affectés. Réaffectez-les à un autre département avant de supprimer.",
+        "reassignLabel": "Déplacer les employés vers",
+        "reassignSelectPlaceholder": "Sélectionnez un département...",
+        "reassignAction": "Déplacer {{count}} et supprimer",
+        "reassignedAndDeleted": "Département supprimé ! {{count}} employés déplacés vers \"{{name}}\"",
+        "noActiveDept": "Aucun autre département actif disponible.",
+        "createNew": "Créer un nouveau département...",
+        "newDeptName": "Nom du nouveau département..."
     },
     "settings": {
         "branding": "Image de Marque",
@@ -445,6 +492,8 @@
         "removeUserConfirm": "Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action ne peut pas être annulée.",
         "userDeleted": "Utilisateur supprimé !",
         "failedToDelete": "Échec de la suppression de l'utilisateur",
+        "userRestored": "Utilisateur restauré !",
+        "failedToRestore": "Échec de la restauration de l'utilisateur",
         "passwordChanged": "Mot de passe changé avec succès !",
         "failedToChangePassword": "Échec du changement de mot de passe",
         "active": "Actif",

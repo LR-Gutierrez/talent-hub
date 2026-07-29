@@ -15,17 +15,20 @@ export const initialTableData: TableQueries = {
 export type EmployeesListState = {
     tableData: TableQueries
     selectedEmployee: Partial<Employee>[]
+    extraFilter: Record<string, string>
 }
 
 type EmployeesListAction = {
     setTableData: (payload: TableQueries) => void
     setSelectedEmployee: (checked: boolean, employee: Employee) => void
     setSelectAllEmployee: (employee: Employee[]) => void
+    setFilter: (key: string, value: string) => void
 }
 
 const initialState: EmployeesListState = {
     tableData: initialTableData,
     selectedEmployee: [],
+    extraFilter: {},
 }
 
 export const useEmployeeListStore = create<EmployeesListState & EmployeesListAction>((set) => ({
@@ -46,4 +49,5 @@ export const useEmployeeListStore = create<EmployeesListState & EmployeesListAct
             }
         }),
     setSelectAllEmployee: (row) => set(() => ({ selectedEmployee: row })),
+    setFilter: (key, value) => set((state) => ({ extraFilter: { ...state.extraFilter, [key]: value } })),
 }))

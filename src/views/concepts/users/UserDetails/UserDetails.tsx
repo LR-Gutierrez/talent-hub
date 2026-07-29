@@ -9,7 +9,7 @@ import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import Loading from '@/components/shared/Loading'
-import { apiGetUser, apiDeleteUser, apiChangeUserPassword } from '@/services/UsersService'
+import { apiGetUser, apiDeleteUser, apiRestoreUser, apiChangeUserPassword } from '@/services/UsersService'
 import { TbArrowNarrowLeft, TbTrash, TbPencil, TbLock } from 'react-icons/tb'
 import { useParams, useNavigate } from 'react-router'
 import useSWR from 'swr'
@@ -32,15 +32,16 @@ const UserDetails = () => {
     const isOwnAccount = id === currentUserId
     const { t } = useTranslation()
 
-    const { data, isLoading } = useSWR(
-        [`/api/users/${id}`, { id: id as string }],
-        ([_, params]) => apiGetUser<User, { id: string }>(params),
+    const { data, isLoading, mutate } = useSWR(
+        [`/api/users/${id}`, { id: id as string, withDeleted: 'true' }],
+        ([_, params]) => apiGetUser<User, { id: string; withDeleted: string }>(params),
         { revalidateOnFocus: false, revalidateIfStale: false },
     )
 
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
     const [passwordDialogOpen, setPasswordDialogOpen] = useState(false)
     const [newPassword, setNewPassword] = useState('')
+    const isDeleted = Boolean(data?.deletedAt)
 
     const handleConfirmDelete = async () => {
         try {
@@ -48,13 +49,27 @@ const UserDetails = () => {
             toast.push(<Notification type="success">{t('userDetails.userDeleted', 'User deleted!')}</Notification>, {
                 placement: 'top-center',
             })
-            navigate('/users')
+            mutate()
         } catch {
             toast.push(<Notification type="danger">{t('userDetails.failedToDelete', 'Failed to delete user')}</Notification>, {
                 placement: 'top-center',
             })
         }
         setDeleteConfirmationOpen(false)
+    }
+
+    const handleRestore = async () => {
+        try {
+            await apiRestoreUser(id as string)
+            toast.push(<Notification type="success">{t('userDetails.userRestored', 'User restored!')}</Notification>, {
+                placement: 'top-center',
+            })
+            mutate()
+        } catch {
+            toast.push(<Notification type="danger">{t('userDetails.failedToRestore', 'Failed to restore user')}</Notification>, {
+                placement: 'top-center',
+            })
+        }
     }
 
     const handleChangePassword = async () => {
@@ -86,35 +101,48 @@ const UserDetails = () => {
                                 {t('common.back', 'Back')}
                             </Button>
                             <div className="flex items-center gap-2">
-                                <Can I="update" a="User">
-                                    <Button
-                                        icon={<TbPencil />}
-                                        onClick={() => navigate(`/users/${data.id}/edit`)}
-                                    >
-                                        {t('common.edit', 'Edit')}
-                                    </Button>
-                                </Can>
-                                {useSessionUser.getState().user.authority?.includes('admin') && (
-                                    <Button
-                                        icon={<TbLock />}
-                                        onClick={() => setPasswordDialogOpen(true)}
-                                    >
-                                        {t('userDetails.changePassword', 'Change Password')}
-                                    </Button>
-                                )}
-                                <Can I="delete" a="User">
-                                    {!isOwnAccount && (
+                                {isDeleted ? (
+                                    <Can I="update" a="User">
                                         <Button
-                                            customColorClass={() =>
-                                                'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
-                                            }
-                                            icon={<TbTrash />}
-                                            onClick={() => setDeleteConfirmationOpen(true)}
+                                            variant="solid"
+                                            onClick={handleRestore}
                                         >
-                                            {t('common.delete', 'Delete')}
+                                            {t('common.restore', 'Restore')}
                                         </Button>
-                                    )}
-                                </Can>
+                                    </Can>
+                                ) : (
+                                    <>
+                                        <Can I="update" a="User">
+                                            <Button
+                                                icon={<TbPencil />}
+                                                onClick={() => navigate(`/users/${data.id}/edit`)}
+                                            >
+                                                {t('common.edit', 'Edit')}
+                                            </Button>
+                                        </Can>
+                                        {useSessionUser.getState().user.authority?.includes('admin') && (
+                                            <Button
+                                                icon={<TbLock />}
+                                                onClick={() => setPasswordDialogOpen(true)}
+                                            >
+                                                {t('userDetails.changePassword', 'Change Password')}
+                                            </Button>
+                                        )}
+                                        <Can I="delete" a="User">
+                                            {!isOwnAccount && (
+                                                <Button
+                                                    customColorClass={() =>
+                                                        'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
+                                                    }
+                                                    icon={<TbTrash />}
+                                                    onClick={() => setDeleteConfirmationOpen(true)}
+                                                >
+                                                    {t('common.delete', 'Delete')}
+                                                </Button>
+                                            )}
+                                        </Can>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <Card>
@@ -130,6 +158,11 @@ const UserDetails = () => {
                                 <div>
                                     <h3>{data.displayName || data.email}</h3>
                                     <div className="flex items-center gap-2 mt-2">
+                                        {isDeleted && (
+                                            <Tag className="bg-red-100 text-red-700 border-red-200">
+                                                {t('common.deleted', 'Deleted')}
+                                            </Tag>
+                                        )}
                                         <Tag className={roleColor[data.role]}>
                                             <span className="capitalize">{data.role}</span>
                                         </Tag>
@@ -181,7 +214,7 @@ const UserDetails = () => {
             </ConfirmDialog>
             <ConfirmDialog
                 isOpen={passwordDialogOpen}
-                type="default"
+                type="info"
                 title={t('userDetails.changePassword', 'Change Password')}
                 onClose={() => { setPasswordDialogOpen(false); setNewPassword('') }}
                 onRequestClose={() => { setPasswordDialogOpen(false); setNewPassword('') }}

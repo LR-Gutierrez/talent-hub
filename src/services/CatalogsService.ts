@@ -31,6 +31,13 @@ export async function apiDeleteCatalog(endpoint: string, id: string) {
     })
 }
 
+export async function apiRestoreCatalog(endpoint: string, id: string) {
+    return ApiService.fetchDataWithAxios({
+        url: `${endpoint}/${id}/restore`,
+        method: 'patch',
+    })
+}
+
 export async function apiUploadFlag(endpoint: string, id: string, file: File) {
     const formData = new FormData()
     formData.append('file', file)

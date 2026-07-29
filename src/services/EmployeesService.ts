@@ -1,12 +1,14 @@
 import ApiService from './ApiService'
 
-export async function apiGetEmployeesList<T>(params: Record<string, unknown>) {
-    const { sort, ...rest } = params
+export async function apiGetEmployeesList<T, U extends Record<string, unknown>>(
+    params: U,
+) {
+    const { sort, ...rest } = params as Record<string, unknown>
     const queryParams: Record<string, unknown> = { ...rest }
     if (sort && typeof sort === 'object') {
-        const s = sort as { order: string; key: string }
+        const s = sort as { order: string; key: string | number }
         if (s.key && s.order) {
-            queryParams.sortKey = s.key
+            queryParams.sortKey = String(s.key)
             queryParams.sortOrder = s.order
         }
     }
@@ -45,6 +47,13 @@ export async function apiDeleteEmployee<T>(id: string) {
     return ApiService.fetchDataWithAxios<T>({
         url: `/employees/${id}`,
         method: 'delete',
+    })
+}
+
+export async function apiRestoreEmployee(id: string) {
+    return ApiService.fetchDataWithAxios<{ id: string }>({
+        url: `/employees/${id}/restore`,
+        method: 'patch',
     })
 }
 

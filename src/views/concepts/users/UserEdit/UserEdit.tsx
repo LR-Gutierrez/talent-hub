@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
-import { apiGetUser, apiUpdateUser, apiDeleteUser } from '@/services/UsersService'
+import { apiGetUser, apiUpdateUser, apiDeleteUser, apiRestoreUser } from '@/services/UsersService'
 import UserForm from '../UserForm/UserForm'
 import NoUserFound from '@/assets/svg/NoUserFound'
 import { TbTrash, TbArrowNarrowLeft } from 'react-icons/tb'
@@ -20,20 +20,20 @@ const UserEdit = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
-    const { data, isLoading } = useSWR(
-        [`/api/users/${id}`, { id: id as string }],
-        ([_, params]) => apiGetUser<User, { id: string }>(params),
+    const { data, isLoading, mutate } = useSWR(
+        [`/api/users/${id}`, { id: id as string, withDeleted: 'true' }],
+        ([_, params]) => apiGetUser<User, { id: string; withDeleted: string }>(params),
         { revalidateOnFocus: false, revalidateIfStale: false },
     )
 
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
     const [isSubmiting, setIsSubmiting] = useState(false)
+    const isDeleted = Boolean(data?.deletedAt)
 
     const handleFormSubmit = async (values: UserFormSchema) => {
         setIsSubmiting(true)
         try {
-            const payload = { ...values }
-            if (!payload.password) delete payload.password
+            const { password, ...payload } = values
             await apiUpdateUser(id as string, payload)
             toast.push(<Notification type="success">{t('userEdit.changesSaved', 'Changes Saved!')}</Notification>, {
                 placement: 'top-center',
@@ -67,13 +67,27 @@ const UserEdit = () => {
             toast.push(<Notification type="success">{t('userDetails.userDeleted', 'User deleted!')}</Notification>, {
                 placement: 'top-center',
             })
-            navigate('/users')
+            mutate()
         } catch {
             toast.push(<Notification type="danger">{t('userDetails.failedToDelete', 'Failed to delete user')}</Notification>, {
                 placement: 'top-center',
             })
         }
         setDeleteConfirmationOpen(false)
+    }
+
+    const handleRestore = async () => {
+        try {
+            await apiRestoreUser(id as string)
+            toast.push(<Notification type="success">{t('userDetails.userRestored', 'User restored!')}</Notification>, {
+                placement: 'top-center',
+            })
+            mutate()
+        } catch {
+            toast.push(<Notification type="danger">{t('userDetails.failedToRestore', 'Failed to restore user')}</Notification>, {
+                placement: 'top-center',
+            })
+        }
     }
 
     const handleDelete = () => {
@@ -114,22 +128,36 @@ const UserEdit = () => {
                                     {t('common.back', 'Back')}
                                 </Button>
                                 <div className="flex items-center">
-                                    <Can I="delete" a="User">
-                                        <Button
-                                            className="ltr:mr-3 rtl:ml-3"
-                                            type="button"
-                                            customColorClass={() =>
-                                                'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
-                                            }
-                                            icon={<TbTrash />}
-                                            onClick={handleDelete}
-                                        >
-                                            {t('common.delete', 'Delete')}
-                                        </Button>
-                                    </Can>
-                                    <Button variant="solid" type="submit" loading={isSubmiting}>
-                                        {t('common.save', 'Save')}
-                                    </Button>
+                                    {isDeleted ? (
+                                        <Can I="update" a="User">
+                                            <Button
+                                                type="button"
+                                                variant="solid"
+                                                onClick={handleRestore}
+                                            >
+                                                {t('common.restore', 'Restore')}
+                                            </Button>
+                                        </Can>
+                                    ) : (
+                                        <>
+                                            <Can I="delete" a="User">
+                                                <Button
+                                                    className="ltr:mr-3 rtl:ml-3"
+                                                    type="button"
+                                                    customColorClass={() =>
+                                                        'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
+                                                    }
+                                                    icon={<TbTrash />}
+                                                    onClick={handleDelete}
+                                                >
+                                                    {t('common.delete', 'Delete')}
+                                                </Button>
+                                            </Can>
+                                            <Button variant="solid" type="submit" loading={isSubmiting}>
+                                                {t('common.save', 'Save')}
+                                            </Button>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </Container>

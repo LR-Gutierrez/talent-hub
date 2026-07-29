@@ -3,7 +3,6 @@ import {
     useRef,
     useEffect,
     useState,
-    useCallback,
     useImperativeHandle,
 } from 'react'
 import classNames from 'classnames'
@@ -14,7 +13,6 @@ import Checkbox from '@/components/ui/Checkbox'
 import TableRowSkeleton from './loaders/TableRowSkeleton'
 import Loading from './Loading'
 import FileNotFound from '@/assets/svg/FileNotFound'
-import useTranslation from '@/utils/hooks/useTranslation'
 import {
     useReactTable,
     getCoreRowModel,
@@ -140,49 +138,15 @@ function DataTable<T>(props: DataTableProps<T>) {
 
     const { pageSize, pageIndex, total } = pagingData
 
-    const { t, i18n } = useTranslation()
-
     const [sorting, setSorting] = useState<ColumnSort[] | null>(null)
-
-    const MIN_LOADING_MS = 350
-    const [showSkeleton, setShowSkeleton] = useState(false)
-    const loadingSinceRef = useRef(0)
-    const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-    const clearHideTimer = useCallback(() => {
-        if (hideTimerRef.current !== null) {
-            clearTimeout(hideTimerRef.current)
-            hideTimerRef.current = null
-        }
-    }, [])
-
-    useEffect(() => {
-        if (loading) {
-            clearHideTimer()
-            loadingSinceRef.current = Date.now()
-            setShowSkeleton(true)
-        } else {
-            const elapsed = Date.now() - loadingSinceRef.current
-            const remaining = MIN_LOADING_MS - elapsed
-            if (remaining > 0) {
-                hideTimerRef.current = setTimeout(() => {
-                    setShowSkeleton(false)
-                }, remaining)
-            } else {
-                setShowSkeleton(false)
-            }
-        }
-        return clearHideTimer
-    }, [loading, clearHideTimer])
 
     const pageSizeOption = useMemo(
         () =>
             pageSizes.map((number) => ({
                 value: number,
-                label: t('table.pageSize', '{{count}} / page', { count: number }),
+                label: `${number} / page`,
             })),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [pageSizes, i18n.language],
+        [pageSizes],
     )
 
     useEffect(() => {
@@ -262,10 +226,6 @@ function DataTable<T>(props: DataTableProps<T>) {
         return columns
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [columnsProp, selectable, loading, checkboxChecked])
-
-    const columnsSizes = useMemo(() => {
-        return finalColumns.map((col) => ('size' in col ? col.size : undefined))
-    }, [finalColumns])
 
     const table = useReactTable({
         data,
@@ -351,13 +311,12 @@ function DataTable<T>(props: DataTableProps<T>) {
                         </Tr>
                     ))}
                 </THead>
-                {showSkeleton ? (
+                {loading && data.length === 0 ? (
                     <TableRowSkeleton
                         columns={(finalColumns as Array<T>).length}
                         rows={pagingData.pageSize}
                         avatarInColumns={skeletonAvatarColumns}
                         avatarProps={skeletonAvatarProps}
-                        columnsSizes={columnsSizes}
                     />
                 ) : (
                     <TBody>
@@ -374,7 +333,7 @@ function DataTable<T>(props: DataTableProps<T>) {
                                             <>
                                                 <FileNotFound />
                                                 <span className="font-semibold">
-                                                    {t('table.noData', 'No data found!')}
+                                                    No data found!
                                                 </span>
                                             </>
                                         )}

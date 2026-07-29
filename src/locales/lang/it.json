@@ -59,7 +59,11 @@
         "created": "Creato!",
         "updated": "Aggiornato!",
         "deleted": "Eliminato!",
+        "restore": "Ripristina",
+        "showDeleted": "Mostra eliminati",
         "failedToDelete": "Errore durante l'eliminazione",
+        "restored": "Ripristinato!",
+        "failedToRestore": "Errore durante il ripristino",
         "confirmDelete": "Conferma Eliminazione",
         "cancel": "Annulla",
         "apply": "Applica",
@@ -106,7 +110,14 @@
         "email": "Email",
         "role": "Ruolo",
         "status": "Stato",
-        "created": "Creato"
+        "created": "Creato",
+        "deleted": "Utente eliminato!",
+        "userRestored": "Utente ripristinato!",
+        "failedToDelete": "Errore nell'eliminazione dell'utente",
+        "failedToRestore": "Errore nel ripristino dell'utente",
+        "confirmDeleteTitle": "Elimina Utente",
+        "cannotDeleteSelf": "Non puoi eliminare il tuo account.",
+        "confirmDeleteMessage": "Sei sicuro di voler eliminare l'utente \"{{name}}\"?"
     },
     "userForm": {
         "overview": "Panoramica",
@@ -221,7 +232,13 @@
         "failedToChangeStatus": "Errore nell'aggiornamento dello stato",
         "selected": "{{count}} selezionati",
         "changeStatusTo": "Cambia stato in...",
-        "bulkStatusChanged": "Stato aggiornato per {{count}} dipendenti"
+        "bulkStatusChanged": "Stato aggiornato per {{count}} dipendenti",
+        "deleted": "Dipendente eliminato!",
+        "employeeRestored": "Dipendente ripristinato!",
+        "failedToDelete": "Errore nell'eliminazione del dipendente",
+        "failedToRestore": "Errore nel ripristino del dipendente",
+        "confirmDeleteTitle": "Elimina Dipendente",
+        "confirmDeleteMessage": "Sei sicuro di voler eliminare il dipendente \"{{name}}\"?"
     },
     "employeeForm": {
         "personalInfo": "Informazioni Personali",
@@ -336,6 +353,8 @@
         "noEmployeeFound": "Nessun dipendente trovato!",
         "employeeDeleted": "Dipendente eliminato!",
         "failedToDelete": "Errore nell'eliminazione del dipendente",
+        "employeeRestored": "Dipendente ripristinato!",
+        "failedToRestore": "Errore nel ripristino del dipendente",
         "removeEmployee": "Rimuovi dipendente",
         "removeEmployeeConfirm": "Sei sicuro di voler rimuovere questo dipendente? Questa azione non può essere annullata."
     },
@@ -371,6 +390,8 @@
         "changedBy": "Modificato da",
         "employeeDeleted": "Dipendente eliminato!",
         "failedToDelete": "Errore nell'eliminazione del dipendente",
+        "employeeRestored": "Dipendente ripristinato!",
+        "failedToRestore": "Errore nel ripristino del dipendente",
         "removeEmployee": "Rimuovi dipendente",
         "removeEmployeeConfirm": "Sei sicuro di voler rimuovere questo dipendente? Questa azione non può essere annullata."
     },
@@ -385,7 +406,20 @@
         "color": "Colore",
         "status": "Stato",
         "deleted": "Stato eliminato!",
-        "failedToDelete": "Errore nell'eliminazione dello stato"
+        "statusRestored": "Stato ripristinato!",
+        "failedToDelete": "Errore nell'eliminazione dello stato",
+        "failedToRestore": "Errore nel ripristino dello stato",
+        "confirmDeleteTitle": "Elimina Stato",
+        "confirmDeleteMessage": "Sei sicuro di voler eliminare lo stato \"{{name}}\"?",
+        "reassignTitle": "Impossibile eliminare lo stato",
+        "reassignMessage": "Lo stato \"{{name}}\" ha {{count}} dipendente(i) assegnati. Assegnateli a un altro stato prima di eliminare.",
+        "reassignLabel": "Sposta i dipendenti in",
+        "reassignSelectPlaceholder": "Seleziona uno stato...",
+        "reassignAction": "Sposta {{count}} ed elimina",
+        "reassignedAndDeleted": "Stato eliminato! {{count}} dipendenti spostati in \"{{name}}\"",
+        "noActiveStatus": "Nessun altro stato attivo disponibile.",
+        "createNew": "Crea nuovo stato...",
+        "newStatusName": "Nome del nuovo stato..."
     },
     "department": {
         "title": "Dipartimenti",
@@ -397,7 +431,20 @@
         "description": "Descrizione",
         "active": "Attivo",
         "deleted": "Dipartimento eliminato!",
-        "failedToDelete": "Errore nell'eliminazione del dipartimento"
+        "departmentRestored": "Dipartimento ripristinato!",
+        "failedToDelete": "Errore nell'eliminazione del dipartimento",
+        "failedToRestore": "Errore nel ripristino del dipartimento",
+        "confirmDeleteTitle": "Elimina Dipartimento",
+        "confirmDeleteMessage": "Sei sicuro di voler eliminare il dipartimento \"{{name}}\"?",
+        "reassignTitle": "Impossibile eliminare il dipartimento",
+        "reassignMessage": "Il dipartimento \"{{name}}\" ha {{count}} dipendente(i) assegnati. Assegnateli a un altro dipartimento prima di eliminare.",
+        "reassignLabel": "Sposta i dipendenti in",
+        "reassignSelectPlaceholder": "Seleziona un dipartimento...",
+        "reassignAction": "Sposta {{count}} ed elimina",
+        "reassignedAndDeleted": "Dipartimento eliminato! {{count}} dipendenti spostati in \"{{name}}\"",
+        "noActiveDept": "Nessun altro dipartimento attivo disponibile.",
+        "createNew": "Crea nuovo dipartimento...",
+        "newDeptName": "Nome del nuovo dipartimento..."
     },
     "settings": {
         "branding": "Immagine del Marchio",
@@ -445,6 +492,8 @@
         "removeUserConfirm": "Sei sicuro di voler rimuovere questo utente? Questa azione non può essere annullata.",
         "userDeleted": "Utente eliminato!",
         "failedToDelete": "Errore nell'eliminazione dell'utente",
+        "userRestored": "Utente ripristinato!",
+        "failedToRestore": "Errore nel ripristino dell'utente",
         "passwordChanged": "Password cambiata con successo!",
         "failedToChangePassword": "Errore nel cambio password",
         "active": "Attivo",

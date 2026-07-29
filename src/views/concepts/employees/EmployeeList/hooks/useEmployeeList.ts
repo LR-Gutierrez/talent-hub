@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { apiGetEmployeesList } from '@/services/EmployeesService'
 import useSWR from 'swr'
 import { useEmployeeListStore } from '../store/employeeListStore'
@@ -6,14 +5,12 @@ import type { GetEmployeesListResponse } from '../types'
 import type { TableQueries } from '@/@types/common'
 
 export default function useEmployeeList() {
-    const { tableData, setTableData, selectedEmployee, setSelectedEmployee, setSelectAllEmployee } =
+    const { tableData, setTableData, selectedEmployee, setSelectedEmployee, setSelectAllEmployee, extraFilter, setFilter } =
         useEmployeeListStore((state) => state)
-
-    const [extraFilter, setExtraFilter] = useState<Record<string, string>>({})
 
     const { data, error, isLoading, mutate } = useSWR(
         ['/api/employees', { ...tableData, ...extraFilter }],
-        ([_, params]) => apiGetEmployeesList<GetEmployeesListResponse>(params),
+        ([_, params]) => apiGetEmployeesList<GetEmployeesListResponse, TableQueries>(params),
         {
             revalidateOnFocus: false,
         },
@@ -21,10 +18,6 @@ export default function useEmployeeList() {
 
     const employeeList = data?.list || []
     const employeeListTotal = data?.total || 0
-
-    const setFilter = (key: string, value: string) => {
-        setExtraFilter((prev) => ({ ...prev, [key]: value }))
-    }
 
     return {
         employeeList,

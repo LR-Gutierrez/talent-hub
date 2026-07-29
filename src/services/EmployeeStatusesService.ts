@@ -32,9 +32,24 @@ export async function apiUpdateEmployeeStatus<T, U extends Record<string, unknow
     })
 }
 
-export async function apiDeleteEmployeeStatus<T>(id: string) {
+export async function apiDeleteEmployeeStatus<T>(id: string, params?: Record<string, string>) {
     return ApiService.fetchDataWithAxios<T>({
         url: `/employee-statuses/${id}`,
         method: 'delete',
+        params,
+    })
+}
+
+export async function apiGetEmployeeStatusCount(id: string) {
+    return ApiService.fetchDataWithAxios<{ employeeCount: number }>({
+        url: `/employee-statuses/${id}/employee-count`,
+        method: 'get',
+    })
+}
+
+export async function apiRestoreEmployeeStatus(id: string) {
+    return ApiService.fetchDataWithAxios<{ id: string }>({
+        url: `/employee-statuses/${id}/restore`,
+        method: 'patch',
     })
 }

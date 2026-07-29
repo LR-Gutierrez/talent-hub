@@ -63,7 +63,11 @@
         "created": "Created!",
         "updated": "Updated!",
         "deleted": "Deleted!",
+        "restore": "Restore",
+        "showDeleted": "Show deleted",
         "failedToDelete": "Failed to delete",
+        "restored": "Restored!",
+        "failedToRestore": "Failed to restore",
         "confirmDelete": "Confirm Delete",
         "cancel": "Cancel",
         "apply": "Apply",
@@ -110,7 +114,14 @@
         "email": "Email",
         "role": "Role",
         "status": "Status",
-        "created": "Created"
+        "created": "Created",
+        "deleted": "User deleted!",
+        "userRestored": "User restored!",
+        "failedToDelete": "Failed to delete user",
+        "failedToRestore": "Failed to restore user",
+        "confirmDeleteTitle": "Delete User",
+        "cannotDeleteSelf": "You cannot delete your own account.",
+        "confirmDeleteMessage": "Are you sure you want to delete user \"{{name}}\"?"
     },
     "userForm": {
         "overview": "Overview",
@@ -228,7 +239,13 @@
         "failedToChangeStatus": "Failed to update status",
         "selected": "{{count}} selected",
         "changeStatusTo": "Change status to...",
-        "bulkStatusChanged": "Status updated for {{count}} employees"
+        "bulkStatusChanged": "Status updated for {{count}} employees",
+        "deleted": "Employee deleted!",
+        "employeeRestored": "Employee restored!",
+        "failedToDelete": "Failed to delete employee",
+        "failedToRestore": "Failed to restore employee",
+        "confirmDeleteTitle": "Delete Employee",
+        "confirmDeleteMessage": "Are you sure you want to delete employee \"{{name}}\"?"
     },
     "employeeForm": {
         "personalInfo": "Personal Information",
@@ -349,6 +366,8 @@
         "noEmployeeFound": "No employee found!",
         "employeeDeleted": "Employee deleted!",
         "failedToDelete": "Failed to delete employee",
+        "employeeRestored": "Employee restored!",
+        "failedToRestore": "Failed to restore employee",
         "removeEmployee": "Remove employee",
         "removeEmployeeConfirm": "Are you sure you want to remove this employee? This action can't be undo."
     },
@@ -385,6 +404,8 @@
         "changedBy": "Changed by",
         "employeeDeleted": "Employee deleted!",
         "failedToDelete": "Failed to delete employee",
+        "employeeRestored": "Employee restored!",
+        "failedToRestore": "Failed to restore employee",
         "removeEmployee": "Remove employee",
         "removeEmployeeConfirm": "Are you sure you want to remove this employee? This action can't be undo."
     },
@@ -399,7 +420,20 @@
         "color": "Color",
         "status": "Status",
         "deleted": "Status deleted!",
-        "failedToDelete": "Failed to delete status"
+        "statusRestored": "Status restored!",
+        "failedToDelete": "Failed to delete status",
+        "failedToRestore": "Failed to restore status",
+        "confirmDeleteTitle": "Delete Status",
+        "confirmDeleteMessage": "Are you sure you want to delete status \"{{name}}\"?",
+        "reassignTitle": "Cannot delete status",
+        "reassignMessage": "The status \"{{name}}\" has {{count}} employee(s) assigned. Reassign them to another status before deleting.",
+        "reassignLabel": "Move employees to",
+        "reassignSelectPlaceholder": "Select a status...",
+        "reassignAction": "Move {{count}} and delete",
+        "reassignedAndDeleted": "Status deleted! {{count}} employees moved to \"{{name}}\"",
+        "noActiveStatus": "No other active statuses available.",
+        "createNew": "Create new status...",
+        "newStatusName": "Name of the new status..."
     },
     "department": {
         "title": "Departments",
@@ -411,7 +445,20 @@
         "description": "Description",
         "active": "Active",
         "deleted": "Department deleted!",
-        "failedToDelete": "Failed to delete department"
+        "departmentRestored": "Department restored!",
+        "failedToDelete": "Failed to delete department",
+        "failedToRestore": "Failed to restore department",
+        "confirmDeleteTitle": "Delete Department",
+        "confirmDeleteMessage": "Are you sure you want to delete department \"{{name}}\"?",
+        "reassignTitle": "Cannot delete department",
+        "reassignMessage": "The department \"{{name}}\" has {{count}} employee(s) assigned. Reassign them to another department before deleting.",
+        "reassignLabel": "Move employees to",
+        "reassignSelectPlaceholder": "Select a department...",
+        "reassignAction": "Move {{count}} and delete",
+        "reassignedAndDeleted": "Department deleted! {{count}} employees moved to \"{{name}}\"",
+        "noActiveDept": "No other active departments available.",
+        "createNew": "Create new department...",
+        "newDeptName": "Name of the new department..."
     },
     "settings": {
         "branding": "Branding",
@@ -459,6 +506,8 @@
         "removeUserConfirm": "Are you sure you want to remove this user? This action can't be undo.",
         "userDeleted": "User deleted!",
         "failedToDelete": "Failed to delete user",
+        "userRestored": "User restored!",
+        "failedToRestore": "Failed to restore user",
         "passwordChanged": "Password changed successfully!",
         "failedToChangePassword": "Failed to change password",
         "active": "Active",

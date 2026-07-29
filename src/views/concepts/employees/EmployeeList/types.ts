@@ -46,6 +46,7 @@ export type Employee = {
     emergencyContacts: EmployeeEmergencyContact[]
     createdAt: string
     updatedAt: string
+    deletedAt?: string | null
 }
 
 export type EmployeeEducation = {
@@ -91,6 +92,7 @@ export type EmployeeStatus = {
     isActive: boolean
     createdAt: string
     updatedAt: string
+    deletedAt?: string | null
 }
 
 export type Department = {

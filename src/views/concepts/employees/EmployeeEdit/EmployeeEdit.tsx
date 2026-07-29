@@ -3,7 +3,7 @@ import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
-import { apiGetEmployee, apiUpdateEmployee, apiDeleteEmployee } from '@/services/EmployeesService'
+import { apiGetEmployee, apiUpdateEmployee, apiDeleteEmployee, apiRestoreEmployee } from '@/services/EmployeesService'
 import EmployeeForm from '../EmployeeForm/EmployeeForm'
 import NoUserFound from '@/assets/svg/NoUserFound'
 import { TbTrash } from 'react-icons/tb'
@@ -19,14 +19,15 @@ const EmployeeEdit = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
-    const { data, isLoading } = useSWR(
-        [`/api/employees/${id}`, { id: id as string }],
-        ([_, params]) => apiGetEmployee<Employee, { id: string }>(params),
+    const { data, isLoading, mutate } = useSWR(
+        [`/api/employees/${id}`, { id: id as string, withDeleted: 'true' }],
+        ([_, params]) => apiGetEmployee<Employee, { id: string; withDeleted: string }>(params),
         { revalidateOnFocus: false, revalidateIfStale: false },
     )
 
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
     const [isSubmiting, setIsSubmiting] = useState(false)
+    const isDeleted = Boolean(data?.deletedAt)
 
     const handleFormSubmit = async (values: EmployeeFormSchema) => {
         setIsSubmiting(true)
@@ -111,13 +112,27 @@ const EmployeeEdit = () => {
             toast.push(<Notification type="success">{t('employeeEdit.employeeDeleted', 'Employee deleted!')}</Notification>, {
                 placement: 'top-center',
             })
-            navigate('/employees')
+            mutate()
         } catch {
             toast.push(<Notification type="danger">{t('employeeEdit.failedToDelete', 'Failed to delete employee')}</Notification>, {
                 placement: 'top-center',
             })
         }
         setDeleteConfirmationOpen(false)
+    }
+
+    const handleRestore = async () => {
+        try {
+            await apiRestoreEmployee(id as string)
+            toast.push(<Notification type="success">{t('employeeEdit.employeeRestored', 'Employee restored!')}</Notification>, {
+                placement: 'top-center',
+            })
+            mutate()
+        } catch {
+            toast.push(<Notification type="danger">{t('employeeEdit.failedToRestore', 'Failed to restore employee')}</Notification>, {
+                placement: 'top-center',
+            })
+        }
     }
 
     const handleDelete = () => {
@@ -144,21 +159,35 @@ const EmployeeEdit = () => {
                         onFormSubmit={handleFormSubmit}
                     >
                         <div className="flex items-center gap-3">
-                            <Can I="delete" a="Employee">
-                                <Button
-                                    type="button"
-                                    customColorClass={() =>
-                                        'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
-                                    }
-                                    icon={<TbTrash />}
-                                    onClick={handleDelete}
-                                >
-                                    {t('common.delete', 'Delete')}
-                                </Button>
-                            </Can>
-                            <Button variant="solid" type="submit" loading={isSubmiting}>
-                                {t('common.save', 'Save')}
-                            </Button>
+                            {isDeleted ? (
+                                <Can I="update" a="Employee">
+                                    <Button
+                                        type="button"
+                                        variant="solid"
+                                        onClick={handleRestore}
+                                    >
+                                        {t('common.restore', 'Restore')}
+                                    </Button>
+                                </Can>
+                            ) : (
+                                <>
+                                    <Can I="delete" a="Employee">
+                                        <Button
+                                            type="button"
+                                            customColorClass={() =>
+                                                'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
+                                            }
+                                            icon={<TbTrash />}
+                                            onClick={handleDelete}
+                                        >
+                                            {t('common.delete', 'Delete')}
+                                        </Button>
+                                    </Can>
+                                    <Button variant="solid" type="submit" loading={isSubmiting}>
+                                        {t('common.save', 'Save')}
+                                    </Button>
+                                </>
+                            )}
                         </div>
                     </EmployeeForm>
                     <ConfirmDialog

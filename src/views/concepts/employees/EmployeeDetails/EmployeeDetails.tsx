@@ -13,7 +13,7 @@ import Tabs from '@/components/ui/Tabs'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
-import { apiGetEmployee, apiDeleteEmployee } from '@/services/EmployeesService'
+import { apiGetEmployee, apiDeleteEmployee, apiRestoreEmployee } from '@/services/EmployeesService'
 import { apiGetCompanySettings } from '@/services/CompanySettingsService'
 import {
     TbArrowNarrowLeft,
@@ -77,9 +77,9 @@ const EmployeeDetails = () => {
         return ref.translations?.[lang] || ref.name
     }
 
-    const { data, isLoading } = useSWR(
-        [`/api/employees/${id}`, { id: id as string }],
-        ([, params]) => apiGetEmployee<Employee, { id: string }>(params),
+    const { data, isLoading, mutate } = useSWR(
+        [`/api/employees/${id}`, { id: id as string, withDeleted: 'true' }],
+        ([, params]) => apiGetEmployee<Employee, { id: string; withDeleted: string }>(params),
         { revalidateOnFocus: false },
     )
 
@@ -92,6 +92,7 @@ const EmployeeDetails = () => {
         date ? dayjs(date).format(dateFormat) : '-'
 
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
+    const isDeleted = Boolean(data?.deletedAt)
 
     const handleDelete = async () => {
         try {
@@ -99,13 +100,27 @@ const EmployeeDetails = () => {
             toast.push(<Notification type="success">{t('employeeDetails.employeeDeleted', 'Employee deleted!')}</Notification>, {
                 placement: 'top-center',
             })
-            navigate('/employees')
+            mutate()
         } catch {
             toast.push(<Notification type="danger">{t('employeeDetails.failedToDelete', 'Failed to delete employee')}</Notification>, {
                 placement: 'top-center',
             })
         }
         setDeleteConfirmationOpen(false)
+    }
+
+    const handleRestore = async () => {
+        try {
+            await apiRestoreEmployee(id as string)
+            toast.push(<Notification type="success">{t('employeeDetails.employeeRestored', 'Employee restored!')}</Notification>, {
+                placement: 'top-center',
+            })
+            mutate()
+        } catch {
+            toast.push(<Notification type="danger">{t('employeeDetails.failedToRestore', 'Failed to restore employee')}</Notification>, {
+                placement: 'top-center',
+            })
+        }
     }
 
     const renderProfileTab = (d: Employee) => (
@@ -250,25 +265,38 @@ const EmployeeDetails = () => {
                                 {t('common.back', 'Back')}
                             </Button>
                             <div className="flex items-center gap-2">
-                                <Can I="update" a="Employee">
-                                    <Button
-                                        icon={<TbPencil />}
-                                        onClick={() => navigate(`/employees/${data.id}/edit`)}
-                                    >
-                                        {t('common.edit', 'Edit')}
-                                    </Button>
-                                </Can>
-                                <Can I="delete" a="Employee">
-                                    <Button
-                                        icon={<TbTrash />}
-                                        customColorClass={() =>
-                                            'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
-                                        }
-                                        onClick={() => setDeleteConfirmationOpen(true)}
-                                    >
-                                        {t('common.delete', 'Delete')}
-                                    </Button>
-                                </Can>
+                                {isDeleted ? (
+                                    <Can I="update" a="Employee">
+                                        <Button
+                                            variant="solid"
+                                            onClick={handleRestore}
+                                        >
+                                            {t('common.restore', 'Restore')}
+                                        </Button>
+                                    </Can>
+                                ) : (
+                                    <>
+                                        <Can I="update" a="Employee">
+                                            <Button
+                                                icon={<TbPencil />}
+                                                onClick={() => navigate(`/employees/${data.id}/edit`)}
+                                            >
+                                                {t('common.edit', 'Edit')}
+                                            </Button>
+                                        </Can>
+                                        <Can I="delete" a="Employee">
+                                            <Button
+                                                icon={<TbTrash />}
+                                                customColorClass={() =>
+                                                    'border-error ring-1 ring-error text-error hover:border-error hover:ring-error hover:text-error bg-transparent'
+                                                }
+                                                onClick={() => setDeleteConfirmationOpen(true)}
+                                            >
+                                                {t('common.delete', 'Delete')}
+                                            </Button>
+                                        </Can>
+                                    </>
+                                )}
                             </div>
                         </div>
 
@@ -280,6 +308,11 @@ const EmployeeDetails = () => {
                                 <div className="text-center md:text-left">
                                     <h3 className="m-0">{data.fullName}</h3>
                                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-1.5">
+                                        {isDeleted && (
+                                            <Tag className="bg-red-100 text-red-700 border-red-200">
+                                                {t('common.deleted', 'Deleted')}
+                                            </Tag>
+                                        )}
                                         <Tag
                                             style={data.status?.color ? { backgroundColor: data.status.color + '20', color: data.status.color, borderColor: data.status.color + '40' } : {}}
                                         >

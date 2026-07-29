@@ -11,8 +11,9 @@ import toast from '@/components/ui/toast'
 import Notification from '@/components/ui/Notification'
 import Dialog from '@/components/ui/Dialog'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
+import ShowDeletedToggle from '@/components/shared/ShowDeletedToggle'
 import { FormItem, Form } from '@/components/ui/Form'
-import { TbPencil, TbTrash, TbPlus, TbUpload, TbTrashOff } from 'react-icons/tb'
+import { TbPencil, TbTrash, TbPlus, TbUpload, TbTrashOff, TbRestore } from 'react-icons/tb'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -22,6 +23,7 @@ import {
     apiCreateCatalog,
     apiUpdateCatalog,
     apiDeleteCatalog,
+    apiRestoreCatalog,
     apiUploadFlag,
     apiDeleteFlag,
 } from '@/services/CatalogsService'
@@ -38,6 +40,7 @@ type CatalogItem = {
     dialCode?: string
     displayName?: string
     translations?: Record<string, string>
+    deletedAt?: string | null
 }
 
 type ExtraField = {
@@ -84,15 +87,17 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
     const [pageIndex, setPageIndex] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [total, setTotal] = useState(0)
+    const [showDeleted, setShowDeleted] = useState(false)
 
     const loadItems = useCallback(() => {
         const params: Record<string, unknown> = { pageIndex, pageSize }
         if (locale !== 'en') params.locale = locale
+        if (showDeleted) params.withDeleted = 'true'
         apiGetCatalogs<{ list: CatalogItem[]; total: number }>(endpoint, params).then((res) => {
             setItems(res.list)
             setTotal(res.total)
         })
-    }, [endpoint, pageIndex, pageSize, locale])
+    }, [endpoint, pageIndex, pageSize, locale, showDeleted])
 
     useEffect(() => {
         loadItems()
@@ -202,6 +207,22 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
         setDeleteDialogOpen(true)
     }
 
+    const handleRestore = async (id: string) => {
+        try {
+            await apiRestoreCatalog(endpoint, id)
+            loadItems()
+            toast.push(
+                <Notification type="success">{t('common.restored', 'Restored!')}</Notification>,
+                { placement: 'top-center' },
+            )
+        } catch {
+            toast.push(
+                <Notification type="danger">{t('common.failedToRestore', 'Failed to restore')}</Notification>,
+                { placement: 'top-center' },
+            )
+        }
+    }
+
     const handleDelete = async () => {
         if (!deletingId) return
         try {
@@ -269,9 +290,12 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                         <h3>{title}</h3>
-                        <Button variant="solid" icon={<TbPlus />} onClick={openCreate}>
-                            {t('catalogs.addNew', 'Add')}
-                        </Button>
+                        <div className="flex items-center gap-2">
+                            <ShowDeletedToggle checked={showDeleted} onChange={(checked) => { setShowDeleted(checked); setPageIndex(1) }} />
+                            <Button variant="solid" icon={<TbPlus />} onClick={openCreate}>
+                                {t('catalogs.addNew', 'Add')}
+                            </Button>
+                        </div>
                     </div>
                     <Table>
                         <THead>
@@ -294,7 +318,18 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
                             ) : (
                                 paginatedItems.map((item) => (
                                     <Tr key={item.id}>
-                                        <Td className="font-semibold">{item.displayName || item.name}</Td>
+                                        <Td className="font-semibold">
+                                            <div className="flex items-center gap-2">
+                                                <span className={item.deletedAt ? 'line-through opacity-60' : ''}>
+                                                    {item.displayName || item.name}
+                                                </span>
+                                                {item.deletedAt && (
+                                                    <span className="bg-red-100 text-red-600 border border-red-200 text-xs rounded px-1.5 py-0.5 shrink-0">
+                                                        {t('common.deleted', 'Deleted')}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </Td>
                                         {showValue && <Td>{item.value}</Td>}
                                         {extraFields.map((f) => (
                                             <Td key={f.key}>
@@ -308,14 +343,25 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
                                                         <TbPencil />
                                                     </button>
                                                 </Tooltip>
-                                                <Tooltip title={t('common.delete', 'Delete')}>
-                                                    <button
-                                                        className="text-xl cursor-pointer text-red-500"
-                                                        onClick={() => confirmDelete(item.id)}
-                                                    >
-                                                        <TbTrash />
-                                                    </button>
-                                                </Tooltip>
+                                                {item.deletedAt ? (
+                                                    <Tooltip title={t('common.restore', 'Restore')}>
+                                                        <button
+                                                            className="text-xl cursor-pointer text-emerald-600"
+                                                            onClick={() => handleRestore(item.id)}
+                                                        >
+                                                            <TbRestore />
+                                                        </button>
+                                                    </Tooltip>
+                                                ) : (
+                                                    <Tooltip title={t('common.delete', 'Delete')}>
+                                                        <button
+                                                            className="text-xl cursor-pointer text-red-500"
+                                                            onClick={() => confirmDelete(item.id)}
+                                                        >
+                                                            <TbTrash />
+                                                        </button>
+                                                    </Tooltip>
+                                                )}
                                             </div>
                                         </Td>
                                     </Tr>

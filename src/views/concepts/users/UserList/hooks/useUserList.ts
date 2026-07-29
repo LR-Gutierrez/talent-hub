@@ -5,11 +5,11 @@ import type { GetUsersListResponse } from '../types'
 import type { TableQueries } from '@/@types/common'
 
 export default function useUserList() {
-    const { tableData, setTableData, selectedUser, setSelectedUser, setSelectAllUser } =
+    const { tableData, setTableData, selectedUser, setSelectedUser, setSelectAllUser, extraFilter, setFilter } =
         useUserListStore((state) => state)
 
     const { data, error, isLoading, mutate } = useSWR(
-        ['/api/users', { ...tableData }],
+        ['/api/users', { ...tableData, ...extraFilter }],
         ([_, params]) => apiGetUsersList<GetUsersListResponse, TableQueries>(params),
         {
             revalidateOnFocus: false,
@@ -27,6 +27,7 @@ export default function useUserList() {
         tableData,
         mutate,
         setTableData,
+        setFilter,
         selectedUser,
         setSelectedUser,
         setSelectAllUser,

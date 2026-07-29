@@ -63,7 +63,11 @@
         "created": "¡Creado!",
         "updated": "¡Actualizado!",
         "deleted": "¡Eliminado!",
+        "restore": "Restaurar",
+        "showDeleted": "Mostrar eliminados",
         "failedToDelete": "Error al eliminar",
+        "restored": "¡Restaurado!",
+        "failedToRestore": "Error al restaurar",
         "confirmDelete": "Confirmar Eliminación",
         "cancel": "Cancelar",
         "apply": "Aplicar",
@@ -110,7 +114,14 @@
         "email": "Correo",
         "role": "Rol",
         "status": "Estado",
-        "created": "Creado"
+        "created": "Creado",
+        "deleted": "¡Usuario eliminado!",
+        "userRestored": "¡Usuario restaurado!",
+        "failedToDelete": "Error al eliminar el usuario",
+        "failedToRestore": "Error al restaurar el usuario",
+        "confirmDeleteTitle": "Eliminar Usuario",
+        "cannotDeleteSelf": "No puedes eliminar tu propia cuenta.",
+        "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar al usuario \"{{name}}\"?"
     },
     "userForm": {
         "overview": "Resumen",
@@ -228,7 +239,13 @@
         "failedToChangeStatus": "Error al actualizar el estado",
         "selected": "{{count}} seleccionados",
         "changeStatusTo": "Cambiar estado a...",
-        "bulkStatusChanged": "Estado actualizado para {{count}} empleados"
+        "bulkStatusChanged": "Estado actualizado para {{count}} empleados",
+        "deleted": "¡Empleado eliminado!",
+        "employeeRestored": "¡Empleado restaurado!",
+        "failedToDelete": "Error al eliminar el empleado",
+        "failedToRestore": "Error al restaurar el empleado",
+        "confirmDeleteTitle": "Eliminar Empleado",
+        "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar al empleado \"{{name}}\"?"
     },
     "employeeForm": {
         "personalInfo": "Información Personal",
@@ -639,6 +656,8 @@
         "noEmployeeFound": "¡Empleado no encontrado!",
         "employeeDeleted": "¡Empleado eliminado!",
         "failedToDelete": "Error al eliminar empleado",
+        "employeeRestored": "¡Empleado restaurado!",
+        "failedToRestore": "Error al restaurar empleado",
         "removeEmployee": "Eliminar empleado",
         "removeEmployeeConfirm": "¿Estás seguro de eliminar este empleado? Esta acción no se puede deshacer."
     },
@@ -675,6 +694,8 @@
         "changedBy": "Cambiado por",
         "employeeDeleted": "¡Empleado eliminado!",
         "failedToDelete": "Error al eliminar empleado",
+        "employeeRestored": "¡Empleado restaurado!",
+        "failedToRestore": "Error al restaurar empleado",
         "removeEmployee": "Eliminar empleado",
         "removeEmployeeConfirm": "¿Estás seguro de eliminar este empleado? Esta acción no se puede deshacer."
     },
@@ -689,7 +710,20 @@
         "color": "Color",
         "status": "Estado",
         "deleted": "¡Estado eliminado!",
-        "failedToDelete": "Error al eliminar estado"
+        "statusRestored": "¡Estado restaurado!",
+        "failedToDelete": "Error al eliminar estado",
+        "failedToRestore": "Error al restaurar estado",
+        "confirmDeleteTitle": "Eliminar Estado",
+        "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar el estado \"{{name}}\"?",
+        "reassignTitle": "No se puede eliminar el estado",
+        "reassignMessage": "El estado \"{{name}}\" tiene {{count}} empleado(s) asignados. Reasígnalos a otro estado antes de eliminar.",
+        "reassignLabel": "Mover empleados a",
+        "reassignSelectPlaceholder": "Selecciona un estado...",
+        "reassignAction": "Mover {{count}} y eliminar",
+        "reassignedAndDeleted": "¡Estado eliminado! {{count}} empleados movidos a \"{{name}}\"",
+        "noActiveStatus": "No hay otros estados activos disponibles.",
+        "createNew": "Crear nuevo estado...",
+        "newStatusName": "Nombre del nuevo estado..."
     },
     "department": {
         "title": "Departamentos",
@@ -701,7 +735,20 @@
         "description": "Descripción",
         "active": "Activo",
         "deleted": "¡Departamento eliminado!",
-        "failedToDelete": "Error al eliminar departamento"
+        "departmentRestored": "¡Departamento restaurado!",
+        "failedToDelete": "Error al eliminar departamento",
+        "failedToRestore": "Error al restaurar departamento",
+        "confirmDeleteTitle": "Eliminar Departamento",
+        "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar el departamento \"{{name}}\"?",
+        "reassignTitle": "No se puede eliminar el departamento",
+        "reassignMessage": "El departamento \"{{name}}\" tiene {{count}} empleado(s) asignados. Reasíignalos a otro departamento antes de eliminar.",
+        "reassignLabel": "Mover empleados a",
+        "reassignSelectPlaceholder": "Selecciona un departamento...",
+        "reassignAction": "Mover {{count}} y eliminar",
+        "reassignedAndDeleted": "¡Departamento eliminado! {{count}} empleados movidos a \"{{name}}\"",
+        "noActiveDept": "No hay otros departamentos activos disponibles.",
+        "createNew": "Crear nuevo departamento...",
+        "newDeptName": "Nombre del nuevo departamento..."
     },
     "settings": {
         "branding": "Imagen de Marca",
@@ -749,6 +796,8 @@
         "removeUserConfirm": "¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.",
         "userDeleted": "¡Usuario eliminado!",
         "failedToDelete": "Error al eliminar usuario",
+        "userRestored": "¡Usuario restaurado!",
+        "failedToRestore": "Error al restaurar usuario",
         "passwordChanged": "¡Contraseña cambiada exitosamente!",
         "failedToChangePassword": "Error al cambiar la contraseña",
         "active": "Activo",
