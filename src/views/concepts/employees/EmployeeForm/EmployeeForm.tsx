@@ -34,6 +34,7 @@ type EmployeeFormProps = {
     defaultValues?: EmployeeFormSchema
     newEmployee?: boolean
     employeeId?: string
+    serverErrors?: Record<string, string>
 } & CommonProps
 
 const EmployeeForm = (props: EmployeeFormProps) => {
@@ -98,7 +99,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
         })),
     })
 
-    const { onFormSubmit, defaultValues = {}, newEmployee = false, employeeId, children } = props
+    const { onFormSubmit, defaultValues = {}, newEmployee = false, employeeId, serverErrors, children } = props
 
     const restored = newEmployee && !persisted.current
         ? (() => {
@@ -115,6 +116,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
         handleSubmit,
         reset,
         setValue,
+        setError,
         formState: { errors, isDirty },
         control,
     } = useForm<EmployeeFormSchema>({
@@ -177,6 +179,46 @@ const EmployeeForm = (props: EmployeeFormProps) => {
             sessionStorage.setItem(STORAGE_STEP_KEY, String(step))
         }
     }, [formValues, step, newEmployee])
+
+    const FIELD_STEP_MAP: Record<string, number> = {
+        fullName: 0, email: 0, phone: 0, phoneExtension: 0,
+        corporatePhone: 0, satellitePhone: 0, roomPhone: 0, mobilePhone: 0,
+        address: 0, birthDate: 0, documentId: 0, genderId: 0,
+        nationalityId: 0, maritalStatusId: 0, placeOfBirthId: 0,
+        bloodTypeId: 0, notes: 0, photoUrl: 0,
+        departmentId: 2, position: 2, contractingCompany: 2,
+        hireDate: 2, endDate: 2, salary: 2, supervisorId: 2,
+        statusId: 2, isActive: 2,
+        educationLevel: 3, degree: 3, institution: 3, graduationYear: 3,
+        shirtSize: 3, pantSize: 3, shoeSize: 3, jacketSize: 3, helmetSize: 3,
+    }
+
+    useEffect(() => {
+        if (!serverErrors || Object.keys(serverErrors).length === 0) return
+
+        const firstField = Object.keys(serverErrors)[0]
+        const targetStep = FIELD_STEP_MAP[firstField] ?? 0
+        if (targetStep !== step) {
+            setStep(targetStep)
+        }
+
+        for (const [field, message] of Object.entries(serverErrors)) {
+            if (field.includes('.')) {
+                const parts = field.split('.')
+                setError(parts[0] as any, { message })
+            } else {
+                setError(field as any, { message })
+            }
+        }
+
+        setTimeout(() => {
+            const el = document.querySelector(`[name="${firstField}"]`)
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                if (el instanceof HTMLElement) el.focus()
+            }
+        }, 150)
+    }, [serverErrors])
 
     const onSubmit = useCallback((values: EmployeeFormSchema) => {
         sessionStorage.removeItem(STORAGE_KEY)

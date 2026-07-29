@@ -20,7 +20,7 @@ const EmployeeListActionTools = ({ onImportComplete }: { onImportComplete?: () =
             const url = window.URL.createObjectURL(blob as unknown as Blob)
             const link = document.createElement('a')
             link.href = url
-            link.download = 'employees.xlsx'
+            link.download = 'TalentHub_Employee_Directory.xlsx'
             document.body.appendChild(link)
             link.click()
             document.body.removeChild(link)

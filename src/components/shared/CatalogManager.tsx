@@ -12,8 +12,9 @@ import Notification from '@/components/ui/Notification'
 import Dialog from '@/components/ui/Dialog'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import ShowDeletedToggle from '@/components/shared/ShowDeletedToggle'
+import DebouceInput from '@/components/shared/DebouceInput'
 import { FormItem, Form } from '@/components/ui/Form'
-import { TbPencil, TbTrash, TbPlus, TbUpload, TbTrashOff, TbRestore } from 'react-icons/tb'
+import { TbPencil, TbTrash, TbPlus, TbUpload, TbTrashOff, TbRestore, TbSearch } from 'react-icons/tb'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -88,16 +89,18 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
     const [pageSize, setPageSize] = useState(10)
     const [total, setTotal] = useState(0)
     const [showDeleted, setShowDeleted] = useState(false)
+    const [query, setQuery] = useState('')
 
     const loadItems = useCallback(() => {
         const params: Record<string, unknown> = { pageIndex, pageSize }
+        if (query) params.query = query
         if (locale !== 'en') params.locale = locale
         if (showDeleted) params.withDeleted = 'true'
         apiGetCatalogs<{ list: CatalogItem[]; total: number }>(endpoint, params).then((res) => {
             setItems(res.list)
             setTotal(res.total)
         })
-    }, [endpoint, pageIndex, pageSize, locale, showDeleted])
+    }, [endpoint, pageIndex, pageSize, query, locale, showDeleted])
 
     useEffect(() => {
         loadItems()
@@ -296,6 +299,16 @@ const CatalogManager = ({ title, endpoint, showValue = false, extraFields = [], 
                                 {t('catalogs.addNew', 'Add')}
                             </Button>
                         </div>
+                    </div>
+                    <div className="flex items-center">
+                        <DebouceInput
+                            placeholder={t('common.quickSearch', 'Quick search...')}
+                            suffix={<TbSearch className="text-lg" />}
+                            onChange={(e) => {
+                                setQuery(e.target.value)
+                                setPageIndex(1)
+                            }}
+                        />
                     </div>
                     <Table>
                         <THead>

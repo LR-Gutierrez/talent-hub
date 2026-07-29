@@ -11,15 +11,33 @@ import { Can } from '@casl/react'
 import useTranslation from '@/utils/hooks/useTranslation'
 import type { EmployeeFormSchema } from '../EmployeeForm/types'
 
+function parseBackendErrors(error: unknown): Record<string, string> {
+    const messages = (error as any)?.response?.data?.message
+    if (Array.isArray(messages)) {
+        const result: Record<string, string> = {}
+        for (const msg of messages) {
+            if (typeof msg !== 'string') continue
+            const spaceIdx = msg.indexOf(' ')
+            if (spaceIdx > 0) {
+                result[msg.substring(0, spaceIdx)] = msg
+            }
+        }
+        return result
+    }
+    return {}
+}
+
 const EmployeeCreate = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
     const [discardConfirmationOpen, setDiscardConfirmationOpen] = useState(false)
     const [isSubmiting, setIsSubmiting] = useState(false)
+    const [serverErrors, setServerErrors] = useState<Record<string, string>>({})
 
     const handleFormSubmit = async (values: EmployeeFormSchema) => {
         setIsSubmiting(true)
+        setServerErrors({})
         try {
             const payload = {
                 ...values,
@@ -33,10 +51,15 @@ const EmployeeCreate = () => {
                 placement: 'top-center',
             })
             navigate('/employees')
-        } catch {
-            toast.push(<Notification type="danger">{t('employeeCreate.failedToCreate', 'Failed to create employee')}</Notification>, {
-                placement: 'top-center',
-            })
+        } catch (err) {
+            const parsed = parseBackendErrors(err)
+            if (Object.keys(parsed).length > 0) {
+                setServerErrors(parsed)
+            } else {
+                toast.push(<Notification type="danger">{t('employeeCreate.failedToCreate', 'Failed to create employee')}</Notification>, {
+                    placement: 'top-center',
+                })
+            }
         }
         setIsSubmiting(false)
     }
@@ -56,7 +79,7 @@ const EmployeeCreate = () => {
 
     return (
         <>
-            <EmployeeForm newEmployee onFormSubmit={handleFormSubmit}>
+            <EmployeeForm newEmployee serverErrors={serverErrors} onFormSubmit={handleFormSubmit}>
                 <div className="flex items-center gap-3">
                     <Button
                         type="button"

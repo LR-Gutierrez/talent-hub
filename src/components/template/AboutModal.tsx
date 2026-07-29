@@ -40,7 +40,7 @@ const AboutModal = () => {
                                 Este sistema y su código fuente son propiedad exclusiva de <strong>{import.meta.env.VITE_COMPANY_NAME || 'la empresa titular'}</strong>.
                             </p>
                             
-                            <div className="mt-6 p-5 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700">
+                            <div className="mt-6 p-5 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-600">
                                 <p className="text-xs uppercase font-bold tracking-wider text-gray-500 dark:text-gray-400 mb-2">
                                     Diseño y Desarrollo
                                 </p>

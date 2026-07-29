@@ -14,6 +14,22 @@ import useTranslation from '@/utils/hooks/useTranslation'
 import type { EmployeeFormSchema } from '../EmployeeForm/types'
 import type { Employee } from '../EmployeeList/types'
 
+function parseBackendErrors(error: unknown): Record<string, string> {
+    const messages = (error as any)?.response?.data?.message
+    if (Array.isArray(messages)) {
+        const result: Record<string, string> = {}
+        for (const msg of messages) {
+            if (typeof msg !== 'string') continue
+            const spaceIdx = msg.indexOf(' ')
+            if (spaceIdx > 0) {
+                result[msg.substring(0, spaceIdx)] = msg
+            }
+        }
+        return result
+    }
+    return {}
+}
+
 const EmployeeEdit = () => {
     const { id } = useParams()
     const navigate = useNavigate()
@@ -27,10 +43,12 @@ const EmployeeEdit = () => {
 
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
     const [isSubmiting, setIsSubmiting] = useState(false)
+    const [serverErrors, setServerErrors] = useState<Record<string, string>>({})
     const isDeleted = Boolean(data?.deletedAt)
 
     const handleFormSubmit = async (values: EmployeeFormSchema) => {
         setIsSubmiting(true)
+        setServerErrors({})
         try {
             const payload = {
                 ...values,
@@ -44,10 +62,15 @@ const EmployeeEdit = () => {
                 placement: 'top-center',
             })
             navigate('/employees')
-        } catch {
-            toast.push(<Notification type="danger">{t('employeeEdit.failedToUpdate', 'Failed to update employee')}</Notification>, {
-                placement: 'top-center',
-            })
+        } catch (err) {
+            const parsed = parseBackendErrors(err)
+            if (Object.keys(parsed).length > 0) {
+                setServerErrors(parsed)
+            } else {
+                toast.push(<Notification type="danger">{t('employeeEdit.failedToUpdate', 'Failed to update employee')}</Notification>, {
+                    placement: 'top-center',
+                })
+            }
         }
         setIsSubmiting(false)
     }
@@ -156,6 +179,7 @@ const EmployeeEdit = () => {
                     <EmployeeForm
                         employeeId={id}
                         defaultValues={getDefaultValues() as EmployeeFormSchema}
+                        serverErrors={serverErrors}
                         onFormSubmit={handleFormSubmit}
                     >
                         <div className="flex items-center gap-3">
