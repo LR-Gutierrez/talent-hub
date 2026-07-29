@@ -1,39 +1,70 @@
-# TalentHub
+# TalentHub — Frontend
 
-TalentHub is a talent management platform. Modern, responsive admin dashboard built with React and TypeScript.
+Admin dashboard built with **React**, **TypeScript**, and **Tailwind CSS**.
 
-Key Features:
-- **Responsive Layout**: Optimized for all screen sizes and devices.
-- **Dark/Light Mode**: Easily switch between light and dark themes.
-- **Configurable Themes**: Personalize colors, layouts, and more to fit your needs.
-- **Built with React + TypeScript**: Ensures robust type-checking and fast development.
-- **Multi-Locale Support**: Easily add and manage multiple languages.
-- **RTL Support**: Full Right-to-Left support for languages like Arabic or Hebrew.
-- **Tailwind Component-Based Architecture**: Reusable components to streamline your development process.
-- **API Ready**: Simple integration with any RESTful API.
+## Requisitos
 
----
+- **Node.js** >= 20
+- **npm**
 
-## Environment Variables
-
-Copy `.env.example` to `.env` and fill in your values:
+## Instalación
 
 ```bash
+# 1. Clonar el repositorio
+git clone <repo-url>
+cd frontend
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar variables de entorno
 cp .env.example .env
+# Editar .env según sea necesario
+
+# 4. Iniciar en modo desarrollo
+npm run dev
 ```
 
-| Variable | Description | Default |
-|---|---|---|
-| `VITE_APP_NAME` | Application display name | TalentHub |
-| `VITE_COMPANY_NAME` | Company name | Company |
-| `VITE_APP_EMAIL_DOMAIN` | Email domain for example users | company.com |
-| `VITE_FIREBASE_*` | Firebase configuration | — |
+El servidor de desarrollo arranca en `http://localhost:5173`.
 
----
+## API Proxy
+
+El frontend incluye un proxy de Vite que redirige las peticiones `/api` y `/uploads` al backend en `http://localhost:3000`. No es necesario configurar CORS en desarrollo.
+
+Ver `vite.config.ts` para los detalles del proxy.
+
+## Scripts
+
+```bash
+npm run dev           # Servidor de desarrollo (hot-reload)
+npm run build         # Compilar para producción
+npm run preview       # Previsualizar build de producción
+npm run lint          # ESLint
+npm run format        # Prettier + ESLint --fix
+```
+
+## Variables de Entorno
+
+| Variable | Descripción | Default |
+|---|---|---|
+| `VITE_APP_NAME` | Nombre de la aplicación | `TalentHub` |
+| `VITE_COMPANY_NAME` | Nombre de la empresa | `Company` |
+| `VITE_APP_EMAIL_DOMAIN` | Dominio de email | `company.com` |
+| `VITE_FIREBASE_*` | Configuración de Firebase (opcional) | — |
+
+## Funcionalidades
+
+- Diseño responsive (mobile-first)
+- Modo oscuro / claro
+- Múltiples layouts y temas
+- Soporte multi-idioma (es, en, fr, it)
+- Roles y permisos (CASL)
+- Tablas con búsqueda, paginación, ordenamiento
+- Exportación e importación de empleados en Excel
 
 ## Diseño y Desarrollo
 
 Desarrollado originalmente por **Luis Angel Gutiérrez**, Ingeniero en Informática y Desarrollador de Software.
 
-* 🌐 **LinkedIn**: [lrgutierrez](https://www.linkedin.com/in/lrgutierrez/)
-* 💻 **GitHub**: [LR-Gutierrez](https://github.com/LR-Gutierrez)
+- 🌐 **LinkedIn**: [lrgutierrez](https://www.linkedin.com/in/lrgutierrez/)
+- 💻 **GitHub**: [LR-Gutierrez](https://github.com/LR-Gutierrez)
