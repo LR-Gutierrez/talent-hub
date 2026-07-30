@@ -25,7 +25,7 @@ const UserForm = (props: UserFormProps) => {
         password: z.string().min(6).or(z.literal('')),
         displayName: z.string().optional(),
         photoUrl: z.string().optional(),
-        role: z.enum(['admin', 'recruiter', 'candidate'], { message: t('userForm.selectRole', 'Please select a role') }),
+        role: z.enum(['admin', 'supervisor', 'monitor'], { message: t('userForm.selectRole', 'Please select a role') }),
         isActive: z.boolean(),
     })
 
@@ -42,7 +42,7 @@ const UserForm = (props: UserFormProps) => {
             password: '',
             displayName: '',
             photoUrl: '',
-            role: 'candidate',
+            role: 'monitor',
             isActive: true,
             ...defaultValues,
         },

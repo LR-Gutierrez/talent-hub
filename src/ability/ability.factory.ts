@@ -11,7 +11,7 @@ export function createAbility(authority: string[]): AppAbility {
 
     if (authority.includes('admin')) {
         can('manage', 'all')
-    } else if (authority.includes('recruiter')) {
+    } else if (authority.includes('supervisor')) {
         can('read', 'User')
         can('create', 'User')
         can('update', 'User')

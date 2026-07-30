@@ -8,7 +8,7 @@ export type User = {
     email: string
     displayName: string
     photoUrl: string
-    role: 'admin' | 'recruiter' | 'candidate'
+    role: 'admin' | 'supervisor' | 'monitor'
     isActive: boolean
     createdAt: string
     updatedAt: string

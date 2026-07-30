@@ -264,7 +264,9 @@ const DepartmentList = () => {
             <AdaptiveCard>
                 <div className="flex flex-col gap-4">
                     <div className="flex justify-between items-center">
-                        <ShowDeletedToggle checked={showDeleted} onChange={(checked) => { setShowDeleted(checked); setPageIndex(1) }} />
+                        <Can I="delete" a="Department">
+                            <ShowDeletedToggle checked={showDeleted} onChange={(checked) => { setShowDeleted(checked); setPageIndex(1) }} />
+                        </Can>
                         <Can I="create" a="Department">
                             <Button variant="solid" icon={<TbPlus />} onClick={handleCreate}>
                                 {t('department.addNew', 'Add Department')}

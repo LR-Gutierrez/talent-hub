@@ -21,8 +21,8 @@ import type { TableQueries } from '@/@types/common'
 
 const roleColor: Record<string, string> = {
     admin: 'bg-purple-200 dark:bg-purple-200 text-gray-900 dark:text-gray-900',
-    recruiter: 'bg-blue-200 dark:bg-blue-200 text-gray-900 dark:text-gray-900',
-    candidate: 'bg-emerald-200 dark:bg-emerald-200 text-gray-900 dark:text-gray-900',
+    supervisor: 'bg-blue-200 dark:bg-blue-200 text-gray-900 dark:text-gray-900',
+    monitor: 'bg-emerald-200 dark:bg-emerald-200 text-gray-900 dark:text-gray-900',
 }
 
 const statusColor: Record<string, string> = {

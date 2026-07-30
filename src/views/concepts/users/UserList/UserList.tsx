@@ -6,6 +6,7 @@ import UserListActionTools from './components/UserListActionTools'
 import UsersListTableTools from './components/UsersListTableTools'
 import UserListSelected from './components/UserListSelected'
 import ShowDeletedToggle from '@/components/shared/ShowDeletedToggle'
+import { Can } from '@casl/react'
 import useUserList from './hooks/useUserList'
 import useTranslation from '@/utils/hooks/useTranslation'
 import cloneDeep from 'lodash/cloneDeep'
@@ -31,7 +32,9 @@ const UserList = () => {
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                             <h3>{t('common.users', 'Users')}</h3>
                             <div className="flex items-center gap-2">
-                                <ShowDeletedToggle checked={showDeleted} onChange={handleShowDeleted} />
+                                <Can I="delete" a="User">
+                                    <ShowDeletedToggle checked={showDeleted} onChange={handleShowDeleted} />
+                                </Can>
                                 <UserListActionTools />
                             </div>
                         </div>

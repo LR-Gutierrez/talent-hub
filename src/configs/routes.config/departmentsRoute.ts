@@ -6,7 +6,7 @@ const departmentsRoute: Routes = [
         key: 'departments',
         path: '/departments',
         component: lazy(() => import('@/views/concepts/departments')),
-        authority: ['admin', 'recruiter', 'candidate'],
+        authority: ['admin', 'supervisor', 'monitor'],
         meta: {
             header: {
                 title: 'pageHeader.departments',

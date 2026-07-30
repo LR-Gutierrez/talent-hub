@@ -5,7 +5,7 @@ export type UserFormSchema = {
     password: string
     displayName: string
     photoUrl: string
-    role: 'admin' | 'recruiter' | 'candidate'
+    role: 'admin' | 'supervisor' | 'monitor'
     isActive: boolean
 }
 

@@ -12,8 +12,8 @@ type OverviewSectionProps = FormSectionBaseProps & { newUser: boolean }
 
 const roleOptions = [
     { value: 'admin', label: 'Admin' },
-    { value: 'recruiter', label: 'Recruiter' },
-    { value: 'candidate', label: 'Candidate' },
+    { value: 'supervisor', label: 'Supervisor' },
+    { value: 'monitor', label: 'Monitor' },
 ]
 
 const OverviewSection = ({ control, errors, newUser }: OverviewSectionProps) => {

@@ -6,13 +6,13 @@ const employeesRoute: Routes = [
         key: 'employees',
         path: '/employees',
         component: lazy(() => import('@/views/concepts/employees/EmployeeList')),
-        authority: ['admin', 'recruiter', 'candidate'],
+        authority: ['admin', 'supervisor', 'monitor'],
     },
     {
         key: 'employees',
         path: '/employees/create',
         component: lazy(() => import('@/views/concepts/employees/EmployeeCreate')),
-        authority: ['admin', 'recruiter'],
+        authority: ['admin', 'supervisor'],
         meta: {
             header: {
                 title: 'pageHeader.createEmployee',
@@ -26,7 +26,7 @@ const employeesRoute: Routes = [
         key: 'employees',
         path: '/employees/:id/edit',
         component: lazy(() => import('@/views/concepts/employees/EmployeeEdit')),
-        authority: ['admin', 'recruiter'],
+        authority: ['admin', 'supervisor'],
         meta: {
             header: {
                 title: 'pageHeader.editEmployee',
@@ -40,7 +40,7 @@ const employeesRoute: Routes = [
         key: 'employees',
         path: '/employees/:id',
         component: lazy(() => import('@/views/concepts/employees/EmployeeDetails')),
-        authority: ['admin', 'recruiter', 'candidate'],
+        authority: ['admin', 'supervisor', 'monitor'],
         meta: {
             pageContainerType: 'contained',
             footer: false,

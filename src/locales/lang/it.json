@@ -130,8 +130,8 @@
         "selectRole": "Seleziona ruolo",
         "active": "Attivo",
         "admin": "Amministratore",
-        "recruiter": "Reclutatore",
-        "candidate": "Candidato"
+        "supervisor": "Supervisore",
+        "monitor": "Osservatore"
     },
     "userCreate": {
         "userCreated": "Utente creato!",

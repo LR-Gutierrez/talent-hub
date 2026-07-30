@@ -134,8 +134,8 @@
         "selectRole": "Seleccionar rol",
         "active": "Activo",
         "admin": "Administrador",
-        "recruiter": "Reclutador",
-        "candidate": "Candidato"
+        "supervisor": "Supervisor",
+        "monitor": "Monitor"
     },
     "userCreate": {
         "userCreated": "¡Usuario creado!",

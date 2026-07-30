@@ -1,2 +1,3 @@
 export const ADMIN = 'admin'
-export const USER = 'user'
+export const SUPERVISOR = 'supervisor'
+export const MONITOR = 'monitor'
