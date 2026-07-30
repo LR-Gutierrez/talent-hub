@@ -5,8 +5,9 @@ import { useSessionUser } from '@/store/authStore'
 
 export default function AbilityProvider({ children }: { children: ReactNode }) {
     const authority = useSessionUser((s) => s.user.authority) ?? []
+    const role = useSessionUser((s) => s.user.role)
 
-    const ability = useMemo(() => createAbility(authority), [authority])
+    const ability = useMemo(() => createAbility(authority, role), [authority, role])
 
     return (
         <AbilityContext.Provider value={ability}>

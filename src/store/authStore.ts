@@ -1,18 +1,20 @@
 import { create } from 'zustand'
 import type { User } from '@/@types/auth'
+import { apiGetMe } from '@/services/AuthService'
 
-type Session = {
+export type Session = {
     signedIn: boolean
 }
 
-type AuthState = {
+export type AuthState = {
     session: Session
     user: User
 }
 
-type AuthAction = {
+export type AuthAction = {
     setSessionSignedIn: (payload: boolean) => void
     setUser: (payload: User) => void
+    refreshUser: () => Promise<void>
 }
 
 const initialState: AuthState = {
@@ -23,6 +25,7 @@ const initialState: AuthState = {
         avatar: '',
         userName: '',
         email: '',
+        role: '',
         authority: [],
     },
 }
@@ -41,6 +44,29 @@ export const useSessionUser = create<AuthState & AuthAction>((set) => ({
             user: {
                 ...state.user,
                 ...payload,
+                role: payload.role ?? state.user.role ?? '',
+                authority: payload.authority ?? state.user.authority ?? [],
             },
         })),
+    refreshUser: async () => {
+        try {
+            const resp: any = await apiGetMe()
+            if (resp) {
+                set({
+                    user: {
+                        avatar: resp.avatar ?? '',
+                        userName: resp.userName ?? '',
+                        email: resp.email ?? '',
+                        role: resp.role ?? '',
+                        authority: resp.authority ?? [],
+                    },
+                })
+            }
+        } catch {
+            // silent fail
+        }
+    },
 }))
+
+export const useUserRole = () =>
+    useSessionUser((state) => state.user.role)

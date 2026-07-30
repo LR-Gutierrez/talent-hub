@@ -557,5 +557,38 @@
         "failedToImport": "Failed to import employees",
         "failedToPreview": "Failed to analyze file",
         "failedToDownloadTemplate": "Failed to download template"
+    },
+    "roles": {
+        "management": "Role Management",
+        "managementDesc": "Define roles and configure their permissions across the system",
+        "addNew": "Add Role",
+        "name": "Name",
+        "namePlaceholder": "Role name",
+        "description": "Description",
+        "descriptionPlaceholder": "Brief description of this role",
+        "systemRoleReadonly": "System role name cannot be changed",
+        "permissions": "Permissions",
+        "collapseAll": "Collapse all",
+        "expandAll": "Expand all",
+        "selectedPermissions": "{{count}} permissions selected",
+        "noPermissions": "No permissions",
+        "type": "Type",
+        "system": "System",
+        "custom": "Custom",
+        "editRole": "Edit Role",
+        "createRole": "Create Role",
+        "deleted": "Role deleted!",
+        "failedToDelete": "Failed to delete role",
+        "confirmDeleteTitle": "Delete Role",
+        "confirmDeleteMessage": "Are you sure you want to delete role \"{{name}}\"?",
+        "group": {
+            "employees": "Employees",
+            "employee-statuses": "Employee Statuses",
+            "departments": "Departments",
+            "users": "Users",
+            "company-settings": "Company Settings",
+            "catalogs": "Catalogs",
+            "roles": "Roles"
+        }
     }
 }

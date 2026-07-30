@@ -7,6 +7,7 @@ export type SignInResponse = {
     user: {
         userId: string
         userName: string
+        role: string
         authority: string[]
         avatar: string
         email: string
@@ -41,6 +42,7 @@ export type User = {
     avatar?: string | null
     userName?: string | null
     email?: string | null
+    role?: string
     authority?: string[]
 }
 

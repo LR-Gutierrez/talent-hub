@@ -9,7 +9,7 @@ const employeesNavigationConfig: NavigationTree[] = [
         translateKey: 'nav.employees',
         icon: 'employeesGroup',
         type: NAV_ITEM_TYPE_COLLAPSE,
-        authority: [],
+        authority: ['employee:read'],
         subMenu: [
             {
                 key: 'employees',
@@ -18,7 +18,7 @@ const employeesNavigationConfig: NavigationTree[] = [
                 translateKey: 'nav.employeeList',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
+                authority: ['employee:read'],
                 subMenu: [],
             },
             {
@@ -28,7 +28,7 @@ const employeesNavigationConfig: NavigationTree[] = [
                 translateKey: 'nav.employeeStatuses',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: ['admin'],
+                authority: ['employee-status:read'],
                 subMenu: [],
             },
         ],

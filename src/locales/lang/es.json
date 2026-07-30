@@ -847,5 +847,38 @@
         "failedToImport": "Error al importar empleados",
         "failedToPreview": "Error al analizar el archivo",
         "failedToDownloadTemplate": "Error al descargar la plantilla"
+    },
+    "roles": {
+        "management": "Gestión de Roles",
+        "managementDesc": "Define roles y configura sus permisos en el sistema",
+        "addNew": "Agregar Rol",
+        "name": "Nombre",
+        "namePlaceholder": "Nombre del rol",
+        "description": "Descripción",
+        "descriptionPlaceholder": "Breve descripción del rol",
+        "systemRoleReadonly": "El nombre del rol de sistema no puede modificarse",
+        "permissions": "Permisos",
+        "collapseAll": "Colapsar todo",
+        "expandAll": "Expandir todo",
+        "selectedPermissions": "{{count}} permisos seleccionados",
+        "noPermissions": "Sin permisos",
+        "type": "Tipo",
+        "system": "Sistema",
+        "custom": "Personalizado",
+        "editRole": "Editar Rol",
+        "createRole": "Crear Rol",
+        "deleted": "¡Rol eliminado!",
+        "failedToDelete": "Error al eliminar el rol",
+        "confirmDeleteTitle": "Eliminar Rol",
+        "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar el rol \"{{name}}\"?",
+        "group": {
+            "employees": "Empleados",
+            "employee-statuses": "Estados de Empleado",
+            "departments": "Departamentos",
+            "users": "Usuarios",
+            "company-settings": "Configuración de Empresa",
+            "catalogs": "Catálogos",
+            "roles": "Roles"
+        }
     }
 }

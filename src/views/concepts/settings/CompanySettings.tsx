@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import { FormItem, Form } from '@/components/ui/Form'
+import { Can } from '@casl/react'
 import {
     apiGetCompanySettings,
     apiUpdateCompanySettings,
@@ -406,9 +407,11 @@ const CompanySettings = () => {
                     </Card>
 
                     <div className="flex justify-end">
-                        <Button variant="solid" type="submit" loading={isSubmitting}>
-                            {t('common.save', 'Save')}
-                        </Button>
+                        <Can I="update" a="CompanySettings">
+                            <Button variant="solid" type="submit" loading={isSubmitting}>
+                                {t('common.save', 'Save')}
+                            </Button>
+                        </Can>
                     </div>
                 </div>
             </Form>

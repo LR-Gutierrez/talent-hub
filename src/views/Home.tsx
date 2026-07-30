@@ -7,6 +7,7 @@ import { apiGetDashboardStats } from '@/services/EmployeesService'
 import useTranslation from '@/utils/hooks/useTranslation'
 import type { DashboardStats } from '@/services/EmployeesService'
 import type { ReactNode, KeyboardEvent } from 'react'
+import { Can } from '@casl/react'
 import { TbUsers, TbBuilding, TbTags, TbGenderMale, TbChevronRight } from 'react-icons/tb'
 
 type StatCardProps = {
@@ -89,13 +90,15 @@ const Home = () => {
                     color="bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400"
                     to="/employee-statuses"
                 />
-                <StatCard
-                    title={t('dashboard.genders', 'Genders')}
-                    value={stats?.totalGenders ?? 0}
-                    icon={<TbGenderMale />}
-                    color="bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400"
-                    to="/catalogs/genders"
-                />
+                <Can I="read" a="Catalog">
+                    <StatCard
+                        title={t('dashboard.genders', 'Genders')}
+                        value={stats?.totalGenders ?? 0}
+                        icon={<TbGenderMale />}
+                        color="bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400"
+                        to="/catalogs/genders"
+                    />
+                </Can>
             </div>
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

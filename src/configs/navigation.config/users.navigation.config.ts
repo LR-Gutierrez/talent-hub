@@ -9,7 +9,7 @@ const usersNavigationConfig: NavigationTree[] = [
         translateKey: 'nav.users',
         icon: 'usersGroup',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: [],
+        authority: ['user:read'],
         subMenu: [],
     },
 ]

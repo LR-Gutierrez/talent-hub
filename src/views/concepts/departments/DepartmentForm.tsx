@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import { FormItem, Form } from '@/components/ui/Form'
+import { Can } from '@casl/react'
 import Switcher from '@/components/ui/Switcher'
 import {
     apiCreateDepartment,
@@ -105,9 +106,11 @@ const DepartmentForm = ({ department, onSuccess }: Props) => {
                     <span>{t('department.active', 'Active')}</span>
                 </div>
                 <div className="flex justify-end gap-2">
-                    <Button variant="solid" type="submit" loading={isSubmitting}>
-                        {department ? t('common.save', 'Save') : t('common.create', 'Create')}
-                    </Button>
+                    <Can I={department ? 'update' : 'create'} a="Department">
+                        <Button variant="solid" type="submit" loading={isSubmitting}>
+                            {department ? t('common.save', 'Save') : t('common.create', 'Create')}
+                        </Button>
+                    </Can>
                 </div>
             </div>
         </Form>

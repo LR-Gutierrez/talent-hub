@@ -50,7 +50,8 @@ const SideNav = ({
 
     const currentRouteKey = useRouteKeyStore((state) => state.currentRouteKey)
 
-    const userAuthority = useSessionUser((state) => state.user.authority)
+    const user = useSessionUser((state) => state.user)
+    const userAuthority = user.role ? [user.role, ...(user.authority || [])] : []
 
     return (
         <div

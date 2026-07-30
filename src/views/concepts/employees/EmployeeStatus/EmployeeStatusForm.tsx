@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import { FormItem, Form } from '@/components/ui/Form'
+import { Can } from '@casl/react'
 import {
     apiCreateEmployeeStatus,
     apiUpdateEmployeeStatus,
@@ -116,9 +117,11 @@ const EmployeeStatusForm = ({ status, onSuccess }: Props) => {
                     />
                 </FormItem>
                 <div className="flex justify-end gap-2">
-                    <Button variant="solid" type="submit" loading={isSubmitting}>
-                        {status ? t('common.save', 'Save') : t('common.create', 'Create')}
-                    </Button>
+                    <Can I={status ? 'update' : 'create'} a="EmployeeStatus">
+                        <Button variant="solid" type="submit" loading={isSubmitting}>
+                            {status ? t('common.save', 'Save') : t('common.create', 'Create')}
+                        </Button>
+                    </Can>
                 </div>
             </div>
         </Form>

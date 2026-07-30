@@ -6,7 +6,7 @@ const settingsRoute: Routes = [
         key: 'settings',
         path: '/settings',
         component: lazy(() => import('@/views/concepts/settings')),
-        authority: ['admin'],
+        authority: ['company-settings:read'],
         meta: {
             header: {
                 title: 'pageHeader.settings',

@@ -9,7 +9,7 @@ const departmentsNavigationConfig: NavigationTree[] = [
         translateKey: 'nav.departments',
         icon: 'departments',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: [],
+        authority: ['department:read'],
         subMenu: [],
     },
 ]

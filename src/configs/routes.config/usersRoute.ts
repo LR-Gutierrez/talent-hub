@@ -6,13 +6,13 @@ const usersRoute: Routes = [
         key: 'users',
         path: '/users',
         component: lazy(() => import('@/views/concepts/users/UserList')),
-        authority: ['admin', 'supervisor', 'monitor'],
+        authority: ['user:read'],
     },
     {
         key: 'users',
         path: '/users/create',
         component: lazy(() => import('@/views/concepts/users/UserCreate')),
-        authority: ['admin', 'supervisor', 'monitor'],
+        authority: ['user:create'],
         meta: {
             header: {
                 title: 'pageHeader.createUser',
@@ -26,7 +26,7 @@ const usersRoute: Routes = [
         key: 'users',
         path: '/users/:id/edit',
         component: lazy(() => import('@/views/concepts/users/UserEdit')),
-        authority: ['admin', 'supervisor', 'monitor'],
+        authority: ['user:update'],
         meta: {
             header: {
                 title: 'pageHeader.editUser',
@@ -40,7 +40,7 @@ const usersRoute: Routes = [
         key: 'users',
         path: '/users/:id',
         component: lazy(() => import('@/views/concepts/users/UserDetails')),
-        authority: ['admin', 'supervisor', 'monitor'],
+        authority: ['user:read'],
         meta: {
             pageContainerType: 'contained',
             footer: false,

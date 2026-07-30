@@ -6,7 +6,7 @@ const catalogsRoute: Routes = [
         key: 'catalogs.genders',
         path: '/catalogs/genders',
         component: lazy(() => import('@/views/concepts/catalogs/GendersCatalog')),
-        authority: ['admin'],
+        authority: ['catalog:read'],
         meta: {
             header: {
                 title: 'pageHeader.catalogs',
@@ -19,7 +19,7 @@ const catalogsRoute: Routes = [
         key: 'catalogs.maritalStatuses',
         path: '/catalogs/marital-statuses',
         component: lazy(() => import('@/views/concepts/catalogs/MaritalStatusesCatalog')),
-        authority: ['admin'],
+        authority: ['catalog:read'],
         meta: {
             header: {
                 title: 'pageHeader.catalogs',
@@ -32,7 +32,7 @@ const catalogsRoute: Routes = [
         key: 'catalogs.educationLevels',
         path: '/catalogs/education-levels',
         component: lazy(() => import('@/views/concepts/catalogs/EducationLevelsCatalog')),
-        authority: ['admin'],
+        authority: ['catalog:read'],
         meta: {
             header: {
                 title: 'pageHeader.catalogs',
@@ -45,7 +45,7 @@ const catalogsRoute: Routes = [
         key: 'catalogs.employeeDegrees',
         path: '/catalogs/employee-degrees',
         component: lazy(() => import('@/views/concepts/catalogs/EmployeeDegreesCatalog')),
-        authority: ['admin'],
+        authority: ['catalog:read'],
         meta: {
             header: {
                 title: 'pageHeader.catalogs',
@@ -58,7 +58,7 @@ const catalogsRoute: Routes = [
         key: 'catalogs.uniformSizes',
         path: '/catalogs/uniform-sizes',
         component: lazy(() => import('@/views/concepts/catalogs/UniformSizesCatalog')),
-        authority: ['admin'],
+        authority: ['catalog:read'],
         meta: {
             header: {
                 title: 'pageHeader.catalogs',
@@ -71,7 +71,7 @@ const catalogsRoute: Routes = [
         key: 'catalogs.countries',
         path: '/catalogs/countries',
         component: lazy(() => import('@/views/concepts/catalogs/CountriesCatalog')),
-        authority: ['admin'],
+        authority: ['catalog:read'],
         meta: {
             header: {
                 title: 'pageHeader.catalogs',
@@ -84,7 +84,7 @@ const catalogsRoute: Routes = [
         key: 'catalogs.bloodTypes',
         path: '/catalogs/blood-types',
         component: lazy(() => import('@/views/concepts/catalogs/BloodTypesCatalog')),
-        authority: ['admin'],
+        authority: ['catalog:read'],
         meta: {
             header: {
                 title: 'pageHeader.catalogs',

@@ -6,6 +6,7 @@ import employeesRoute from './employeesRoute'
 import departmentsRoute from './departmentsRoute'
 import catalogsRoute from './catalogsRoute'
 import settingsRoute from './settingsRoute'
+import rolesRoute from './rolesRoute'
 import type { Routes } from '@/@types/routes'
 
 export const publicRoutes: Routes = [...authRoute]
@@ -29,6 +30,7 @@ export const protectedRoutes: Routes = [
     ...usersRoute,
     ...employeesRoute,
     ...departmentsRoute,
+    ...rolesRoute,
     ...catalogsRoute,
     ...settingsRoute,
     ...othersRoute,

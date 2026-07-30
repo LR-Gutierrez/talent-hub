@@ -40,6 +40,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const user = useSessionUser((state) => state.user)
     const setUser = useSessionUser((state) => state.setUser)
     const setSessionSignedIn = useSessionUser((state) => state.setSessionSignedIn)
+    const refreshUser = useSessionUser((state) => state.refreshUser)
 
     const [initializing, setInitializing] = useState(true)
     const [authenticated, setAuthenticated] = useState(false)
@@ -71,6 +72,22 @@ function AuthProvider({ children }: AuthProviderProps) {
             })
             .finally(() => setInitializing(false))
     }, [])
+
+    useEffect(() => {
+        if (!signedIn) return
+        const onVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                refreshUser()
+            }
+        }
+        const onFocus = () => refreshUser()
+        document.addEventListener('visibilitychange', onVisibilityChange)
+        window.addEventListener('focus', onFocus)
+        return () => {
+            document.removeEventListener('visibilitychange', onVisibilityChange)
+            window.removeEventListener('focus', onFocus)
+        }
+    }, [signedIn, refreshUser])
 
     const handleSignIn = (user?: User) => {
         setSessionSignedIn(true)

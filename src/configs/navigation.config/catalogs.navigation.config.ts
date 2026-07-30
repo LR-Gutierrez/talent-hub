@@ -9,7 +9,7 @@ const catalogsNavigationConfig: NavigationTree[] = [
         translateKey: 'nav.catalogs',
         icon: 'catalogsGroup',
         type: NAV_ITEM_TYPE_COLLAPSE,
-        authority: ['admin'],
+        authority: ['catalog:read'],
         subMenu: [
             {
                 key: 'catalogs.genders',
@@ -18,7 +18,7 @@ const catalogsNavigationConfig: NavigationTree[] = [
                 translateKey: 'nav.genders',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: ['admin'],
+                authority: ['catalog:read'],
                 subMenu: [],
             },
             {
@@ -28,7 +28,7 @@ const catalogsNavigationConfig: NavigationTree[] = [
                 translateKey: 'nav.maritalStatuses',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: ['admin'],
+                authority: ['catalog:read'],
                 subMenu: [],
             },
             {
@@ -38,7 +38,7 @@ const catalogsNavigationConfig: NavigationTree[] = [
                 translateKey: 'nav.educationLevels',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: ['admin'],
+                authority: ['catalog:read'],
                 subMenu: [],
             },
             {
@@ -48,7 +48,7 @@ const catalogsNavigationConfig: NavigationTree[] = [
                 translateKey: 'nav.employeeDegrees',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: ['admin'],
+                authority: ['catalog:read'],
                 subMenu: [],
             },
             {
@@ -58,7 +58,7 @@ const catalogsNavigationConfig: NavigationTree[] = [
                 translateKey: 'nav.uniformSizes',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: ['admin'],
+                authority: ['catalog:read'],
                 subMenu: [],
             },
             {
@@ -68,7 +68,7 @@ const catalogsNavigationConfig: NavigationTree[] = [
                 translateKey: 'nav.countries',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: ['admin'],
+                authority: ['catalog:read'],
                 subMenu: [],
             },
             {
@@ -78,7 +78,7 @@ const catalogsNavigationConfig: NavigationTree[] = [
                 translateKey: 'nav.bloodTypes',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: ['admin'],
+                authority: ['catalog:read'],
                 subMenu: [],
             },
         ],

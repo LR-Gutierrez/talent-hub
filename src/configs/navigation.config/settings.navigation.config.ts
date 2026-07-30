@@ -9,7 +9,7 @@ const settingsNavigationConfig: NavigationTree[] = [
         translateKey: 'nav.settings',
         icon: 'settings',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: ['admin'],
+        authority: ['company-settings:read'],
         subMenu: [],
     },
 ]
